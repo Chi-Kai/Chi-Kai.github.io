@@ -1,0 +1,66 @@
+DefaultContentLanguage = "cn"
+author = "K-C"
+baseURL = "https://example.com/"
+disqusShortname = "ck"
+hasCJKLanguage = true
+languageCode = "zh-cn"
+theme = "tokiwa"
+title = "悉达多"
+googleAnalytics = "G-CWBXLVG90W"
+
+canonifyurls = false
+paginate = 10
+pygmentsCodefences = true
+pygmentsCodefencesGuessSyntax = true
+pygmentsStyle = 'manni'
+
+[markup]
+  [markup.goldmark.extensions]
+    typographer = false
+  [markup.goldmark.renderer]
+    unsafe= true
+  [markup.highlight]
+    style = "monokailight"
+
+[params]
+bannerFont = "fonts/exampleFont" 
+description = """
+Tokiwa-iro is the theme color of this site.
+""" 
+env = "production" # for Google Analytics and DISQUS.
+favicon = "img/favicon-32x32.png" 
+fuse = true # for searchbox. "JSON" must added to output contents. See [outputs].
+math = true # for introducing $KaTEX$
+useChineseFonts = true 
+postDateFormat = "2006-1-2"
+
+[menu]
+# Shown in the side menu.
+[[menu.main]]
+identifier = "post"
+name = "Posts"
+url = "/post/"
+weight = 1
+[[menu.main]]
+name = "Tags"
+url = "/tags/"
+weight = 2
+
+[[menu.main]]
+identifier = "about"
+name = "About"
+url = "/about/"
+weight = 3
+
+[taxonomies]
+category = "categories"
+series = "series"
+tag = "tags"
+
+[social]
+github = "https://github.com/Chi-Kai"
+mail = "chikai0307@gmail.com"
+# any icon in layouts/partials/svg can be used by the name without the "-line.svg"
+
+[outputs]
+home = ["HTML", "RSS", "JSON"]
