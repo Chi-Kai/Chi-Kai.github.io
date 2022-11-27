@@ -1,6 +1,6 @@
 DefaultContentLanguage = "cn"
 author = "K-C"
-baseURL = "https://example.com/"
+baseURL = "https://chi-kai.github.io"
 disqusShortname = "ck"
 hasCJKLanguage = true
 languageCode = "zh-cn"

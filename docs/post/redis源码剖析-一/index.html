@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title>悉达多  | Redis源码剖析(一)</title>
+	<meta name="viewport" content="width=device-width,minimum-scale=1">
+	<meta name="generator" content="Hugo 0.107.0">
+	
+	
+	<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+	
+
+	
+	
+	<link href="/dist/app.css" rel="stylesheet">
+	
+
+	
+
+	
+	
+<link rel="shortcut icon" href="img/favicon-32x32.png" type="image/png" />
+
+	
+
+	
+	
+	
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CWBXLVG90W"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-CWBXLVG90W', { 'anonymize_ip': false });
+}
+</script>
+
+	
+	
+	
+
+
+
+<link rel="stylesheet" href='https://example.com/lib/katex.min.css' crossorigin="anonymous">
+
+
+<script defer src='https://example.com/lib/katex.min.js' crossorigin="anonymous"></script>
+
+
+<script defer src='https://example.com/lib/contrib/auto-render.min.js'
+crossorigin="anonymous"
+onload='renderMathInElement(document.body);'></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+
+	
+	
+	
+	<script>
+		(function (u, c) {
+			var d = document,
+				t = 'script',
+				o = d.createElement(t),
+				s = d.getElementsByTagName(t)[0];
+			o.src = u;
+			if (c) {
+				o.addEventListener('load', function (e) {
+					c(e);
+				});
+			}
+			s.parentNode.insertBefore(o, s);
+		})('https:\/\/example.com\/lib\/pangu.min.js', function () {
+			pangu.spacingPage();
+		});
+	</script>
+	
+	
+	
+	<style type="text/css" media="screen, print">
+		@font-face {
+			font-family: "FancyTitleFont";
+			font-style: normal;
+			font-display: swap;
+			src: url('https://example.com/fonts/exampleFont.woff2') format('woff2'),
+				url('https://example.com/fonts/exampleFont.woff') format('woff');
+		}
+		 
+		  
+		 
+		@font-face {
+			font-family: 'Noto Serif CJK SC';
+			font-style: normal;
+			font-weight: 300;
+			font-display: swap;
+			src: local('Noto Serif CJK SC Light'), local('NotoSerifCJK-Light'),
+				url('https://example.com/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff2') format('woff2'),
+				 
+				url('https://example.com/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff') format('woff');
+			 
+		}
+
+		 
+		@font-face {
+			font-family: 'Noto Serif CJK SC';
+			font-style: normal;
+			font-weight: 400;
+			font-display: swap;
+			src: local('Noto Serif CJK SC'), local('NotoSerifCJK-Regular'),
+				url('https://example.com/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff2') format('woff2'),
+				 
+				url('https://example.com/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff') format('woff');
+			 
+		}
+
+		 
+		@font-face {
+			font-family: 'Noto Serif CJK SC';
+			font-style: normal;
+			font-weight: 500;
+			font-display: swap;
+			src: local('Noto Serif CJK SC Medium'), local('NotoSerifCJK-Medium'),
+				url('https://example.com/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff2') format('woff2'),
+				 
+				url('https://example.com/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff') format('woff');
+			 
+		}
+	</style>
+	
+</head>
+
+<body class="bg-gray-100 text-gray-700 font-sans">
+	<div class="p-6 sm:p-10 md:p-16 flex flex-wrap">
+		<header class="w-full md:w-2/5 xl:w-1/2 md:pr-12 lg:pr-20 xl:pr-24 order-1 md:order-1 max-w-2xl">
+			<div
+				class="z-50 bg-gray-100 bg-opacity-75 bg-opacity-custom lg:min-w-0.7 max-w-xl md:float-right md:text-right leading-loose tracking-tight md:sticky md:top-0 pt-2">
+				
+<div>
+	<h2>
+		<a href="https://example.com/" title="悉达多" class="heading font-cursive icon">悉达多</a>
+	</h2>
+</div>
+<h1 class="pt-2">Redis源码剖析(一)</h1>
+
+<h3 class="text-java-700 font-normal leading-relaxed pt-2">更新中</h3>
+
+<div class="flex flex-wrap justify-end pt-2 "><div class="md:flex-grow-0 font-light">
+	
+	
+	
+	
+	<a class="post-taxonomy-category text-medium-red-violet-600 hover:text-medium-red-violet-400"
+		href='/categories/%E6%8A%98%E8%85%BE'>折腾</a>
+	
+	
+	
+
+	
+	&nbsp;&nbsp;
+	
+
+	
+	
+	
+	
+	<a class="post-taxonomy-tag text-eucalyptus-500"
+		href='/tags/%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90'>源码剖析</a>&nbsp;&#47;
+	
+	<a class="post-taxonomy-tag text-eucalyptus-500"
+		href='/tags/redis'>Redis</a>
+	
+	
+	
+</div><time class="text-eucalyptus-500 md:text-right md:flex-grow font-light pl-4"
+		datetime="2022-05-22T00:00:00Z">2022-5-22</time>
+</div>
+
+<details class="toc" open>
+<summary>
+    <hr />
+</summary>
+<div class="inline toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#动态字符串-sds">动态字符串 SDS</a>
+      <ul>
+        <li><a href="#前置知识">前置知识</a></li>
+        <li><a href="#数据结构">数据结构</a></li>
+        <li><a href="#基本操作">基本操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#跳表zskiplist">跳表zskiplist</a>
+      <ul>
+        <li><a href="#创建-1">创建</a></li>
+        <li><a href="#插入">插入</a></li>
+        <li><a href="#删除">删除</a></li>
+      </ul>
+    </li>
+    <li><a href="#压缩列表">压缩列表</a>
+      <ul>
+        <li><a href="#结构">结构</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+</details>
+
+<hr />
+
+
+			</div>
+		</header>
+		<main role="main" class="w-full md:w-3/5 xl:w-1/2 max-w-3xl order-2 md:order-2 min-h-70vh pt-2 pb-4">
+			
+
+<article>
+	<section class="mx-auto content">
+		<div class="c-rich-text"><h1 id="基础数据结构部分">基础数据结构部分</h1>
+<h2 id="动态字符串-sds">动态字符串 SDS</h2>
+<h3 id="前置知识">前置知识</h3>
+<p>由于我对C语言没有深入了解，有很多知识点会在前面补充。</p>
+<ol>
+<li>
+<p><strong>attribute</strong> ((<strong>packed</strong>)): 对齐优化</p>
+<p><strong>attribute</strong>((args)) 是GNU C的一个机制，可以通过编译器来修饰结构体，函数等。</p>
+<p>现代计算机中内存空间都是按照字节（byte）划分的，从理论上讲似乎对任何类型的变量的访问可以从任何地址开始，但实际情况是在访问特定变量的时候经常在特定的内存地址访问，这就需要各类型数据按照一定的规则在空间上排列，而不是顺序地一个接一个地排放，这就是对齐.</p>
+<p>为了提高效率，计算机从内存中取数据是按照一个固定长度的。以32位机为例，它每次取32个位，也就是4个字节（每字节8个位)。字节对齐有什么好处？以int型数据为例，如果它在内存中存放的位置按4字节对齐，也就是说1个int的数据全部落在计算机一次取数的区间内，那么只需要取一次就可以了</p>
+<p>使用__packed__参数是表示，使用原来的地址空间，编译时不要字节对齐，这样用时间换空间，使得结构体紧密。</p>
+<p>详细的用法见 <a href="https://blog.csdn.net/weaiken/article/details/88085360">机制详解</a>。</p>
+</li>
+<li>
+<p>uint8_t uint16_t ... size_t 使用</p>
+<p>后面加_t表示是一个typedef 定义的类型，本质是原有类型。这样做是为了更好的跨平台移植，因为不同的平台中int,long 这些基础类型可能占用的字节不同，这对于一些对内存严格要求的库造成不便。使用uint8_t 等类型，在不同平台上都代表占一个字节8位，便于程序的实现。</p>
+<p>同理 size_t 也是用来保持跨平台移植性。可以是unsigned int unsigned char unsigned long等等，取决于实现，size_t = typeof(sizeof(X))。</p>
+</li>
+<li>
+<p>static inline</p>
+<p>头文件中很多函数使用了static inline 关键字，inline 建议编译器将函数作为一个宏内联，这样可以减少函数调用时的堆栈消耗，提高性能。但是编译器不一定会内联函数，这时候static可以保证这个函数是仅在本文件可见，避免重复包含冲突。</p>
+</li>
+</ol>
+<h3 id="数据结构">数据结构</h3>
+<p>这里以sdshdr8为例</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 一个字节 8位
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// __attribute__ ((__packed__)) 用来告诉编译器取消结构在编译中的优化对齐，按照实际占用。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 因为内存是按照2的倍数读取的，否则可能读两次,速度变慢。这里是用时间换空间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 保证整个结构体的空间紧密
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">struct</span> <span style="color:#75af00">__attribute__</span> <span style="color:#111">((</span><span style="color:#111">__packed__</span><span style="color:#111">))</span> <span style="color:#111">sdshdr8</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// buf 中已经使用的字节数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">uint8_t</span> <span style="color:#111">len</span><span style="color:#111">;</span> <span style="color:#75715e">/* used */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 去掉头和null结束符，已经分配的字节数=有效长度+数据长度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">uint8_t</span> <span style="color:#111">alloc</span><span style="color:#111">;</span> <span style="color:#75715e">/* excluding the header and null terminator */</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 8位，只用前三位
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">char</span> <span style="color:#111">flags</span><span style="color:#111">;</span> <span style="color:#75715e">/* 3 lsb of type, 5 unused bits */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 柔性数组，没有分配之前不占内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">char</span> <span style="color:#111">buf</span><span style="color:#111">[];</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">};</span>
+</span></span></code></pre></div><h4 id="二进制安全">二进制安全</h4>
+<pre><code>什么是二进制安全？通俗地讲，C语言中，用“\0”表示字符串的结束，如果字符串中本身就有“\0”字符，字符串就会被截断，即非二进制安全；若通过某种机制，保证读写字符串时不损害其内容，则是二进制安全。在网络报文中常常需要二进制安全。
+
+sds使用 len 来控制字符串长度，而不是使用&quot;\0&quot;,保障了二进制安全。 
+</code></pre>
+<h4 id="极致的内存使用">极致的内存使用</h4>
+<ul>
+<li>对于不同的长度的字符串有不同的结构，上面的sdshdr8 表示长度为8位的字符串，还有sdshdr16/32/64。保证不会因为字符串过小而额外浪费字节，也不会因为字符串过长而频繁扩容。
+- 结构体紧密，放弃对齐优化。在前置说明了结构体使用编译器参数packed来放弃优化，<strong>用时间换空间</strong>。
+- flag。使用一个unsigned char,8位的小端三位来表示结构体的性质(5/8/16/32/64)。
+- 变长数组（柔性数组）。柔性数组成员（flexible array member），也叫伸缩性数组成员，<strong>只能被放在结构体的末尾</strong>。包含柔性数组成员的结构体，通过malloc函数为柔性数组动态分配内存。之所以用柔性数组存放字符串，是因为柔性数组的地址和结构体是连续的，这样查找内存更快（因为不需要额外通过指针找到字符串的位置）；可以很方便地通过柔性数组的首地址偏移得到结构体首地址，进而能很方便地获取其余变量。</li>
+</ul>
+<h4 id="与c字符串函数">与c字符串函数</h4>
+<pre><code>始终将buf指针暴露给上层，可以和c字符串函数切合。同时可以很容易地通过减去一个sdshdr大小偏移到结构体首部来调用结构体属性。
+	
+如下面的宏定义:
+
+```c
+#define SDS_HDR_VAR(T,s) struct sdshdr##T *sh = (void*)((s)-(sizeof(struct sdshdr##T)));
+#define SDS_HDR(T,s) ((struct sdshdr##T *)((s)-(sizeof(struct sdshdr##T))))
+```
+</code></pre>
+<h3 id="基本操作">基本操作</h3>
+<h4 id="创建">创建</h4>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#111">sds</span> <span style="color:#75af00">_sdsnewlen</span><span style="color:#111">(</span><span style="color:#00a8c8">const</span> <span style="color:#00a8c8">void</span> <span style="color:#f92672">*</span><span style="color:#111">init</span><span style="color:#111">,</span> <span style="color:#00a8c8">size_t</span> <span style="color:#111">initlen</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">trymalloc</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">void</span> <span style="color:#f92672">*</span><span style="color:#111">sh</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">sds</span> <span style="color:#111">s</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">char</span> <span style="color:#111">type</span> <span style="color:#f92672">=</span> <span style="color:#75af00">sdsReqType</span><span style="color:#111">(</span><span style="color:#111">initlen</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 因为通常总是有空字符串，而使用type5每增加一次就需要扩容，所以直接使用type 8 ---- 为什么不把type5直接删了？
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">/* Empty strings are usually created in order to append. Use type 8
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * since type 5 is not good at this. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">type</span> <span style="color:#f92672">==</span> <span style="color:#111">SDS_TYPE_5</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">initlen</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#111">type</span> <span style="color:#f92672">=</span> <span style="color:#111">SDS_TYPE_8</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">hdrlen</span> <span style="color:#f92672">=</span> <span style="color:#75af00">sdsHdrSize</span><span style="color:#111">(</span><span style="color:#111">type</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">fp</span><span style="color:#111">;</span> <span style="color:#75715e">/* flags pointer. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">size_t</span> <span style="color:#111">usable</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// initlen 是buf中实际装的大小，hdrlen是sds header大小，+1 是\0终止符
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75af00">assert</span><span style="color:#111">(</span><span style="color:#111">initlen</span> <span style="color:#f92672">+</span> <span style="color:#111">hdrlen</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">initlen</span><span style="color:#111">);</span> <span style="color:#75715e">/* Catch size_t overflow */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//malloc_usable还是调用tyymalloc_usable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">sh</span> <span style="color:#f92672">=</span> <span style="color:#111">trymalloc</span><span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">s_trymalloc_usable</span><span style="color:#111">(</span><span style="color:#111">hdrlen</span><span style="color:#f92672">+</span><span style="color:#111">initlen</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">usable</span><span style="color:#111">)</span> <span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">s_malloc_usable</span><span style="color:#111">(</span><span style="color:#111">hdrlen</span><span style="color:#f92672">+</span><span style="color:#111">initlen</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">usable</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">sh</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">init</span><span style="color:#f92672">==</span><span style="color:#111">SDS_NOINIT</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">init</span> <span style="color:#f92672">=</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">init</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">memset</span><span style="color:#111">(</span><span style="color:#111">sh</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">hdrlen</span><span style="color:#f92672">+</span><span style="color:#111">initlen</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 指向buf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">s</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#00a8c8">char</span><span style="color:#f92672">*</span><span style="color:#111">)</span><span style="color:#111">sh</span><span style="color:#f92672">+</span><span style="color:#111">hdrlen</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">fp</span> <span style="color:#f92672">=</span> <span style="color:#111">((</span><span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">char</span><span style="color:#f92672">*</span><span style="color:#111">)</span><span style="color:#111">s</span><span style="color:#111">)</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">usable</span> <span style="color:#f92672">=</span> <span style="color:#111">usable</span><span style="color:#f92672">-</span><span style="color:#111">hdrlen</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 可能申请的超过类型MaxSize
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">usable</span> <span style="color:#f92672">&gt;</span> <span style="color:#75af00">sdsTypeMaxSize</span><span style="color:#111">(</span><span style="color:#111">type</span><span style="color:#111">))</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">usable</span> <span style="color:#f92672">=</span> <span style="color:#75af00">sdsTypeMaxSize</span><span style="color:#111">(</span><span style="color:#111">type</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">switch</span><span style="color:#111">(</span><span style="color:#111">type</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">case</span> <span style="color:#111">SDS_TYPE_5</span><span style="color:#111">:</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">*</span><span style="color:#111">fp</span> <span style="color:#f92672">=</span> <span style="color:#111">type</span> <span style="color:#f92672">|</span> <span style="color:#111">(</span><span style="color:#111">initlen</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">SDS_TYPE_BITS</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00a8c8">break</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">case</span> <span style="color:#111">SDS_TYPE_8</span><span style="color:#111">:</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75af00">SDS_HDR_VAR</span><span style="color:#111">(</span><span style="color:#ae81ff">8</span><span style="color:#111">,</span><span style="color:#111">s</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">sh</span><span style="color:#f92672">-&gt;</span><span style="color:#111">len</span> <span style="color:#f92672">=</span> <span style="color:#111">initlen</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">sh</span><span style="color:#f92672">-&gt;</span><span style="color:#111">alloc</span> <span style="color:#f92672">=</span> <span style="color:#111">usable</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">*</span><span style="color:#111">fp</span> <span style="color:#f92672">=</span> <span style="color:#111">type</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00a8c8">break</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">initlen</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">init</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">memcpy</span><span style="color:#111">(</span><span style="color:#111">s</span><span style="color:#111">,</span> <span style="color:#111">init</span><span style="color:#111">,</span> <span style="color:#111">initlen</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">s</span><span style="color:#111">[</span><span style="color:#111">initlen</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#39;\0&#39;</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">s</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><ol>
+<li>首先根据申请的初始大小来确定类型，通过类型可以确定hdr大小，然后来申请空间。</li>
+<li>这里使用的s_trymalloc_usable与s_malloc_usable都是文件zmallo.c实现的内存管理函数，后面会专门讲解。这里只用知道它会申请前一个参数大小的空间，并且将空间大小赋值给后一个参数usable。</li>
+<li>得到空间的首地址，加上头大小得到buf地址s,s[-1] 得到类型指针fp,usable减去头大小hdrlen和类型大小1得到实际可用大小。</li>
+<li>根据类型来构建一个sds结构体，最后返回是buf的指针，补上终止符'\0'。这里使用的是一个宏，可以借鉴这种写法，一个经常使用的操作，如果写成函数，会增加堆栈调度消耗，写成宏可以提高性能，代价是编译后的文件大小会增加。</li>
+</ol>
+<p>这是sds创建的底层实现，实际使用的是上层的封装，只是对这个函数的封装调用。</p>
+<h4 id="销毁">销毁</h4>
+<p>有两种方法，一种是直接销毁:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">void</span> <span style="color:#75af00">sdsfree</span><span style="color:#111">(</span><span style="color:#111">sds</span> <span style="color:#111">s</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">s</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">s_free</span><span style="color:#111">((</span><span style="color:#00a8c8">char</span><span style="color:#f92672">*</span><span style="color:#111">)</span><span style="color:#111">s</span><span style="color:#f92672">-</span><span style="color:#75af00">sdsHdrSize</span><span style="color:#111">(</span><span style="color:#111">s</span><span style="color:#111">[</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">]));</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>一种是仅仅将sds的len标记为0,但是实际的buf并不会释放，而是等待覆写。这样可以优化性能。</p>
+<h4 id="扩容">扩容</h4>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#111">sds</span> <span style="color:#75af00">_sdsMakeRoomFor</span><span style="color:#111">(</span><span style="color:#111">sds</span> <span style="color:#111">s</span><span style="color:#111">,</span> <span style="color:#00a8c8">size_t</span> <span style="color:#111">addlen</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">greedy</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">void</span> <span style="color:#f92672">*</span><span style="color:#111">sh</span><span style="color:#111">,</span> <span style="color:#f92672">*</span><span style="color:#111">newsh</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">size_t</span> <span style="color:#111">avail</span> <span style="color:#f92672">=</span> <span style="color:#75af00">sdsavail</span><span style="color:#111">(</span><span style="color:#111">s</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">size_t</span> <span style="color:#111">len</span><span style="color:#111">,</span> <span style="color:#111">newlen</span><span style="color:#111">,</span> <span style="color:#111">reqlen</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">char</span> <span style="color:#111">type</span><span style="color:#111">,</span> <span style="color:#111">oldtype</span> <span style="color:#f92672">=</span> <span style="color:#111">s</span><span style="color:#111">[</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">SDS_TYPE_MASK</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">hdrlen</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">size_t</span> <span style="color:#111">usable</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* Return ASAP if there is enough space left. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">avail</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">addlen</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">s</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">len</span> <span style="color:#f92672">=</span> <span style="color:#75af00">sdslen</span><span style="color:#111">(</span><span style="color:#111">s</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">sh</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#00a8c8">char</span><span style="color:#f92672">*</span><span style="color:#111">)</span><span style="color:#111">s</span><span style="color:#f92672">-</span><span style="color:#75af00">sdsHdrSize</span><span style="color:#111">(</span><span style="color:#111">oldtype</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">reqlen</span> <span style="color:#f92672">=</span> <span style="color:#111">newlen</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#111">len</span><span style="color:#f92672">+</span><span style="color:#111">addlen</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 这里是防止溢出
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75af00">assert</span><span style="color:#111">(</span><span style="color:#111">newlen</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">len</span><span style="color:#111">);</span>   <span style="color:#75715e">/* Catch size_t overflow */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">greedy</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// SDS_MAX_PREALLOC 是 1MB
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">newlen</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">SDS_MAX_PREALLOC</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">newlen</span> <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">else</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">newlen</span> <span style="color:#f92672">+=</span> <span style="color:#111">SDS_MAX_PREALLOC</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">type</span> <span style="color:#f92672">=</span> <span style="color:#75af00">sdsReqType</span><span style="color:#111">(</span><span style="color:#111">newlen</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* Don&#39;t use type 5: the user is appending to the string and type 5 is
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * not able to remember empty space, so sdsMakeRoomFor() must be called
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * at every appending operation. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">type</span> <span style="color:#f92672">==</span> <span style="color:#111">SDS_TYPE_5</span><span style="color:#111">)</span> <span style="color:#111">type</span> <span style="color:#f92672">=</span> <span style="color:#111">SDS_TYPE_8</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">hdrlen</span> <span style="color:#f92672">=</span> <span style="color:#75af00">sdsHdrSize</span><span style="color:#111">(</span><span style="color:#111">type</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">assert</span><span style="color:#111">(</span><span style="color:#111">hdrlen</span> <span style="color:#f92672">+</span> <span style="color:#111">newlen</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">reqlen</span><span style="color:#111">);</span>  <span style="color:#75715e">/* Catch size_t overflow */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">oldtype</span><span style="color:#f92672">==</span><span style="color:#111">type</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 和原类型相同，则不用释放内存，直接将buf扩容即可
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#111">newsh</span> <span style="color:#f92672">=</span> <span style="color:#75af00">s_realloc_usable</span><span style="color:#111">(</span><span style="color:#111">sh</span><span style="color:#111">,</span> <span style="color:#111">hdrlen</span><span style="color:#f92672">+</span><span style="color:#111">newlen</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">usable</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">newsh</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">s</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#00a8c8">char</span><span style="color:#f92672">*</span><span style="color:#111">)</span><span style="color:#111">newsh</span><span style="color:#f92672">+</span><span style="color:#111">hdrlen</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* Since the header size changes, need to move the string forward,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * and can&#39;t use realloc */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 类型改变,需要重新申请内存，原内存释放
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#111">newsh</span> <span style="color:#f92672">=</span> <span style="color:#75af00">s_malloc_usable</span><span style="color:#111">(</span><span style="color:#111">hdrlen</span><span style="color:#f92672">+</span><span style="color:#111">newlen</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">usable</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">newsh</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">memcpy</span><span style="color:#111">((</span><span style="color:#00a8c8">char</span><span style="color:#f92672">*</span><span style="color:#111">)</span><span style="color:#111">newsh</span><span style="color:#f92672">+</span><span style="color:#111">hdrlen</span><span style="color:#111">,</span> <span style="color:#111">s</span><span style="color:#111">,</span> <span style="color:#111">len</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">s_free</span><span style="color:#111">(</span><span style="color:#111">sh</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">s</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#00a8c8">char</span><span style="color:#f92672">*</span><span style="color:#111">)</span><span style="color:#111">newsh</span><span style="color:#f92672">+</span><span style="color:#111">hdrlen</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">s</span><span style="color:#111">[</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">type</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">sdssetlen</span><span style="color:#111">(</span><span style="color:#111">s</span><span style="color:#111">,</span> <span style="color:#111">len</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">usable</span> <span style="color:#f92672">=</span> <span style="color:#111">usable</span><span style="color:#f92672">-</span><span style="color:#111">hdrlen</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// type 是通过newlen判断得到的，而usable 是 hdrlen + newlen + 1 可能出现超出的情况
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">usable</span> <span style="color:#f92672">&gt;</span> <span style="color:#75af00">sdsTypeMaxSize</span><span style="color:#111">(</span><span style="color:#111">type</span><span style="color:#111">))</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">usable</span> <span style="color:#f92672">=</span> <span style="color:#75af00">sdsTypeMaxSize</span><span style="color:#111">(</span><span style="color:#111">type</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">sdssetalloc</span><span style="color:#111">(</span><span style="color:#111">s</span><span style="color:#111">,</span> <span style="color:#111">usable</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">s</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><ol>
+<li>首先判断newlen加上len是否超出可用的大小avail,没超就不扩容。</li>
+<li>和之前不同，这一版本加入了greedy参数，来调节扩容策略，当greedy为1时，每次会扩大的比所需要的更多，这样可以减少扩容频率。而greedy为0时，就是节约内存</li>
+<li>greedy为1时启用此策略: 如果newlen小于1MB,每次扩容二背，大于1MB时每次增加1MB。（每次2倍内存很快就耗尽了）</li>
+<li>这里根据新的newlen来确定类型，如果类型不变，只需要扩展buf数组，而类型改变的话就需要重新申请内存。</li>
+</ol>
+<h2 id="跳表zskiplist">跳表zskiplist</h2>
+<p>对应的代码在 server.h 和 t_zset.c。</p>
+<p>跳表可以看作链表加上都多层索引，一般每两个</p>
+<p><img src="https://s2.loli.net/2022/11/25/87fPGrURAgdHzn3.jpg" alt="skiplist"></p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* ZSETs use a specialized version of Skiplists */</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">typedef</span> <span style="color:#00a8c8">struct</span> <span style="color:#111">zskiplistNode</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">sds</span> <span style="color:#111">ele</span><span style="color:#111">;</span> <span style="color:#75715e">// 存储字符串类型的数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">double</span> <span style="color:#111">score</span><span style="color:#111">;</span> <span style="color:#75715e">// 储存排序的分值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">struct</span> <span style="color:#111">zskiplistNode</span> <span style="color:#f92672">*</span><span style="color:#111">backward</span><span style="color:#111">;</span> <span style="color:#75715e">// 后向指针 头节点和第一个节点都为NULL
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">struct</span> <span style="color:#111">zskiplistLevel</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">struct</span> <span style="color:#111">zskiplistNode</span> <span style="color:#f92672">*</span><span style="color:#111">forward</span><span style="color:#111">;</span> <span style="color:#75715e">// 指向本层下一个节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">long</span> <span style="color:#111">span</span><span style="color:#111">;</span> <span style="color:#75715e">// 跨度 指向本层下一个节点中间跨越的节点个数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">}</span> <span style="color:#111">level</span><span style="color:#111">[];</span> <span style="color:#75715e">// 柔性数组，未分配内存时不占空间。初始化时，level 随机分配1~32
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#111">}</span> <span style="color:#111">zskiplistNode</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">typedef</span> <span style="color:#00a8c8">struct</span> <span style="color:#111">zskiplist</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">struct</span> <span style="color:#111">zskiplistNode</span> <span style="color:#f92672">*</span><span style="color:#111">header</span><span style="color:#111">,</span> <span style="color:#f92672">*</span><span style="color:#111">tail</span><span style="color:#111">;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">long</span> <span style="color:#111">length</span><span style="color:#111">;</span> <span style="color:#75715e">// 除了头节点以外节点总数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">int</span> <span style="color:#111">level</span><span style="color:#111">;</span> <span style="color:#75715e">// 跳表的高度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#111">}</span> <span style="color:#111">zskiplist</span><span style="color:#111">;</span>
+</span></span></code></pre></div><p>用的图片是网图 <a href="https://zhuanlan.zhihu.com/p/26499803">链接</a>，其中obj一般为sds，在Redis6中已经改为sds ele。</p>
+<p>可以从图和代码很清晰地看出跳跃表的结构。</p>
+<p>跳跃表是Redis有序集合的底层实现方式之一，所以每个节点的ele存储有序集合的成员member值，score存储成员score值。所有节点的分值是按从小到大的方式排序的，当有序集合的成员分值相同时，节点会按member的字典序进行排序。</p>
+<p>通过跳跃表结构体的属性我们可以看到，程序可以在O(1)的时间复杂度下，快速获取到跳跃表的头节点、尾节点、长度和高度。</p>
+<h3 id="创建-1">创建</h3>
+<p>Redis通过zslRandomLevel函数随机生成一个1～32的值，作为新建节点的高度，值越大出现的概率越低。节点层高确定之后便不会再修改。生成随机层高的代码如下。</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// ZSKIPLIST 为 0.25
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">int</span> <span style="color:#75af00">zslRandomLevel</span><span style="color:#111">(</span><span style="color:#00a8c8">void</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">static</span> <span style="color:#00a8c8">const</span> <span style="color:#00a8c8">int</span> <span style="color:#111">threshold</span> <span style="color:#f92672">=</span> <span style="color:#111">ZSKIPLIST_P</span><span style="color:#f92672">*</span><span style="color:#111">RAND_MAX</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">level</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#75af00">random</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">threshold</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">level</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 这里 ZSKIPLIST_MAXLEVEL 为32 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">return</span> <span style="color:#111">(</span><span style="color:#111">level</span><span style="color:#f92672">&lt;</span><span style="color:#111">ZSKIPLIST_MAXLEVEL</span><span style="color:#111">)</span> <span style="color:#f92672">?</span> <span style="color:#111">level</span> <span style="color:#111">:</span> <span style="color:#111">ZSKIPLIST_MAXLEVEL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>当p=0.25时，跳跃表节点的期望层高为1/(1-0.25)≈1.33。</p>
+<p>下面是创建函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* Create a skiplist node with the specified number of levels.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * The SDS string &#39;ele&#39; is referenced by the node after the call. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">zskiplistNode</span> <span style="color:#f92672">*</span><span style="color:#75af00">zslCreateNode</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">level</span><span style="color:#111">,</span> <span style="color:#00a8c8">double</span> <span style="color:#111">score</span><span style="color:#111">,</span> <span style="color:#111">sds</span> <span style="color:#111">ele</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zskiplistNode</span> <span style="color:#f92672">*</span><span style="color:#111">zn</span> <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>		    <span style="color:#75715e">// level 柔性数组加上头大小 来申请内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75af00">zmalloc</span><span style="color:#111">(</span><span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">zn</span><span style="color:#111">)</span><span style="color:#f92672">+</span><span style="color:#111">level</span><span style="color:#f92672">*</span><span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#00a8c8">struct</span> <span style="color:#111">zskiplistLevel</span><span style="color:#111">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zn</span><span style="color:#f92672">-&gt;</span><span style="color:#111">score</span> <span style="color:#f92672">=</span> <span style="color:#111">score</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zn</span><span style="color:#f92672">-&gt;</span><span style="color:#111">ele</span> <span style="color:#f92672">=</span> <span style="color:#111">ele</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">zn</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Create a new skiplist. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">zskiplist</span> <span style="color:#f92672">*</span><span style="color:#75af00">zslCreate</span><span style="color:#111">(</span><span style="color:#00a8c8">void</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">j</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zskiplist</span> <span style="color:#f92672">*</span><span style="color:#111">zsl</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zsl</span> <span style="color:#f92672">=</span> <span style="color:#75af00">zmalloc</span><span style="color:#111">(</span><span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">zsl</span><span style="color:#111">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">length</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 头节点的level是最大层数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">header</span> <span style="color:#f92672">=</span> <span style="color:#75af00">zslCreateNode</span><span style="color:#111">(</span><span style="color:#111">ZSKIPLIST_MAXLEVEL</span><span style="color:#111">,</span><span style="color:#ae81ff">0</span><span style="color:#111">,</span><span style="color:#111">NULL</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">j</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">j</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">ZSKIPLIST_MAXLEVEL</span><span style="color:#111">;</span> <span style="color:#111">j</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">header</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">j</span><span style="color:#111">].</span><span style="color:#111">forward</span> <span style="color:#f92672">=</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">header</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">j</span><span style="color:#111">].</span><span style="color:#111">span</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">header</span><span style="color:#f92672">-&gt;</span><span style="color:#111">backward</span> <span style="color:#f92672">=</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">tail</span> <span style="color:#f92672">=</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">zsl</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>头节点是一个特殊的节点，不存储有序集合的member信息。头节点是跳跃表中第一个插入的节点，其level数组的每项forward都为NULL, span值都为0</p>
+<h3 id="插入">插入</h3>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* Insert a new node in the skiplist. Assumes the element does not already
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * exist (up to the caller to enforce that). The skiplist takes ownership
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * of the passed SDS string &#39;ele&#39;. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">zskiplistNode</span> <span style="color:#f92672">*</span><span style="color:#75af00">zslInsert</span><span style="color:#111">(</span><span style="color:#111">zskiplist</span> <span style="color:#f92672">*</span><span style="color:#111">zsl</span><span style="color:#111">,</span> <span style="color:#00a8c8">double</span> <span style="color:#111">score</span><span style="color:#111">,</span> <span style="color:#111">sds</span> <span style="color:#111">ele</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 记录每层所能到达的最右边节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">zskiplistNode</span> <span style="color:#f92672">*</span><span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">ZSKIPLIST_MAXLEVEL</span><span style="color:#111">],</span> <span style="color:#f92672">*</span><span style="color:#111">x</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 记录每层从header到update[i}所需的步长
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">long</span> <span style="color:#111">rank</span><span style="color:#111">[</span><span style="color:#111">ZSKIPLIST_MAXLEVEL</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#111">level</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 判断score 是不是NAN
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75af00">serverAssert</span><span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#75af00">isnan</span><span style="color:#111">(</span><span style="color:#111">score</span><span style="color:#111">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">x</span> <span style="color:#f92672">=</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">header</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 从最高层索引开始遍历
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">--</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* store rank that is crossed to reach the insert position */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 当在最高层时，先将rank赋值为0，先假设
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#111">rank</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">i</span> <span style="color:#f92672">==</span> <span style="color:#111">(</span><span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> <span style="color:#111">rank</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 在第i层一直向前移动比较,因为是按照score 从小到大排列的
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 找到这层大于插入score 的位置然后下移
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span> <span style="color:#f92672">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#f92672">-&gt;</span><span style="color:#111">score</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">score</span> <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#f92672">-&gt;</span><span style="color:#111">score</span> <span style="color:#f92672">==</span> <span style="color:#111">score</span> <span style="color:#f92672">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75af00">sdscmp</span><span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#f92672">-&gt;</span><span style="color:#111">ele</span><span style="color:#111">,</span><span style="color:#111">ele</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#111">)))</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 更新总的span
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#111">rank</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">+=</span> <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">span</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">x</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 记录这层的终点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* we assume the element is not already inside, since we allow duplicated
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * scores, reinserting the same element should never happen since the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * caller of zslInsert() should test in the hash table if the element is
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * already inside or not. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// zslInsert不能应用在插入节点已经存在的情况下。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 所以不用检查存在
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//为插入节点计算随机层数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">level</span> <span style="color:#f92672">=</span> <span style="color:#75af00">zslRandomLevel</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//大于原来层高的部分，只需要调整header就行。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">level</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">level</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">rank</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">header</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 为啥是这个？可能是用来占位
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">span</span> <span style="color:#f92672">=</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">length</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span> <span style="color:#f92672">=</span> <span style="color:#111">level</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#111">x</span> <span style="color:#f92672">=</span> <span style="color:#75af00">zslCreateNode</span><span style="color:#111">(</span><span style="color:#111">level</span><span style="color:#111">,</span><span style="color:#111">score</span><span style="color:#111">,</span><span style="color:#111">ele</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">level</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 插入到每层最右侧能到达的节点之后
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span> <span style="color:#f92672">=</span> <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* update span covered by update[i] as x is inserted here */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 插入节点每层的span更新,这个看下图
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">span</span> <span style="color:#f92672">=</span> <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">span</span> <span style="color:#f92672">-</span> <span style="color:#111">(</span><span style="color:#111">rank</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">-</span> <span style="color:#111">rank</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">span</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#111">rank</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">-</span> <span style="color:#111">rank</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">])</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* increment span for untouched levels */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">level</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">span</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">backward</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">header</span><span style="color:#111">)</span> <span style="color:#f92672">?</span> <span style="color:#111">NULL</span> <span style="color:#f92672">:</span> <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#f92672">-&gt;</span><span style="color:#111">backward</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">tail</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">length</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">x</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>下图来源于 <a href="https://zhuanlan.zhihu.com/p/56941754">链接</a></p>
+<p><img src="https://s2.loli.net/2022/11/26/FHEMRScINYyX72U.png" alt=""></p>
+<p>以节点19插入为例，其中
+黑色箭头的表示的跨度为update[i]-&gt;level[i].span
+蓝色箭头表示的跨度为rank[0] - rank[i]即节点19在level_0的update[0]为11，
+在level_1的update[1]为7，rank[0] - rank[i]为节点7与节点11之间的跨度
+绿色箭头表示的跨度为节点19到节点37的span</p>
+<h3 id="删除">删除</h3>
+<p>首先查找到对应的节点，将每层最右边到达的节点记录下来，对应的update。
+辅助函数:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">void</span> <span style="color:#75af00">zslDeleteNode</span><span style="color:#111">(</span><span style="color:#111">zskiplist</span> <span style="color:#f92672">*</span><span style="color:#111">zsl</span><span style="color:#111">,</span> <span style="color:#111">zskiplistNode</span> <span style="color:#f92672">*</span><span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#111">zskiplistNode</span> <span style="color:#f92672">**</span><span style="color:#111">update</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 调整对应的span和forward
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">int</span> <span style="color:#111">i</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span> <span style="color:#f92672">==</span> <span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">span</span> <span style="color:#f92672">+=</span> <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">span</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">span</span> <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#f92672">-&gt;</span><span style="color:#111">backward</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">backward</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">tail</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">backward</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 调整level 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">while</span><span style="color:#111">(</span><span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">header</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">].</span><span style="color:#111">forward</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#f92672">--</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">length</span><span style="color:#f92672">--</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>删除函数:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">int</span> <span style="color:#75af00">zslDelete</span><span style="color:#111">(</span><span style="color:#111">zskiplist</span> <span style="color:#f92672">*</span><span style="color:#111">zsl</span><span style="color:#111">,</span> <span style="color:#00a8c8">double</span> <span style="color:#111">score</span><span style="color:#111">,</span> <span style="color:#111">sds</span> <span style="color:#111">ele</span><span style="color:#111">,</span> <span style="color:#111">zskiplistNode</span> <span style="color:#f92672">**</span><span style="color:#111">node</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">zskiplistNode</span> <span style="color:#f92672">*</span><span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">ZSKIPLIST_MAXLEVEL</span><span style="color:#111">],</span> <span style="color:#f92672">*</span><span style="color:#111">x</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">i</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//查找位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">x</span> <span style="color:#f92672">=</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">header</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">zsl</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">--</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span> <span style="color:#f92672">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#f92672">-&gt;</span><span style="color:#111">score</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">score</span> <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#f92672">-&gt;</span><span style="color:#111">score</span> <span style="color:#f92672">==</span> <span style="color:#111">score</span> <span style="color:#f92672">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>                     <span style="color:#75af00">sdscmp</span><span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#f92672">-&gt;</span><span style="color:#111">ele</span><span style="color:#111">,</span><span style="color:#111">ele</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#111">)))</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">x</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 保存每层最右边的节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#111">update</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* We may have multiple elements with the same score, what we need
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * is to find the element with both the right score and object. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 可能同一个score有多个ele
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">x</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">level</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">].</span><span style="color:#111">forward</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">x</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">score</span> <span style="color:#f92672">==</span> <span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">score</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#75af00">sdscmp</span><span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">-&gt;</span><span style="color:#111">ele</span><span style="color:#111">,</span><span style="color:#111">ele</span><span style="color:#111">)</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">zslDeleteNode</span><span style="color:#111">(</span><span style="color:#111">zsl</span><span style="color:#111">,</span> <span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#111">update</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">node</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75af00">zslFreeNode</span><span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">else</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">*</span><span style="color:#111">node</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#75715e">/* not found */</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><h2 id="压缩列表">压缩列表</h2>
+<p>具体的实现在ziplist.h和ziplist.c</p>
+<p>压缩列表是Redis中一种高效利用内存的数据结构，用来储存字符串和数字，它的push和pop操作都是O(1)。Redis的有序集合、散列和列表都直接或者间接使用了压缩列表。当有序集合或散列表的元素个数比较少，且元素都是短字符串时，Redis便使用压缩列表作为其底层数据存储结构。列表使用快速链表（quicklist）数据结构存储，而快速链表就是双向链表与压缩列表的组合。</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// ziplist 结构
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">&lt;</span><span style="color:#111">zlbytes</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;</span><span style="color:#111">zltail</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;</span><span style="color:#111">zllen</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;</span><span style="color:#111">entry</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;</span><span style="color:#111">entry</span><span style="color:#f92672">&gt;</span> <span style="color:#111">...</span> <span style="color:#f92672">&lt;</span><span style="color:#111">entry</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;</span><span style="color:#111">zlend</span><span style="color:#f92672">&gt;</span>
+</span></span></code></pre></div><p>这里的所有结构都是按照小端存储。</p>
+<ul>
+<li>zlbytes: 压缩列表的字节长度，占4个字节，因此压缩列表最多有$2^{32}-1$个字节。这个设计是为了resize时不必遍历整个列表</li>
+<li>zltail:  压缩列表尾元素相对于压缩列表起始地址的偏移量，占4个字节，这个设计可以使pop操作不必要遍历全部。</li>
+<li>zllen: 压缩列表的元素个数，占2个字节。zllen无法存储元素个数超过65535（$2^{16}-1$）的压缩列表，必须遍历整个压缩列表才能获取到元素个数。</li>
+<li>zlend: 压缩列表的结尾，占1个字节，恒为0xFF。</li>
+</ul>
+<p>这里可以清楚地感受到C语言对内存的掌控，通过指针位移来获取结构信息。这里使用宏又是C语言的一个特色，比起inline只是建议编译器内联，宏真正是内联，对于一些细小而频繁的操作提高了性能。</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* Return total bytes a ziplist is composed of. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIPLIST_BYTES(zl)       (*((uint32_t*)(zl)))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Return the offset of the last item inside the ziplist. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIPLIST_TAIL_OFFSET(zl) (*((uint32_t*)((zl)+sizeof(uint32_t))))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Return the length of a ziplist, or UINT16_MAX if the length cannot be
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * determined without scanning the whole ziplist. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIPLIST_LENGTH(zl)      (*((uint16_t*)((zl)+sizeof(uint32_t)*2)))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* The size of a ziplist header: two 32 bit integers for the total
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * bytes count and last item offset. One 16 bit integer for the number
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * of items field. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIPLIST_HEADER_SIZE     (sizeof(uint32_t)*2+sizeof(uint16_t))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Size of the &#34;end of ziplist&#34; entry. Just one byte. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIPLIST_END_SIZE        (sizeof(uint8_t))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Return the pointer to the first entry of a ziplist. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIPLIST_ENTRY_HEAD(zl)  ((zl)+ZIPLIST_HEADER_SIZE)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Return the pointer to the last entry of a ziplist, using the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * last entry offset inside the ziplist header. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIPLIST_ENTRY_TAIL(zl)  ((zl)+intrev32ifbe(ZIPLIST_TAIL_OFFSET(zl)))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Return the pointer to the last byte of a ziplist, which is, the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * end of ziplist FF entry. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIPLIST_ENTRY_END(zl)   ((zl)+intrev32ifbe(ZIPLIST_BYTES(zl))-ZIPLIST_END_SIZE)
+</span></span></span></code></pre></div><p>对于 <entry> 结构如下:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#111">prevlen</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;</span><span style="color:#111">encoding</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;</span><span style="color:#111">entry</span><span style="color:#f92672">-</span><span style="color:#111">data</span><span style="color:#f92672">&gt;</span>
+</span></span></code></pre></div><p>previous_entry_length字段表示前一个元素的字节长度，占1个或者5个字节，当前一个元素的长度小于254字节时，用1个字节表示；当前一个元素的长度大于或等于254字节时，用5个字节来表示。而此时previous_entry_length字段的第1个字节是固定的0xFE，后面4个字节才真正表示前一个元素的长度。假设已知当前元素的首地址为p，那么p-previous_entry_length就是前一个元素的首地址，从而实现压缩列表从尾到头的遍历。</p>
+<p>encoding字段表示当前元素的编码，即content字段存储的数据类型（整数或者字节数组），数据内容存储在content字段。为了节约内存，encoding字段同样长度可变。</p>
+<p><img src="https://s2.loli.net/2022/11/26/6gMtVLmx9udXpS3.png" alt=""></p>
+<p>Redis使用宏来表示</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#define ZIP_STR_MASK 0xc0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIP_INT_MASK 0x30
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIP_STR_06B (0 &lt;&lt; 6)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIP_STR_14B (1 &lt;&lt; 6)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIP_STR_32B (2 &lt;&lt; 6)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIP_INT_16B (0xc0 | 0&lt;&lt;4)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIP_INT_32B (0xc0 | 1&lt;&lt;4)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIP_INT_64B (0xc0 | 2&lt;&lt;4)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIP_INT_24B (0xc0 | 3&lt;&lt;4)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ZIP_INT_8B 0xfe
+</span></span></span></code></pre></div><p><strong>这里使用位运算来代表类型</strong>，既节省了内存又提高了性能。</p>
+<h3 id="结构">结构</h3>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">typedef</span> <span style="color:#00a8c8">struct</span> <span style="color:#111">zlentry</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">int</span> <span style="color:#111">prevrawlensize</span><span style="color:#111">;</span> <span style="color:#75715e">/* Bytes used to encode the previous entry len*/</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">int</span> <span style="color:#111">prevrawlen</span><span style="color:#111">;</span>     <span style="color:#75715e">/* Previous entry len. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">int</span> <span style="color:#111">lensize</span><span style="color:#111">;</span>        <span style="color:#75715e">/* Bytes used to encode this entry type/len.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                    For example strings have a 1, 2 or 5 bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                    header. Integers always use a single byte.*/</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">int</span> <span style="color:#111">len</span><span style="color:#111">;</span>            <span style="color:#75715e">/* Bytes used to represent the actual entry.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                    For strings this is just the string length
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                    while for integers it is 1, 2, 3, 4, 8 or
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                    0 (for 4 bit immediate) depending on the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                    number range. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">int</span> <span style="color:#111">headersize</span><span style="color:#111">;</span>     <span style="color:#75715e">/* prevrawlensize + lensize. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">char</span> <span style="color:#111">encoding</span><span style="color:#111">;</span>      <span style="color:#75715e">/* Set to ZIP_STR_* or ZIP_INT_* depending on
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                    the entry encoding. However for 4 bits
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                    immediate integers this can assume a range
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                    of values and must be range-checked. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">p</span><span style="color:#111">;</span>            <span style="color:#75715e">/* Pointer to the very start of the entry, that
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                    is, this points to prev-entry-len field. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span> <span style="color:#111">zlentry</span><span style="color:#111">;</span>
+</span></span></code></pre></div><p>对于压缩列表的任意元素，获取前一个元素的长度、判断存储的数据类型、获取数据内容都需要经过复杂的解码运算。解码后的结果应该被缓存起来，为此定义了结构体zlentry，用于表示解码后的压缩列表元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">static</span> <span style="color:#00a8c8">inline</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">zipEntry</span><span style="color:#111">(</span><span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">zlentry</span> <span style="color:#f92672">*</span><span style="color:#111">e</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">ZIP_DECODE_PREVLEN</span><span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">prevrawlensize</span><span style="color:#111">,</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">prevrawlen</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">ZIP_ENTRY_ENCODING</span><span style="color:#111">(</span><span style="color:#111">p</span> <span style="color:#f92672">+</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">prevrawlensize</span><span style="color:#111">,</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">encoding</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">ZIP_DECODE_LENGTH</span><span style="color:#111">(</span><span style="color:#111">p</span> <span style="color:#f92672">+</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">prevrawlensize</span><span style="color:#111">,</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">encoding</span><span style="color:#111">,</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">lensize</span><span style="color:#111">,</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">len</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">assert</span><span style="color:#111">(</span><span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">lensize</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span><span style="color:#111">);</span> <span style="color:#75715e">/* check that encoding was valid. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">headersize</span> <span style="color:#f92672">=</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">prevrawlensize</span> <span style="color:#f92672">+</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">lensize</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">p</span> <span style="color:#f92672">=</span> <span style="color:#111">p</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div></div>
+	</section>
+
+
+</article>
+
+		</main>
+		<div class="w-full h-0 flex-none order-3"></div>
+		<aside role="contentinfo"
+			class="w-full md:w-2/5 xl:w-1/2 md:pr-12 lg:pr-20 xl:pr-24 order-4 md:order-3 md:sticky md:bottom-0 self-end max-w-2xl">
+			<div class="md:float-right md:text-right leading-loose tracking-tight md:mb-2">
+				
+	<div class="md:max-w-xs  flex flex-col md:items-end">
+	<ul class="font-serif flex-grow-0 flex justify-between flex-wrap md:flex-col">
+	
+	
+	<li class="px-1 md:px-0">
+		<a href="/post/" title="Posts page" 
+			class="font-medium text-medium-red-violet-600 hover:text-medium-red-violet-400" >
+			Posts
+		</a>
+	</li>
+	
+	<li class="px-1 md:px-0">
+		<a href="/tags/" title="Tags page" >
+			Tags
+		</a>
+	</li>
+	
+	<li class="px-1 md:px-0">
+		<a href="/about/" title="About page" >
+			About
+		</a>
+	</li>
+	
+	
+	
+	
+	<div id="fastSearch" class="m-0">
+		<input id="searchInput" type="text" size=10 
+			class="bg-gray-100 focus:outline-none border-b border-gray-100 focus:border-eucalyptus-300 md:text-right
+			placeholder-java-500 min-w-0 max-w-xxxs"
+			placeholder="search" />
+		<ul id="searchResults" class="bg-gray-200 px-2 divide-y divide-gray-400">
+		</ul>
+	</div>
+	
+</ul>
+	
+
+<div class="flex flex-wrap-reverse md:justify-end content-end md:content-start justify-start items-start   max-h-16">
+	
+	<a href='https://github.com/Chi-Kai' target="_blank" class="github icon pl-1 text-eucalyptus-400 hover:text-java-400" title="github link" rel="noopener"
+		aria-label="follow on github——Opens in a new window">
+		
+		<div class="fill-current h-8 w-8">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g>
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path fill-rule="nonzero" d="M5.883 18.653c-.3-.2-.558-.455-.86-.816a50.32 50.32 0 0 1-.466-.579c-.463-.575-.755-.84-1.057-.949a1 1 0 0 1 .676-1.883c.752.27 1.261.735 1.947 1.588-.094-.117.34.427.433.539.19.227.33.365.44.438.204.137.587.196 1.15.14.023-.382.094-.753.202-1.095C5.38 15.31 3.7 13.396 3.7 9.64c0-1.24.37-2.356 1.058-3.292-.218-.894-.185-1.975.302-3.192a1 1 0 0 1 .63-.582c.081-.024.127-.035.208-.047.803-.123 1.937.17 3.415 1.096A11.731 11.731 0 0 1 12 3.315c.912 0 1.818.104 2.684.308 1.477-.933 2.613-1.226 3.422-1.096.085.013.157.03.218.05a1 1 0 0 1 .616.58c.487 1.216.52 2.297.302 3.19.691.936 1.058 2.045 1.058 3.293 0 3.757-1.674 5.665-4.642 6.392.125.415.19.879.19 1.38a300.492 300.492 0 0 1-.012 2.716 1 1 0 0 1-.019 1.958c-1.139.228-1.983-.532-1.983-1.525l.002-.446.005-.705c.005-.708.007-1.338.007-1.998 0-.697-.183-1.152-.425-1.36-.661-.57-.326-1.655.54-1.752 2.967-.333 4.337-1.482 4.337-4.66 0-.955-.312-1.744-.913-2.404a1 1 0 0 1-.19-1.045c.166-.414.237-.957.096-1.614l-.01.003c-.491.139-1.11.44-1.858.949a1 1 0 0 1-.833.135A9.626 9.626 0 0 0 12 5.315c-.89 0-1.772.119-2.592.35a1 1 0 0 1-.83-.134c-.752-.507-1.374-.807-1.868-.947-.144.653-.073 1.194.092 1.607a1 1 0 0 1-.189 1.045C6.016 7.89 5.7 8.694 5.7 9.64c0 3.172 1.371 4.328 4.322 4.66.865.097 1.201 1.177.544 1.748-.192.168-.429.732-.429 1.364v3.15c0 .986-.835 1.725-1.96 1.528a1 1 0 0 1-.04-1.962v-.99c-.91.061-1.662-.088-2.254-.485z"/>
+    </g>
+</svg>
+
+		</div>
+	</a>
+	
+	<a href='chikai0307@gmail.com' target="_blank" class="mail icon pl-1 text-eucalyptus-400 hover:text-java-400" title="mail link" rel="noopener"
+		aria-label="follow on mail——Opens in a new window">
+		
+		<div class="fill-current h-8 w-8">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g>
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm17 4.238l-7.928 7.1L4 7.216V19h16V7.238zM4.511 5l7.55 6.662L19.502 5H4.511z"/>
+    </g>
+</svg>
+		</div>
+	</a>
+	
+</div>
+	<div class="text-sm text-gray-500 leading-tight a-gray">
+		
+		<br />
+		Built with Hugo and theme <a href="https://github.com/heyeshuang/hugo-theme-tokiwa">Tokiwa</a>. 6203 words in this page.
+	</div>
+</div>
+
+			</div>
+		</aside>
+		<footer class="w-full md:w-3/5 xl:w-1/2 order-3 max-w-3xl md:order-4 pt-2">
+			
+<hr class="double-line" />
+<div class="flex flex-wrap justify-between pb-2 leading-loose font-serif">
+    
+    
+    <a class="flex-grow-0" href="/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/">
+        联邦学习综述
+        <svg class="fill-current inline-block h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+            height="24">
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" /></svg></a>
+    
+</div>
+<div >
+
+
+
+</div>
+<hr />
+<div class="pb-2">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "ck" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+<hr />
+
+		</footer>
+		
+
+<script src="/dist/app.js"></script>
+
+
+<script src="/lib/fuse.min.js"></script> 
+<script src="/lib/fastsearch.js"></script>
+
+	</div>
+</body>
+
+</html>
