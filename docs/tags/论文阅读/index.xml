@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>论文阅读 on 悉达多</title>
-    <link>https://example.com/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
+    <link>https://chi-kai.github.io/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
     <description>Recent content in 论文阅读 on 悉达多</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Fri, 25 Nov 2022 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://example.com/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://chi-kai.github.io/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>区块链白皮书解读</title>
-      <link>https://example.com/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</link>
+      <link>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</link>
       <pubDate>Fri, 25 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</guid>
+      <guid>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</guid>
       <description>&lt;h1 id=&#34;比特币白皮书&#34;&gt;比特币白皮书&lt;/h1&gt;
 &lt;h1 id=&#34;以太坊白皮书&#34;&gt;以太坊白皮书&lt;/h1&gt;
 &lt;h1 id=&#34;tangle-白皮书&#34;&gt;Tangle 白皮书&lt;/h1&gt;
@@ -28,10 +28,10 @@
     
     <item>
       <title>DAG区块链论文阅读</title>
-      <link>https://example.com/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
+      <link>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
       <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
+      <guid>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
       <description>&lt;h1 id=&#34;direct-acyclic-graph-based-ledger-for-internet-of-things-performance-and-security-analysis&#34;&gt;《Direct Acyclic Graph-Based Ledger for Internet of Things: Performance and Security Analysis》&lt;/h1&gt;
 &lt;h2 id=&#34;问题背景&#34;&gt;问题背景&lt;/h2&gt;
 &lt;p&gt;由于区块链的安全性，去中心化，可信性，在IoT系统上有可观的应用前景（如智能车，能源交易）。IoT系统具有规模大，资源受限的特性。所以其上的共识算法必须满足资源需求小,低消耗，和高的交易吞吐量。&lt;/p&gt;
@@ -98,10 +98,10 @@
     
     <item>
       <title>DAG区块链综述</title>
-      <link>https://example.com/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/</link>
+      <link>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/</link>
       <pubDate>Mon, 07 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/</guid>
+      <guid>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/</guid>
       <description>&lt;h2 id=&#34;问题现状&#34;&gt;问题现状&lt;/h2&gt;
 &lt;h4 id=&#34;区块链面临的问题&#34;&gt;区块链面临的问题&lt;/h4&gt;
 &lt;p&gt;区块链作为现在一个热门技术，越来越多的人涌入其中。传统的区块链由于其单链结构和共识算法的限制，存在[!!!]等问题。
@@ -232,10 +232,10 @@
     
     <item>
       <title>区块链白皮书解读</title>
-      <link>https://example.com/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
+      <link>https://chi-kai.github.io/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
       <pubDate>Sun, 06 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
+      <guid>https://chi-kai.github.io/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
       <description>&lt;h1 id=&#34;towards-on-device-federated-learning-a-direct-acyclic-graph-based-blockchain-approach&#34;&gt;《Towards On-Device Federated Learning: A Direct Acyclic Graph-based Blockchain Approach》&lt;/h1&gt;
 &lt;h2 id=&#34;目标&#34;&gt;目标&lt;/h2&gt;
 &lt;p&gt;为了解决联邦学习中的设备异步和异常检测问题，同时避免由区块链导致的资源浪费&lt;/p&gt;
@@ -403,10 +403,10 @@ discriminative aggregation (&lt;strong&gt;判别聚合&lt;/strong&gt;)&lt;/p&gt;
     
     <item>
       <title>Raft论文阅读</title>
-      <link>https://example.com/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
+      <link>https://chi-kai.github.io/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
       <pubDate>Sun, 30 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
+      <guid>https://chi-kai.github.io/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
       <description>&lt;h1 id=&#34;领导人选举&#34;&gt;领导人选举&lt;/h1&gt;
 &lt;p&gt;首先按照论文中最关键的figure 2补全节点和RPC结构。&lt;/p&gt;
 &lt;p&gt;节点有三个状态: Leader,Candidate,Follower 和 两个计时器: 选举计时器，心跳计时器。&lt;/p&gt;
@@ -503,10 +503,10 @@ term变为更高的term,投票变为null。&lt;/p&gt;
     
     <item>
       <title>联邦学习综述</title>
-      <link>https://example.com/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/</link>
+      <link>https://chi-kai.github.io/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/</link>
       <pubDate>Mon, 17 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/</guid>
+      <guid>https://chi-kai.github.io/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/</guid>
       <description>&lt;h1 id=&#34;什么是联邦学习&#34;&gt;什么是联邦学习&lt;/h1&gt;
 &lt;h1 id=&#34;前置知识&#34;&gt;前置知识:&lt;/h1&gt;
 &lt;ul&gt;

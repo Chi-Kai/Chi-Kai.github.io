@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Redis on 悉达多</title>
-    <link>https://example.com/tags/redis/</link>
+    <link>https://chi-kai.github.io/tags/redis/</link>
     <description>Recent content in Redis on 悉达多</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sun, 22 May 2022 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://example.com/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://chi-kai.github.io/tags/redis/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Redis源码剖析(一)</title>
-      <link>https://example.com/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</link>
+      <link>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</link>
       <pubDate>Sun, 22 May 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</guid>
+      <guid>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</guid>
       <description>&lt;h1 id=&#34;基础数据结构部分&#34;&gt;基础数据结构部分&lt;/h1&gt;
 &lt;h2 id=&#34;动态字符串-sds&#34;&gt;动态字符串 SDS&lt;/h2&gt;
 &lt;h3 id=&#34;前置知识&#34;&gt;前置知识&lt;/h3&gt;
