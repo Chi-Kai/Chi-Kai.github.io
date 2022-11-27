@@ -25,7 +25,7 @@ pygmentsStyle = 'manni'
 [params]
 bannerFont = "fonts/exampleFont" 
 description = """
-Tokiwa-iro is the theme color of this site.
+成功只有一个:按照自己的方式，去度过人生
 """ 
 env = "production" # for Google Analytics and DISQUS.
 favicon = "img/favicon-32x32.png" 
