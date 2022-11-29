@@ -17,9 +17,9 @@
       <pubDate>Fri, 25 Nov 2022 00:00:00 +0000</pubDate>
       
       <guid>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</guid>
-      <description>&lt;h1 id=&#34;比特币白皮书&#34;&gt;比特币白皮书&lt;/h1&gt;
-&lt;h1 id=&#34;以太坊白皮书&#34;&gt;以太坊白皮书&lt;/h1&gt;
-&lt;h1 id=&#34;tangle-白皮书&#34;&gt;Tangle 白皮书&lt;/h1&gt;
+      <description>&lt;h2 id=&#34;比特币白皮书&#34;&gt;比特币白皮书&lt;/h2&gt;
+&lt;h2 id=&#34;以太坊白皮书&#34;&gt;以太坊白皮书&lt;/h2&gt;
+&lt;h2 id=&#34;tangle-白皮书&#34;&gt;Tangle 白皮书&lt;/h2&gt;
 &lt;p&gt;详细的内容见 &lt;a href=&#34;https://lzphi.cn/2020/12/20/2020-12-17-Tangle-%E7%99%BD%E7%9A%AE%E4%B9%A6/&#34;&gt;Tangle白皮书中文版&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;tangle&lt;/strong&gt; 是 &lt;strong&gt;IOTA&lt;/strong&gt; 所用的技术，为物联网和小额支付提供支持。不同于常见的区块链，它使用一个DAG（有向无环图）作为结构，这里称为Tangle。&lt;/p&gt;
 &lt;p&gt;传统区块链系统的单链结构在交易认证，吞吐量，资源消耗等方面存在缺陷，DAG结构的区块链是一个有效的解决方案。&lt;/p&gt;
@@ -32,14 +32,14 @@
       <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
       
       <guid>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
-      <description>&lt;h1 id=&#34;direct-acyclic-graph-based-ledger-for-internet-of-things-performance-and-security-analysis&#34;&gt;《Direct Acyclic Graph-Based Ledger for Internet of Things: Performance and Security Analysis》&lt;/h1&gt;
-&lt;h2 id=&#34;问题背景&#34;&gt;问题背景&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;direct-acyclic-graph-based-ledger-for-internet-of-things-performance-and-security-analysis&#34;&gt;《Direct Acyclic Graph-Based Ledger for Internet of Things: Performance and Security Analysis》&lt;/h2&gt;
+&lt;h3 id=&#34;问题背景&#34;&gt;问题背景&lt;/h3&gt;
 &lt;p&gt;由于区块链的安全性，去中心化，可信性，在IoT系统上有可观的应用前景（如智能车，能源交易）。IoT系统具有规模大，资源受限的特性。所以其上的共识算法必须满足资源需求小,低消耗，和高的交易吞吐量。&lt;/p&gt;
 &lt;p&gt;现在主要的两种共识算法:PoW需要高的资源消耗，PoS的币龄证明可能造成垄断和中心化。&lt;/p&gt;
 &lt;p&gt;典型的区块链是一种单链结构，为了避免非法的fork，应用的共识算法必须降低新的block生成速率。这导致了吞吐量瓶颈和区块认证延迟的问题，在IoT系统上又有交易花费高和资源消耗大的问题。&lt;/p&gt;
 &lt;p&gt;DAG共识算法可以允许任何节点可以立即向ledger插入一个新的block，前提是它能先处理更早的交易。这种方式会造成很多fork，DAG有很多算法来避免在传统区块链上面临的double-spending问题(Markov Chain Monte Carlo algorithm and virtual voting algorithm)。DAG共识算法的交易吞吐是不受限制的，而且资源消耗很低，这符合IoT的应用场景。&lt;/p&gt;
-&lt;h2 id=&#34;dag概述&#34;&gt;DAG概述&lt;/h2&gt;
-&lt;h3 id=&#34;名词定义&#34;&gt;名词定义&lt;/h3&gt;
+&lt;h3 id=&#34;dag概述&#34;&gt;DAG概述&lt;/h3&gt;
+&lt;h4 id=&#34;名词定义&#34;&gt;名词定义&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/19/auRt2FzeCjwgsGM.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;这里使用典型的Tangle算法来进行解释。&lt;/p&gt;
 &lt;ul&gt;
@@ -62,7 +62,7 @@
 &lt;p&gt;Cumulative weight: 代表一个交易的认证级别。是一个交易自身own weight以及它直接证明和间接证明的交易的交易own weight总和。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;共识过程&#34;&gt;共识过程&lt;/h3&gt;
+&lt;h4 id=&#34;共识过程&#34;&gt;共识过程&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;节点创造一个块来储存交易&lt;/li&gt;
 &lt;li&gt;节点通过MCMC tips 选择算法来选择两个没有冲突的tips，然后添加它们的hash到块中&lt;/li&gt;
@@ -70,18 +70,18 @@
 &lt;li&gt;使用私钥给交易签名并广播，当其他节点收到时会检查是否合法&lt;/li&gt;
 &lt;li&gt;成功添加的交易成为tip,等待被验证。直到它的cumulative weight 达到定义的标准。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;分叉问题&#34;&gt;分叉问题&lt;/h3&gt;
+&lt;h4 id=&#34;分叉问题&#34;&gt;分叉问题&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/19/VnrEiPCoslHG9KY.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;在分布式账本中，构建分叉以重做工作是篡改存储数据的唯一方法。基于此，double-spending的主要思想是将两笔相互冲突的交易并行放置在两条链上。在第一笔交易花费在服务上之后，攻击者扩展包含冲突交易的链并让它超过第一条链。当此操作成功时，第一笔交易将被孤立，攻击者可以多次使用token。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;单链模型: 以最长的一个链为标准，正常的矿工会在最长的链上工作&lt;/li&gt;
 &lt;li&gt;DAG模型: 以累计权重最大的子图为标准，正常的节点会通过MCMC tips 选择算法扩展权重最大的链。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;heading&#34;&gt;&lt;/h2&gt;
-&lt;h1 id=&#34;tips-transaction-inclusion-protocol-with-signaling-in-dag-based-blockchain&#34;&gt;《TIPS: Transaction Inclusion Protocol with Signaling in DAG-based Blockchain》&lt;/h1&gt;
-&lt;h2 id=&#34;问题背景-1&#34;&gt;问题背景&lt;/h2&gt;
+&lt;h3 id=&#34;heading&#34;&gt;&lt;/h3&gt;
+&lt;h2 id=&#34;tips-transaction-inclusion-protocol-with-signaling-in-dag-based-blockchain&#34;&gt;《TIPS: Transaction Inclusion Protocol with Signaling in DAG-based Blockchain》&lt;/h2&gt;
+&lt;h3 id=&#34;问题背景-1&#34;&gt;问题背景&lt;/h3&gt;
 &lt;p&gt;由于DAG区块链的高并发场景和网络延迟，矿工通常不能及时获取整个网络的更新信息，导致重复在一个并行区块包括相同的交易，在区块链中生成冗余的记录。这个交易包含冲突会浪费区块容量和降低系统性能。尽管DAG区块链已经限制交易的高并发，但是交易冲突的风险实际还会诱发&lt;strong&gt;矿工收益&lt;/strong&gt;和&lt;strong&gt;系统吞吐&lt;/strong&gt;的困境。&lt;/p&gt;
-&lt;h3 id=&#34;问题分析&#34;&gt;问题分析&lt;/h3&gt;
+&lt;h4 id=&#34;问题分析&#34;&gt;问题分析&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;http://tva1.sinaimg.cn/large/008upJWily1h804wzs4nsj30rk0jtgqa.jpg&#34; alt=&#34;符号.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;三种交易包含策略:&lt;/p&gt;
 &lt;ol&gt;
@@ -90,9 +90,9 @@
 &lt;li&gt;Top n ($P^{top}$): $p_{1}=p_{2}=\cdots=p_{n}=1 \text { and } p_{n+1}=p_{n+2}=\cdots=p_{m}=0$&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;这里仅考虑矿工收益中的交易费用奖励。&lt;/p&gt;
-&lt;h4 id=&#34;收入困境&#34;&gt;收入困境&lt;/h4&gt;
-&lt;h2 id=&#34;算法设计&#34;&gt;算法设计&lt;/h2&gt;
-&lt;p&gt;《SilentDelivery: Practical Timed-delivery of Private Information using Smart Contracts》&lt;/p&gt;
+&lt;h5 id=&#34;收入困境&#34;&gt;收入困境&lt;/h5&gt;
+&lt;h3 id=&#34;算法设计&#34;&gt;算法设计&lt;/h3&gt;
+&lt;h2 id=&#34;silentdelivery-practical-timed-delivery-of-private-information-using-smart-contracts&#34;&gt;《SilentDelivery: Practical Timed-delivery of Private Information using Smart Contracts》&lt;/h2&gt;
 </description>
     </item>
     

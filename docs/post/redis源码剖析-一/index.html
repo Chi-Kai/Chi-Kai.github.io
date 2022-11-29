@@ -160,17 +160,7 @@ onload='renderMathInElement(document.body);'></script>
 
 <div class="flex flex-wrap justify-end pt-2 "><div class="md:flex-grow-0 font-light">
 	
-	
-	
-	
-	<a class="post-taxonomy-category text-medium-red-violet-600 hover:text-medium-red-violet-400"
-		href='/categories/%E6%8A%98%E8%85%BE'>折腾</a>
-	
-	
-	
 
-	
-	&nbsp;&nbsp;
 	
 
 	
@@ -215,6 +205,11 @@ onload='renderMathInElement(document.body);'></script>
         <li><a href="#结构">结构</a></li>
       </ul>
     </li>
+    <li><a href="#字典">字典</a>
+      <ul>
+        <li><a href="#结构-1">结构</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 </div>
@@ -234,7 +229,7 @@ onload='renderMathInElement(document.body);'></script>
 <h2 id="动态字符串-sds">动态字符串 SDS</h2>
 <h3 id="前置知识">前置知识</h3>
 <p>由于我对C语言没有深入了解，有很多知识点会在前面补充。</p>
-<ol>
+<ul>
 <li>
 <p><strong>attribute</strong> ((<strong>packed</strong>)): 对齐优化</p>
 <p><strong>attribute</strong>((args)) 是GNU C的一个机制，可以通过编译器来修饰结构体，函数等。</p>
@@ -252,7 +247,7 @@ onload='renderMathInElement(document.body);'></script>
 <p>static inline</p>
 <p>头文件中很多函数使用了static inline 关键字，inline 建议编译器将函数作为一个宏内联，这样可以减少函数调用时的堆栈消耗，提高性能。但是编译器不一定会内联函数，这时候static可以保证这个函数是仅在本文件可见，避免重复包含冲突。</p>
 </li>
-</ol>
+</ul>
 <h3 id="数据结构">数据结构</h3>
 <p>这里以sdshdr8为例</p>
 <div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 一个字节 8位
@@ -717,6 +712,37 @@ sds使用 len 来控制字符串长度，而不是使用&quot;\0&quot;,保障了
 </span></span><span style="display:flex;"><span>    <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">headersize</span> <span style="color:#f92672">=</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">prevrawlensize</span> <span style="color:#f92672">+</span> <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">lensize</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#111">e</span><span style="color:#f92672">-&gt;</span><span style="color:#111">p</span> <span style="color:#f92672">=</span> <span style="color:#111">p</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><h2 id="字典">字典</h2>
+<h3 id="结构-1">结构</h3>
+<p>节点:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">typedef</span> <span style="color:#00a8c8">struct</span> <span style="color:#111">dictEntry</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">void</span> <span style="color:#f92672">*</span><span style="color:#111">key</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 节省内存 不同场景下使用不同字段
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">union</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">void</span> <span style="color:#f92672">*</span><span style="color:#111">val</span><span style="color:#111">;</span> <span style="color:#75715e">// db.dict 储存值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#00a8c8">uint64_t</span> <span style="color:#111">u64</span><span style="color:#111">;</span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">int64_t</span> <span style="color:#111">s64</span><span style="color:#111">;</span>  <span style="color:#75715e">// db.expires 储存过期时间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#00a8c8">double</span> <span style="color:#111">d</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span> <span style="color:#111">v</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 单链表法 解决哈希冲突。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">struct</span> <span style="color:#111">dictEntry</span> <span style="color:#f92672">*</span><span style="color:#111">next</span><span style="color:#111">;</span>     <span style="color:#75715e">/* Next entry in the same hash bucket. */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">void</span> <span style="color:#f92672">*</span><span style="color:#111">metadata</span><span style="color:#111">[];</span>           <span style="color:#75715e">/* An arbitrary number of bytes (starting at a
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                 * pointer-aligned address) of size as returned
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                                 * by dictType&#39;s dictEntryMetadataBytes(). */</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span> <span style="color:#111">dictEntry</span><span style="color:#111">;</span>
+</span></span></code></pre></div><p>可以看出是使用链表法来解决hash冲突的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">struct</span> <span style="color:#111">dict</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">dictType</span> <span style="color:#f92672">*</span><span style="color:#111">type</span><span style="color:#111">;</span> <span style="color:#75715e">// 对应特定类型操作函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">dictEntry</span> <span style="color:#f92672">**</span><span style="color:#111">ht_table</span><span style="color:#111">[</span><span style="color:#ae81ff">2</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">long</span> <span style="color:#111">ht_used</span><span style="color:#111">[</span><span style="color:#ae81ff">2</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">long</span> <span style="color:#111">rehashidx</span><span style="color:#111">;</span> <span style="color:#75715e">/* rehashing not in progress if rehashidx == -1 */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* Keep small vars at end for optimal (minimal) struct padding */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int16_t</span> <span style="color:#111">pauserehash</span><span style="color:#111">;</span> <span style="color:#75715e">/* If &gt;0 rehashing is paused (&lt;0 indicates coding error) */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">signed</span> <span style="color:#00a8c8">char</span> <span style="color:#111">ht_size_exp</span><span style="color:#111">[</span><span style="color:#ae81ff">2</span><span style="color:#111">];</span> <span style="color:#75715e">/* exponent of size. (size = 1&lt;&lt;exp) */</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">};</span>
 </span></span></code></pre></div></div>
 	</section>
 
@@ -800,7 +826,7 @@ sds使用 len 来控制字符串长度，而不是使用&quot;\0&quot;,保障了
 	<div class="text-sm text-gray-500 leading-tight a-gray">
 		
 		<br />
-		Built with Hugo and theme <a href="https://github.com/heyeshuang/hugo-theme-tokiwa">Tokiwa</a>. 6203 words in this page.
+		Built with Hugo and theme <a href="https://github.com/heyeshuang/hugo-theme-tokiwa">Tokiwa</a>. 6397 words in this page.
 	</div>
 </div>
 

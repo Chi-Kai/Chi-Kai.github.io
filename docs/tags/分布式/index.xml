@@ -17,7 +17,7 @@
       <pubDate>Sun, 30 Oct 2022 00:00:00 +0000</pubDate>
       
       <guid>https://chi-kai.github.io/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
-      <description>&lt;h1 id=&#34;领导人选举&#34;&gt;领导人选举&lt;/h1&gt;
+      <description>&lt;h2 id=&#34;领导人选举&#34;&gt;领导人选举&lt;/h2&gt;
 &lt;p&gt;首先按照论文中最关键的figure 2补全节点和RPC结构。&lt;/p&gt;
 &lt;p&gt;节点有三个状态: Leader,Candidate,Follower 和 两个计时器: 选举计时器，心跳计时器。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Follower&lt;/strong&gt;: 有一个选举计时器，随机选举超时时间，每当选举超时，就转变为Candidate.&lt;/p&gt;
@@ -68,7 +68,7 @@ term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;p&gt;锁的使用: 当一个数据有写有读，写和读必须加锁。如果一个数据只读不写，不用加锁。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1 id=&#34;日志复制&#34;&gt;日志复制&lt;/h1&gt;
+&lt;h2 id=&#34;日志复制&#34;&gt;日志复制&lt;/h2&gt;
 &lt;p&gt;当选举结束后，leader开始为客户端提供服务。客户端发出的每一条请求会被交给leader处理。&lt;/p&gt;
 &lt;p&gt;leader将每一条指令打包成一个entry &amp;lt;index,term,cmd&amp;gt;,将这个entry附加到日志中去，然后并行地发起 AppendEntries  RPCs 给其他的服务器，让他们复制这条entry。&lt;/p&gt;
 &lt;p&gt;当大部分服务器同意接收这个entry,leader将这个entry应用于状态机中，称为已提交，同时领导人的日志中之前的所有日志条目也都会被提交，包括由其他领导人创建的条目。然后将执行结果返回给客户端。&lt;/p&gt;
@@ -87,14 +87,14 @@ term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;日志复制可以做一些优化。比如在正常复制时可以批量复制日志以减少系统调用的开销；在寻找共识点时可以只携带一条日志以减少不必要的流量传输。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&#34;安全性&#34;&gt;安全性&lt;/h1&gt;
-&lt;h2 id=&#34;选举限制&#34;&gt;选举限制&lt;/h2&gt;
+&lt;h2 id=&#34;安全性&#34;&gt;安全性&lt;/h2&gt;
+&lt;h3 id=&#34;选举限制&#34;&gt;选举限制&lt;/h3&gt;
 &lt;p&gt;leader 只能发送日志给follower，而不能从follower接收日志，所以选出的leader必须包含集群中所有已经提交的日志。&lt;/p&gt;
 &lt;p&gt;在选举投票时，携带最新的日志信息，和follower相比较，看谁的日志最新。如果候选人更新，则获得投票。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;这里更新的定义是: 通过比较两份日志中最后一条日志条目的索引值和任期号定义谁的日志比较新。如果两份日志最后的条目的任期号不同，那么任期号大的日志更加新。如果两份日志最后的条目任期号相同，那么日志比较长的那个就更加新。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;提交之前任期内的日志条目&#34;&gt;提交之前任期内的日志条目&lt;/h2&gt;
+&lt;h3 id=&#34;提交之前任期内的日志条目&#34;&gt;提交之前任期内的日志条目&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&#34;http://tva1.sinaimg.cn/large/008upJWily1h7oklyiaigj30ue0vaww7.jpg&#34; alt=&#34;幽灵复现&#34;&gt;&lt;/p&gt;
 &lt;p&gt;在上图中，raft 为了避免出现一致性问题，要求 leader 绝不会提交过去的 term 的 entry （即使该 entry 已经被复制到了多数节点上）。leader 永远只提交当前 term 的 entry， 过去的 entry 只会随着当前的 entry 被一并提交。（上图中的 c，term2 只会跟随 term4 被提交。）&lt;/p&gt;
 &lt;p&gt;如果一个 candidate 能取得多数同意，说明它的日志已经是多数节点中最完备的， 那么也就可以认为该 candidate 已经包含了整个集群的所有 committed entries。&lt;/p&gt;

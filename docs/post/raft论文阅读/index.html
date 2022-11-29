@@ -189,8 +189,14 @@ onload='renderMathInElement(document.body);'></script>
 <div class="inline toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#选举限制">选举限制</a></li>
-    <li><a href="#提交之前任期内的日志条目">提交之前任期内的日志条目</a></li>
+    <li><a href="#领导人选举">领导人选举</a></li>
+    <li><a href="#日志复制">日志复制</a></li>
+    <li><a href="#安全性">安全性</a>
+      <ul>
+        <li><a href="#选举限制">选举限制</a></li>
+        <li><a href="#提交之前任期内的日志条目">提交之前任期内的日志条目</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 </div>
@@ -206,7 +212,7 @@ onload='renderMathInElement(document.body);'></script>
 
 <article>
 	<section class="mx-auto content">
-		<div class="c-rich-text"><h1 id="领导人选举">领导人选举</h1>
+		<div class="c-rich-text"><h2 id="领导人选举">领导人选举</h2>
 <p>首先按照论文中最关键的figure 2补全节点和RPC结构。</p>
 <p>节点有三个状态: Leader,Candidate,Follower 和 两个计时器: 选举计时器，心跳计时器。</p>
 <p><strong>Follower</strong>: 有一个选举计时器，随机选举超时时间，每当选举超时，就转变为Candidate.</p>
@@ -257,7 +263,7 @@ term变为更高的term,投票变为null。</p>
 <p>锁的使用: 当一个数据有写有读，写和读必须加锁。如果一个数据只读不写，不用加锁。</p>
 </li>
 </ol>
-<h1 id="日志复制">日志复制</h1>
+<h2 id="日志复制">日志复制</h2>
 <p>当选举结束后，leader开始为客户端提供服务。客户端发出的每一条请求会被交给leader处理。</p>
 <p>leader将每一条指令打包成一个entry &lt;index,term,cmd&gt;,将这个entry附加到日志中去，然后并行地发起 AppendEntries  RPCs 给其他的服务器，让他们复制这条entry。</p>
 <p>当大部分服务器同意接收这个entry,leader将这个entry应用于状态机中，称为已提交，同时领导人的日志中之前的所有日志条目也都会被提交，包括由其他领导人创建的条目。然后将执行结果返回给客户端。</p>
@@ -276,14 +282,14 @@ term变为更高的term,投票变为null。</p>
 <blockquote>
 <p>日志复制可以做一些优化。比如在正常复制时可以批量复制日志以减少系统调用的开销；在寻找共识点时可以只携带一条日志以减少不必要的流量传输。</p>
 </blockquote>
-<h1 id="安全性">安全性</h1>
-<h2 id="选举限制">选举限制</h2>
+<h2 id="安全性">安全性</h2>
+<h3 id="选举限制">选举限制</h3>
 <p>leader 只能发送日志给follower，而不能从follower接收日志，所以选出的leader必须包含集群中所有已经提交的日志。</p>
 <p>在选举投票时，携带最新的日志信息，和follower相比较，看谁的日志最新。如果候选人更新，则获得投票。</p>
 <blockquote>
 <p>这里更新的定义是: 通过比较两份日志中最后一条日志条目的索引值和任期号定义谁的日志比较新。如果两份日志最后的条目的任期号不同，那么任期号大的日志更加新。如果两份日志最后的条目任期号相同，那么日志比较长的那个就更加新。</p>
 </blockquote>
-<h2 id="提交之前任期内的日志条目">提交之前任期内的日志条目</h2>
+<h3 id="提交之前任期内的日志条目">提交之前任期内的日志条目</h3>
 <p><img src="http://tva1.sinaimg.cn/large/008upJWily1h7oklyiaigj30ue0vaww7.jpg" alt="幽灵复现"></p>
 <p>在上图中，raft 为了避免出现一致性问题，要求 leader 绝不会提交过去的 term 的 entry （即使该 entry 已经被复制到了多数节点上）。leader 永远只提交当前 term 的 entry， 过去的 entry 只会随着当前的 entry 被一并提交。（上图中的 c，term2 只会跟随 term4 被提交。）</p>
 <p>如果一个 candidate 能取得多数同意，说明它的日志已经是多数节点中最完备的， 那么也就可以认为该 candidate 已经包含了整个集群的所有 committed entries。</p>
@@ -401,7 +407,7 @@ term变为更高的term,投票变为null。</p>
     
     
     <a class="flex-grow-0" href="/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
-        区块链白皮书解读
+        联邦学习论文阅读
         <svg class="fill-current inline-block h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
             height="24">
             <path fill="none" d="M0 0h24v24H0z" />

@@ -26,10 +26,10 @@
     <loc>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/</loc>
     <lastmod>2022-11-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://chi-kai.github.io/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</loc>
+    <loc>https://chi-kai.github.io/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2022-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://chi-kai.github.io/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://chi-kai.github.io/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</loc>
     <lastmod>2022-11-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://chi-kai.github.io/tags/raft/</loc>
@@ -44,20 +44,16 @@
     <loc>https://chi-kai.github.io/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/</loc>
     <lastmod>2022-10-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://chi-kai.github.io/categories/</loc>
-    <lastmod>2022-05-22T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://chi-kai.github.io/tags/redis/</loc>
     <lastmod>2022-05-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</loc>
     <lastmod>2022-05-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://chi-kai.github.io/categories/%E6%8A%98%E8%85%BE/</loc>
-    <lastmod>2022-05-22T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://chi-kai.github.io/tags/%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/</loc>
     <lastmod>2022-05-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://chi-kai.github.io/categories/</loc>
   </url><url>
     <loc>https://chi-kai.github.io/series/</loc>
   </url>

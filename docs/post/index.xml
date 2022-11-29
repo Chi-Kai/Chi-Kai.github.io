@@ -17,9 +17,9 @@
       <pubDate>Fri, 25 Nov 2022 00:00:00 +0000</pubDate>
       
       <guid>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</guid>
-      <description>&lt;h1 id=&#34;比特币白皮书&#34;&gt;比特币白皮书&lt;/h1&gt;
-&lt;h1 id=&#34;以太坊白皮书&#34;&gt;以太坊白皮书&lt;/h1&gt;
-&lt;h1 id=&#34;tangle-白皮书&#34;&gt;Tangle 白皮书&lt;/h1&gt;
+      <description>&lt;h2 id=&#34;比特币白皮书&#34;&gt;比特币白皮书&lt;/h2&gt;
+&lt;h2 id=&#34;以太坊白皮书&#34;&gt;以太坊白皮书&lt;/h2&gt;
+&lt;h2 id=&#34;tangle-白皮书&#34;&gt;Tangle 白皮书&lt;/h2&gt;
 &lt;p&gt;详细的内容见 &lt;a href=&#34;https://lzphi.cn/2020/12/20/2020-12-17-Tangle-%E7%99%BD%E7%9A%AE%E4%B9%A6/&#34;&gt;Tangle白皮书中文版&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;tangle&lt;/strong&gt; 是 &lt;strong&gt;IOTA&lt;/strong&gt; 所用的技术，为物联网和小额支付提供支持。不同于常见的区块链，它使用一个DAG（有向无环图）作为结构，这里称为Tangle。&lt;/p&gt;
 &lt;p&gt;传统区块链系统的单链结构在交易认证，吞吐量，资源消耗等方面存在缺陷，DAG结构的区块链是一个有效的解决方案。&lt;/p&gt;
@@ -32,14 +32,14 @@
       <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
       
       <guid>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
-      <description>&lt;h1 id=&#34;direct-acyclic-graph-based-ledger-for-internet-of-things-performance-and-security-analysis&#34;&gt;《Direct Acyclic Graph-Based Ledger for Internet of Things: Performance and Security Analysis》&lt;/h1&gt;
-&lt;h2 id=&#34;问题背景&#34;&gt;问题背景&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;direct-acyclic-graph-based-ledger-for-internet-of-things-performance-and-security-analysis&#34;&gt;《Direct Acyclic Graph-Based Ledger for Internet of Things: Performance and Security Analysis》&lt;/h2&gt;
+&lt;h3 id=&#34;问题背景&#34;&gt;问题背景&lt;/h3&gt;
 &lt;p&gt;由于区块链的安全性，去中心化，可信性，在IoT系统上有可观的应用前景（如智能车，能源交易）。IoT系统具有规模大，资源受限的特性。所以其上的共识算法必须满足资源需求小,低消耗，和高的交易吞吐量。&lt;/p&gt;
 &lt;p&gt;现在主要的两种共识算法:PoW需要高的资源消耗，PoS的币龄证明可能造成垄断和中心化。&lt;/p&gt;
 &lt;p&gt;典型的区块链是一种单链结构，为了避免非法的fork，应用的共识算法必须降低新的block生成速率。这导致了吞吐量瓶颈和区块认证延迟的问题，在IoT系统上又有交易花费高和资源消耗大的问题。&lt;/p&gt;
 &lt;p&gt;DAG共识算法可以允许任何节点可以立即向ledger插入一个新的block，前提是它能先处理更早的交易。这种方式会造成很多fork，DAG有很多算法来避免在传统区块链上面临的double-spending问题(Markov Chain Monte Carlo algorithm and virtual voting algorithm)。DAG共识算法的交易吞吐是不受限制的，而且资源消耗很低，这符合IoT的应用场景。&lt;/p&gt;
-&lt;h2 id=&#34;dag概述&#34;&gt;DAG概述&lt;/h2&gt;
-&lt;h3 id=&#34;名词定义&#34;&gt;名词定义&lt;/h3&gt;
+&lt;h3 id=&#34;dag概述&#34;&gt;DAG概述&lt;/h3&gt;
+&lt;h4 id=&#34;名词定义&#34;&gt;名词定义&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/19/auRt2FzeCjwgsGM.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;这里使用典型的Tangle算法来进行解释。&lt;/p&gt;
 &lt;ul&gt;
@@ -62,7 +62,7 @@
 &lt;p&gt;Cumulative weight: 代表一个交易的认证级别。是一个交易自身own weight以及它直接证明和间接证明的交易的交易own weight总和。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;共识过程&#34;&gt;共识过程&lt;/h3&gt;
+&lt;h4 id=&#34;共识过程&#34;&gt;共识过程&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;节点创造一个块来储存交易&lt;/li&gt;
 &lt;li&gt;节点通过MCMC tips 选择算法来选择两个没有冲突的tips，然后添加它们的hash到块中&lt;/li&gt;
@@ -70,18 +70,18 @@
 &lt;li&gt;使用私钥给交易签名并广播，当其他节点收到时会检查是否合法&lt;/li&gt;
 &lt;li&gt;成功添加的交易成为tip,等待被验证。直到它的cumulative weight 达到定义的标准。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;分叉问题&#34;&gt;分叉问题&lt;/h3&gt;
+&lt;h4 id=&#34;分叉问题&#34;&gt;分叉问题&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/19/VnrEiPCoslHG9KY.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;在分布式账本中，构建分叉以重做工作是篡改存储数据的唯一方法。基于此，double-spending的主要思想是将两笔相互冲突的交易并行放置在两条链上。在第一笔交易花费在服务上之后，攻击者扩展包含冲突交易的链并让它超过第一条链。当此操作成功时，第一笔交易将被孤立，攻击者可以多次使用token。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;单链模型: 以最长的一个链为标准，正常的矿工会在最长的链上工作&lt;/li&gt;
 &lt;li&gt;DAG模型: 以累计权重最大的子图为标准，正常的节点会通过MCMC tips 选择算法扩展权重最大的链。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;heading&#34;&gt;&lt;/h2&gt;
-&lt;h1 id=&#34;tips-transaction-inclusion-protocol-with-signaling-in-dag-based-blockchain&#34;&gt;《TIPS: Transaction Inclusion Protocol with Signaling in DAG-based Blockchain》&lt;/h1&gt;
-&lt;h2 id=&#34;问题背景-1&#34;&gt;问题背景&lt;/h2&gt;
+&lt;h3 id=&#34;heading&#34;&gt;&lt;/h3&gt;
+&lt;h2 id=&#34;tips-transaction-inclusion-protocol-with-signaling-in-dag-based-blockchain&#34;&gt;《TIPS: Transaction Inclusion Protocol with Signaling in DAG-based Blockchain》&lt;/h2&gt;
+&lt;h3 id=&#34;问题背景-1&#34;&gt;问题背景&lt;/h3&gt;
 &lt;p&gt;由于DAG区块链的高并发场景和网络延迟，矿工通常不能及时获取整个网络的更新信息，导致重复在一个并行区块包括相同的交易，在区块链中生成冗余的记录。这个交易包含冲突会浪费区块容量和降低系统性能。尽管DAG区块链已经限制交易的高并发，但是交易冲突的风险实际还会诱发&lt;strong&gt;矿工收益&lt;/strong&gt;和&lt;strong&gt;系统吞吐&lt;/strong&gt;的困境。&lt;/p&gt;
-&lt;h3 id=&#34;问题分析&#34;&gt;问题分析&lt;/h3&gt;
+&lt;h4 id=&#34;问题分析&#34;&gt;问题分析&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;http://tva1.sinaimg.cn/large/008upJWily1h804wzs4nsj30rk0jtgqa.jpg&#34; alt=&#34;符号.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;三种交易包含策略:&lt;/p&gt;
 &lt;ol&gt;
@@ -90,9 +90,9 @@
 &lt;li&gt;Top n ($P^{top}$): $p_{1}=p_{2}=\cdots=p_{n}=1 \text { and } p_{n+1}=p_{n+2}=\cdots=p_{m}=0$&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;这里仅考虑矿工收益中的交易费用奖励。&lt;/p&gt;
-&lt;h4 id=&#34;收入困境&#34;&gt;收入困境&lt;/h4&gt;
-&lt;h2 id=&#34;算法设计&#34;&gt;算法设计&lt;/h2&gt;
-&lt;p&gt;《SilentDelivery: Practical Timed-delivery of Private Information using Smart Contracts》&lt;/p&gt;
+&lt;h5 id=&#34;收入困境&#34;&gt;收入困境&lt;/h5&gt;
+&lt;h3 id=&#34;算法设计&#34;&gt;算法设计&lt;/h3&gt;
+&lt;h2 id=&#34;silentdelivery-practical-timed-delivery-of-private-information-using-smart-contracts&#34;&gt;《SilentDelivery: Practical Timed-delivery of Private Information using Smart Contracts》&lt;/h2&gt;
 </description>
     </item>
     
@@ -231,13 +231,13 @@
     </item>
     
     <item>
-      <title>区块链白皮书解读</title>
+      <title>联邦学习论文阅读</title>
       <link>https://chi-kai.github.io/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
       <pubDate>Sun, 06 Nov 2022 00:00:00 +0000</pubDate>
       
       <guid>https://chi-kai.github.io/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
-      <description>&lt;h1 id=&#34;towards-on-device-federated-learning-a-direct-acyclic-graph-based-blockchain-approach&#34;&gt;《Towards On-Device Federated Learning: A Direct Acyclic Graph-based Blockchain Approach》&lt;/h1&gt;
-&lt;h2 id=&#34;目标&#34;&gt;目标&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;towards-on-device-federated-learning-a-direct-acyclic-graph-based-blockchain-approach&#34;&gt;《Towards On-Device Federated Learning: A Direct Acyclic Graph-based Blockchain Approach》&lt;/h2&gt;
+&lt;h3 id=&#34;目标&#34;&gt;目标&lt;/h3&gt;
 &lt;p&gt;为了解决联邦学习中的设备异步和异常检测问题，同时避免由区块链导致的资源浪费&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -247,21 +247,21 @@
 &lt;p&gt;异常检测。一个节点的数据集和操作对其他节点是不可见的。一些恶意节点可能会破坏整个系统的准确度和降低效率。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;主要贡献&#34;&gt;主要贡献&lt;/h2&gt;
+&lt;h3 id=&#34;主要贡献&#34;&gt;主要贡献&lt;/h3&gt;
 &lt;p&gt;提出了第一个基于DAG的FL异步框架来解决设备异步和异常节点检测问题。&lt;/p&gt;
-&lt;h2 id=&#34;dag-fl-模型&#34;&gt;DAG-FL 模型&lt;/h2&gt;
+&lt;h3 id=&#34;dag-fl-模型&#34;&gt;DAG-FL 模型&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&#34;http://tva1.sinaimg.cn/large/008upJWily1h7vnbi5q76j30ru0n1tcw.jpg&#34; alt=&#34;DAG-FL结构.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;“This feature promises that a node in DAG-FL can immediately participate in an iteration of FL whenever it is in idle state. When the node completes an iteration of FL and gets a new trained local model, the new local model can be published on its local DAG as a transaction immediately, and latter the new published transaction would be seen by all other nodes.” (&lt;a href=&#34;zotero://select/library/items/MG76RNTD&#34;&gt;Cao 等。, p. 4&lt;/a&gt;) (&lt;a href=&#34;zotero://open-pdf/library/items/BZ4CNUBL?page=4&#34;&gt;pdf&lt;/a&gt;) ”&lt;/p&gt;
 &lt;p&gt;还是用本地的数据来训练模型，并没有和其他节点做聚合？&lt;/p&gt;
 &lt;p&gt;“initial” (&lt;a href=&#34;zotero://select/library/items/MG76RNTD&#34;&gt;Cao 等。, p. 5&lt;/a&gt;) (&lt;a href=&#34;zotero://open-pdf/library/items/BZ4CNUBL?page=5&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
-&lt;h2 id=&#34;异步构架&#34;&gt;异步构架&lt;/h2&gt;
+&lt;h3 id=&#34;异步构架&#34;&gt;异步构架&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;FL Layer:&lt;/p&gt;
 &lt;p&gt;全局模型由存储在DAG中的本地模型使用FedAvg算法聚合产生，节点使用本地数据集进行训练。得到的新的模型被当作一个交易发布到DAG中。（每笔交易就是一个模型）&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;DAG Layer: ？&lt;/p&gt;
+&lt;p&gt;DAG Layer:&lt;/p&gt;
 &lt;p&gt;每个节点维护一个本地DAG，其中每个交易包含下相应的认证信息，本地模型参数，和许可链接。本地DAG通过广播和无线网络更新，最终一个新的交易可以得到传播。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -271,7 +271,7 @@
 &lt;/ul&gt;
 &lt;p&gt;异步性分析：&lt;/p&gt;
 &lt;p&gt;   在整个DAG-FL中没有central server,每个节点是通过本地已有的模型来构建新的全局模型。节点可以在合适的时间来进行FL迭代，获取的新的模型发布在本地DAG,随后可以被其他节点所见。节点之间的行为互不影响可以异步进行。&lt;/p&gt;
-&lt;h2 id=&#34;共识算法&#34;&gt;共识算法&lt;/h2&gt;
+&lt;h3 id=&#34;共识算法&#34;&gt;共识算法&lt;/h3&gt;
 &lt;p&gt;当一个节点完成一轮迭代，生成一个新的模型。他会从本地DAG选取几个tips(加入DAG但是没有被验证的block)来进行验证:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -285,7 +285,7 @@
 &lt;p&gt;节点使用这个模型和本地数据集训练，得到的新模型通过一个新的交易发布到DAG中。&lt;/p&gt;
 &lt;p&gt;随着DAG的持续扩展，一个交易的每次认证都意味着这个交易代表的模型被选择去构建一个全局模型，进而影响最终模型的生成。得到的认证越多，它在FL中的影响越大。反之，节点就会被孤立，在FL中影响越小。&lt;/p&gt;
 &lt;p&gt;所以，最终DAG-FL训练的模型会向大多数节点期望的方向发展，少部分恶意节点会逐渐被孤立，影响降到最小化。&lt;/p&gt;
-&lt;h2 id=&#34;fl算法&#34;&gt;FL算法&lt;/h2&gt;
+&lt;h3 id=&#34;fl算法&#34;&gt;FL算法&lt;/h3&gt;
 &lt;p&gt;符号定义:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -312,12 +312,12 @@ $$
 &lt;li&gt;节点从数据集S $_i$中提取m个samples作为一个最小batch z$_i$ 来对得到的全局模型训练 $\beta$个epochs.&lt;/li&gt;
 &lt;li&gt;得到一个新模型 $\omega &lt;em&gt;{i}^{ t&lt;/em&gt;{0}}$,将它发布到$g_{i}$上。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;dag-fl-操作&#34;&gt;DAG-FL 操作&lt;/h2&gt;
+&lt;h3 id=&#34;dag-fl-操作&#34;&gt;DAG-FL 操作&lt;/h3&gt;
 &lt;p&gt;这里介绍框架中的两个重要算法。&lt;/p&gt;
-&lt;h3 id=&#34;dag-fl-controlling&#34;&gt;DAG-FL Controlling&lt;/h3&gt;
+&lt;h4 id=&#34;dag-fl-controlling&#34;&gt;DAG-FL Controlling&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;http://tva1.sinaimg.cn/large/008upJWily1h7voje2iexj30tp0r90zh.jpg&#34; alt=&#34;DAG-FL Controlling.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;在应用层的外接客户端可以认为是一个权威组织，负责任务发布任务。通过智能合约执行DAG-FL 控制算法。过程如上图。&lt;/p&gt;
-&lt;h3 id=&#34;dag-fl-updating&#34;&gt;DAG-FL Updating&lt;/h3&gt;
+&lt;h4 id=&#34;dag-fl-updating&#34;&gt;DAG-FL Updating&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;http://tva1.sinaimg.cn/large/008upJWily1h7vro3iz6gj30tr0qu0ze.jpg&#34; alt=&#34;DAG-FL Updating.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;节点在空闲时执行DAG-FL Updating 算法。&lt;/p&gt;
 &lt;ol&gt;
@@ -326,20 +326,20 @@ $$
 &lt;li&gt;选择精确度高的k个tips，使用FedAvging算法得到一个全局模型。节点用本地数据来训练这个全局模型。&lt;/li&gt;
 &lt;li&gt;一个新的交易被生成。包括身份信息，上一阶段训练得到的模型，和最k个tips的验证信息。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;未来工作&#34;&gt;未来工作&lt;/h2&gt;
+&lt;h3 id=&#34;未来工作&#34;&gt;未来工作&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;在模型可用性上，使用一个小的test set可能对于一些特定场景不适合，考虑其他的异常检测方法。&lt;/li&gt;
 &lt;li&gt;信用评估&lt;/li&gt;
 &lt;li&gt;权重聚合。本文的模型使用的方法是同等权重系数的FedAvg,可以使用更好的方法来给高质量的模型更高的权重提高模型精度。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1 id=&#34;implicit-model-specialization-through-dag-based-decentralized-federated-learning&#34;&gt;《Implicit Model Specialization through DAG-based Decentralized Federated Learning》&lt;/h1&gt;
-&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;h2 id=&#34;implicit-model-specialization-through-dag-based-decentralized-federated-learning&#34;&gt;《Implicit Model Specialization through DAG-based Decentralized Federated Learning》&lt;/h2&gt;
+&lt;h3 id=&#34;背景&#34;&gt;背景&lt;/h3&gt;
 &lt;p&gt;由于联邦学习数据的非独立同分布特性，所有节点训练一个模型太过宽泛，提出一种基于DAG区块链的联邦学习框架，所有节点利用本地数据和其他节点相似的数据训练自己的特例化模型，和全局的泛化模型结合来提高系统的性能。&lt;/p&gt;
 &lt;p&gt;这篇论文是在联邦学习之前已经有的对本地数据特例化的研究基础上，引入DAG区块链。&lt;/p&gt;
-&lt;h2 id=&#34;模型&#34;&gt;模型&lt;/h2&gt;
+&lt;h3 id=&#34;模型&#34;&gt;模型&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/12/EWSmpuqlzK4TMAt.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;每个节点执行四个步骤，通过基础的随机移动算法选择DAG上的两个tips,将这个两个选择的模型参数平均，得到的模型在本地数据集上训练，如果最终得到的模型有提高就发布。&lt;/p&gt;
-&lt;h3 id=&#34;tips选择算法&#34;&gt;tips选择算法&lt;/h3&gt;
+&lt;h4 id=&#34;tips选择算法&#34;&gt;tips选择算法&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/12/clpHA9C21hkRoUV.png&#34; alt=&#34;&#34;&gt;
 从区块链接的相反方向随机遍历。每个交易(区块)根据它的子图大小分配一个权重，通常会选择最高权重的区块，使得这个遍历方向收敛。
 &lt;img src=&#34;https://s2.loli.net/2022/11/12/uJkGPclTq24VEDa.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
@@ -350,8 +350,8 @@ $$
 &lt;p&gt;遍历的随机性可以由 α 参数确定，其中值越大，权重之间的差异越大，因此随机性越小，确定性越高。另一方面，较小的 α 值会导致权重收敛，从而导致更多随机性。模型之间的预期精度差异取决于我们的方法所应用的机器学习问题，以及学习率、批量大小和局部时期等超参数。为了在模型之间的精度变化很小的情况下也能实现良好的特性化，即使在差异很大的情况下也能实现良好的泛化，将每个步骤中的精度分布 max(accuracies) - min(accuracies) 精度归一化 * 的一部分：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/12/cHbGaDKXUvMLl6P.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/12/7bDcLwGtZp2e1Co.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h1 id=&#34;safa-a-semi-asynchronous-protocol-for-fast-federated-learning-with-low-overhead&#34;&gt;《SAFA: A Semi-Asynchronous Protocol for Fast Federated Learning With Low Overhead》&lt;/h1&gt;
-&lt;h2 id=&#34;背景-1&#34;&gt;背景&lt;/h2&gt;
+&lt;h2 id=&#34;safa-a-semi-asynchronous-protocol-for-fast-federated-learning-with-low-overhead&#34;&gt;《SAFA: A Semi-Asynchronous Protocol for Fast Federated Learning With Low Overhead》&lt;/h2&gt;
+&lt;h3 id=&#34;背景-1&#34;&gt;背景&lt;/h3&gt;
 &lt;p&gt;原有的FedAvg算法存在一些问题:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;同步开销大： 每轮迭代中央服务器需要传输全局模型给所有客户端，带宽达到一个峰值。&lt;/li&gt;
@@ -364,7 +364,7 @@ $$
 &lt;li&gt;进度浪费: 被选中的设备如果在完成本地训练之前失败，则之前的工作都会作废。&lt;/li&gt;
 &lt;li&gt;每回合效率低: 在每轮结束进行聚合，FedAvg必须等待所有客户端完成。如果一些客户端故障，整个过程会等到超时结束。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;模型-1&#34;&gt;模型&lt;/h2&gt;
+&lt;h3 id=&#34;模型-1&#34;&gt;模型&lt;/h3&gt;
 &lt;p&gt;SAFA包括三部分: Lag-tolerant Model Distribution (&lt;strong&gt;滞后容忍模型分布&lt;/strong&gt;)，Compensatory
 First-Come-First-Merge (CFCFM) client selection [&lt;strong&gt;补偿性先到先合并 (CFCFM) 客户端选择&lt;/strong&gt;],
 discriminative aggregation (&lt;strong&gt;判别聚合&lt;/strong&gt;)&lt;/p&gt;
@@ -372,7 +372,7 @@ discriminative aggregation (&lt;strong&gt;判别聚合&lt;/strong&gt;)&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/13/R9dHQ6s1tjNDrWp.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;文中所用的参数表&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/13/wXgupKY9TJLVN3Z.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;lag-tolerant-model-distribution&#34;&gt;Lag-tolerant Model Distribution&lt;/h3&gt;
+&lt;h4 id=&#34;lag-tolerant-model-distribution&#34;&gt;Lag-tolerant Model Distribution&lt;/h4&gt;
 &lt;p&gt;整个模块关键的有两点:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -387,15 +387,15 @@ discriminative aggregation (&lt;strong&gt;判别聚合&lt;/strong&gt;)&lt;/p&gt;
 一个cache用来保存那些选中的节点上传的更新，没被选中的节点的更新保存在bypass中。bypass会在汇聚步骤完成后和cache合并,使得实际的有影响节点比率比参数C决定的更高。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;compensatory-first-come-first-merge-cfcfm-client-selection&#34;&gt;Compensatory First-Come-First-Merge (CFCFM) client selection&lt;/h3&gt;
+&lt;h4 id=&#34;compensatory-first-come-first-merge-cfcfm-client-selection&#34;&gt;Compensatory First-Come-First-Merge (CFCFM) client selection&lt;/h4&gt;
 &lt;p&gt;代替必须等待所有选中节点上传更新，SAFA采用&lt;strong&gt;先来先合并&lt;/strong&gt;方法，只要上传的更新达到所需要的比率（是不是意味着可以上传的节点大于实际所需要的节点）就可以执行合并操作。&lt;/p&gt;
 &lt;p&gt;给予那些参与较少的客户更高的优先级。在每一轮中，服务器都会维护一个错过上一轮训练的客户端的 id 列表，它们上传的更新会优先选择。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/14/h6bZz4YPaOc87rf.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;discriminative-aggregation&#34;&gt;Discriminative Aggregation&lt;/h3&gt;
+&lt;h4 id=&#34;discriminative-aggregation&#34;&gt;Discriminative Aggregation&lt;/h4&gt;
 &lt;p&gt;聚合算法如下:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/15/UlZErVnbgSC5KHG.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;对于选择的客户端，它们的更新将在合并到全局模型后保留在缓存中。对于未选择的客户端，更新不会在本轮生效，但会被缓存带入下一轮。对于崩溃的客户端，只有在它们没有被弃用的情况下，它们的模型才会保持不变。&lt;/p&gt;
-&lt;h3 id=&#34;算法流程&#34;&gt;算法流程&lt;/h3&gt;
+&lt;h4 id=&#34;算法流程&#34;&gt;算法流程&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/15/kxSZgVusbUM29hY.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;每轮开始时，服务器先检查客户端的模型，根据给定的超参数$\tau$和滞后容忍算法来分配模型。服务器收集上传的更新，错过上次更新的节点会被优先采集。等采集到的更新满足预先设置的标准后，执行三步合并，然后更新缓存状态。&lt;/p&gt;
 </description>
@@ -407,7 +407,7 @@ discriminative aggregation (&lt;strong&gt;判别聚合&lt;/strong&gt;)&lt;/p&gt;
       <pubDate>Sun, 30 Oct 2022 00:00:00 +0000</pubDate>
       
       <guid>https://chi-kai.github.io/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
-      <description>&lt;h1 id=&#34;领导人选举&#34;&gt;领导人选举&lt;/h1&gt;
+      <description>&lt;h2 id=&#34;领导人选举&#34;&gt;领导人选举&lt;/h2&gt;
 &lt;p&gt;首先按照论文中最关键的figure 2补全节点和RPC结构。&lt;/p&gt;
 &lt;p&gt;节点有三个状态: Leader,Candidate,Follower 和 两个计时器: 选举计时器，心跳计时器。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Follower&lt;/strong&gt;: 有一个选举计时器，随机选举超时时间，每当选举超时，就转变为Candidate.&lt;/p&gt;
@@ -458,7 +458,7 @@ term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;p&gt;锁的使用: 当一个数据有写有读，写和读必须加锁。如果一个数据只读不写，不用加锁。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1 id=&#34;日志复制&#34;&gt;日志复制&lt;/h1&gt;
+&lt;h2 id=&#34;日志复制&#34;&gt;日志复制&lt;/h2&gt;
 &lt;p&gt;当选举结束后，leader开始为客户端提供服务。客户端发出的每一条请求会被交给leader处理。&lt;/p&gt;
 &lt;p&gt;leader将每一条指令打包成一个entry &amp;lt;index,term,cmd&amp;gt;,将这个entry附加到日志中去，然后并行地发起 AppendEntries  RPCs 给其他的服务器，让他们复制这条entry。&lt;/p&gt;
 &lt;p&gt;当大部分服务器同意接收这个entry,leader将这个entry应用于状态机中，称为已提交，同时领导人的日志中之前的所有日志条目也都会被提交，包括由其他领导人创建的条目。然后将执行结果返回给客户端。&lt;/p&gt;
@@ -477,14 +477,14 @@ term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;日志复制可以做一些优化。比如在正常复制时可以批量复制日志以减少系统调用的开销；在寻找共识点时可以只携带一条日志以减少不必要的流量传输。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&#34;安全性&#34;&gt;安全性&lt;/h1&gt;
-&lt;h2 id=&#34;选举限制&#34;&gt;选举限制&lt;/h2&gt;
+&lt;h2 id=&#34;安全性&#34;&gt;安全性&lt;/h2&gt;
+&lt;h3 id=&#34;选举限制&#34;&gt;选举限制&lt;/h3&gt;
 &lt;p&gt;leader 只能发送日志给follower，而不能从follower接收日志，所以选出的leader必须包含集群中所有已经提交的日志。&lt;/p&gt;
 &lt;p&gt;在选举投票时，携带最新的日志信息，和follower相比较，看谁的日志最新。如果候选人更新，则获得投票。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;这里更新的定义是: 通过比较两份日志中最后一条日志条目的索引值和任期号定义谁的日志比较新。如果两份日志最后的条目的任期号不同，那么任期号大的日志更加新。如果两份日志最后的条目任期号相同，那么日志比较长的那个就更加新。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;提交之前任期内的日志条目&#34;&gt;提交之前任期内的日志条目&lt;/h2&gt;
+&lt;h3 id=&#34;提交之前任期内的日志条目&#34;&gt;提交之前任期内的日志条目&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&#34;http://tva1.sinaimg.cn/large/008upJWily1h7oklyiaigj30ue0vaww7.jpg&#34; alt=&#34;幽灵复现&#34;&gt;&lt;/p&gt;
 &lt;p&gt;在上图中，raft 为了避免出现一致性问题，要求 leader 绝不会提交过去的 term 的 entry （即使该 entry 已经被复制到了多数节点上）。leader 永远只提交当前 term 的 entry， 过去的 entry 只会随着当前的 entry 被一并提交。（上图中的 c，term2 只会跟随 term4 被提交。）&lt;/p&gt;
 &lt;p&gt;如果一个 candidate 能取得多数同意，说明它的日志已经是多数节点中最完备的， 那么也就可以认为该 candidate 已经包含了整个集群的所有 committed entries。&lt;/p&gt;
@@ -507,8 +507,10 @@ term变为更高的term,投票变为null。&lt;/p&gt;
       <pubDate>Mon, 17 Oct 2022 00:00:00 +0000</pubDate>
       
       <guid>https://chi-kai.github.io/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/</guid>
-      <description>&lt;h1 id=&#34;什么是联邦学习&#34;&gt;什么是联邦学习&lt;/h1&gt;
-&lt;h1 id=&#34;前置知识&#34;&gt;前置知识:&lt;/h1&gt;
+      <description>&lt;h2 id=&#34;什么是联邦学习&#34;&gt;什么是联邦学习&lt;/h2&gt;
+&lt;p&gt;本质：联邦学习本质上是一种分布式机器学习技术，或机器学习框架。&lt;/p&gt;
+&lt;p&gt;目标：联邦学习的目标是在保证数据隐私安全及合法合规的基础上，实现共同建模，提升AI模型的效果。&lt;/p&gt;
+&lt;h2 id=&#34;前置知识&#34;&gt;前置知识:&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;IID：&lt;strong&gt;独立同分布，表示一组随机变量的概率分布都相同，而且相互独立。例如掷色子。联邦学习背景下，数据集是非独立同分布的。&lt;/strong&gt;&lt;/p&gt;
@@ -557,7 +559,7 @@ term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1 id=&#34;优化过程&#34;&gt;优化过程&lt;/h1&gt;
+&lt;h2 id=&#34;优化过程&#34;&gt;优化过程&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;固定总数 K 个客户端，每个客户端都有本地数据集。&lt;/p&gt;
@@ -572,7 +574,7 @@ term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;p&gt;每个被选定的客户端执行本地计算，并将服务器更新。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1 id=&#34;通信成本占主导&#34;&gt;通信成本占主导&lt;/h1&gt;
+&lt;h2 id=&#34;通信成本占主导&#34;&gt;通信成本占主导&lt;/h2&gt;
 &lt;p&gt;一般数据中心中，通讯花费占少数，计算花费占大头。但是在联邦优化中，通讯占主导地位&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -594,12 +596,42 @@ term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;增加每个客户端的计算量&lt;/strong&gt;。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1 id=&#34;联邦平均算法&#34;&gt;联邦平均算法&lt;/h1&gt;
+&lt;h2 id=&#34;联邦平均算法&#34;&gt;联邦平均算法&lt;/h2&gt;
 &lt;p&gt;联邦背景下，对梯度下降算法的扩展。&lt;/p&gt;
 &lt;p&gt;选取K个Client，Server将当前的参数传递给Client,Client根据本地数据集和参数来进行梯度下降。&lt;/p&gt;
 &lt;p&gt;最后将训练后的参数返回给Server,Server将获得的所有参数加权处理后得到最终的参数。然后再进行下一轮计算。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;http://tva1.sinaimg.cn/large/008upJWily1h7of7bwegjj30re0p00ym.jpg&#34; alt=&#34;fedsvg.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;如图所示，当B $\rightarrow$ $\infty$，E $\rightarrow$ 1  表示本地数据全部参与训练，只训练一次，称为FedSGD。&lt;/p&gt;
+&lt;h2 id=&#34;分类&#34;&gt;分类&lt;/h2&gt;
+&lt;p&gt;我们把每个参与共同建模的企业称为参与方，根据多参与方之间数据分布的不同，把联邦学习分为三类：横向联邦学习、纵向联邦学习和联邦迁移学习。&lt;/p&gt;
+&lt;h3 id=&#34;横向联邦学习&#34;&gt;横向联邦学习&lt;/h3&gt;
+&lt;p&gt;横向联邦学习的本质是 &lt;strong&gt;样本的联合&lt;/strong&gt;，适用于参与者间业态相同但触达客户不同，即特征重叠多，用户重叠少时的场景，比如不同地区的银行间，他们的业务相似（特征相似），但用户不同（样本不同）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/29/DbjBYyxuRgdhQrF.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;学习过程&#34;&gt;学习过程:&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/29/Myue2zbxD9JIs1Z.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;参与方各自从服务器A下载最新模型&lt;/li&gt;
+&lt;li&gt;每个参与方利用本地数据训练模型，加密梯度上传给服务器A，服务器A聚合各用户的梯度更新模型参数；&lt;/li&gt;
+&lt;li&gt;服务器A返回更新后的模型给各参与方；&lt;/li&gt;
+&lt;li&gt;各参与方更新各自模型。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;纵向联邦学习&#34;&gt;纵向联邦学习&lt;/h3&gt;
+&lt;p&gt;纵向联邦学习的本质是 &lt;strong&gt;特征的联合&lt;/strong&gt;，适用于用户重叠多，特征重叠少的场景，比如同一地区的商超和银行，他们触达的用户都为该地区的居民（样本相同），但业务不同（特征不同）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/29/9RFpChvgXyAMSBY.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;学习过程-1&#34;&gt;学习过程&lt;/h4&gt;
+&lt;p&gt;纵向联邦学习的本质是交叉用户在不同业态下的特征联合，比如商超A和银行B，在传统的机器学习建模过程中，需要将两部分数据集中到一个数据中心，然后再将每个用户的特征join成一条数据用来训练模型，所以就需要双方有用户交集（基于join结果建模），并有一方存在label。其学习步骤如上图所示，分为两大步：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/29/tOUj1Jx6MyslKL7.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;第一步：加密样本对齐。是在系统级做这件事，因此在企业感知层面不会暴露非交叉用户。&lt;/p&gt;
+&lt;p&gt;第二步：对齐样本进行模型加密训练：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;由第三方C向A和B发送公钥，用来加密需要传输的数据；&lt;/li&gt;
+&lt;li&gt;A和B分别计算和自己相关的特征中间结果，并加密交互，用来求得各自梯度和损失；&lt;/li&gt;
+&lt;li&gt;A和B分别计算各自加密后的梯度并添加掩码发送给C，同时B计算加密后的损失发送给C；&lt;/li&gt;
+&lt;li&gt;C解密梯度和损失后回传给A和B，A、B去除掩码并更新模型。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;联邦迁移学习&#34;&gt;联邦迁移学习&lt;/h3&gt;
+&lt;p&gt;当参与者间特征和样本重叠都很少时可以考虑使用联邦迁移学习，如不同地区的银行和商超间的联合。主要适用于以深度神经网络为基模型的场景。&lt;/p&gt;
+&lt;p&gt;迁移学习，是指利用数据、任务、或模型之间的相似性，将在源领域学习过的模型，应用于 目标领域的一种学习过程。&lt;/p&gt;
 </description>
     </item>
     
@@ -613,7 +645,7 @@ term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;h2 id=&#34;动态字符串-sds&#34;&gt;动态字符串 SDS&lt;/h2&gt;
 &lt;h3 id=&#34;前置知识&#34;&gt;前置知识&lt;/h3&gt;
 &lt;p&gt;由于我对C语言没有深入了解，有很多知识点会在前面补充。&lt;/p&gt;
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;attribute&lt;/strong&gt; ((&lt;strong&gt;packed&lt;/strong&gt;)): 对齐优化&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;attribute&lt;/strong&gt;((args)) 是GNU C的一个机制，可以通过编译器来修饰结构体，函数等。&lt;/p&gt;
@@ -631,7 +663,7 @@ term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;p&gt;static inline&lt;/p&gt;
 &lt;p&gt;头文件中很多函数使用了static inline 关键字，inline 建议编译器将函数作为一个宏内联，这样可以减少函数调用时的堆栈消耗，提高性能。但是编译器不一定会内联函数，这时候static可以保证这个函数是仅在本文件可见，避免重复包含冲突。&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;h3 id=&#34;数据结构&#34;&gt;数据结构&lt;/h3&gt;
 &lt;p&gt;这里以sdshdr8为例&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 一个字节 8位
@@ -1096,6 +1128,37 @@ sds使用 len 来控制字符串长度，而不是使用&amp;quot;\0&amp;quot;,�
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#111&#34;&gt;e&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;headersize&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;e&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;prevrawlensize&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;e&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;lensize&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#111&#34;&gt;e&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;p&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#111&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;字典&#34;&gt;字典&lt;/h2&gt;
+&lt;h3 id=&#34;结构-1&#34;&gt;结构&lt;/h3&gt;
+&lt;p&gt;节点:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00a8c8&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#00a8c8&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;dictEntry&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;key&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 节省内存 不同场景下使用不同字段
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;union&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#00a8c8&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;val&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// db.dict 储存值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#00a8c8&#34;&gt;uint64_t&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;u64&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#00a8c8&#34;&gt;int64_t&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;s64&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// db.expires 储存过期时间
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#00a8c8&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;d&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#111&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;v&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 单链表法 解决哈希冲突。
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;dictEntry&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;next&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt;     &lt;span style=&#34;color:#75715e&#34;&gt;/* Next entry in the same hash bucket. */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;[];&lt;/span&gt;           &lt;span style=&#34;color:#75715e&#34;&gt;/* An arbitrary number of bytes (starting at a
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;                                 * pointer-aligned address) of size as returned
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;                                 * by dictType&amp;#39;s dictEntryMetadataBytes(). */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#111&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;dictEntry&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看出是使用链表法来解决hash冲突的。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00a8c8&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;dict&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#111&#34;&gt;dictType&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// 对应特定类型操作函数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#111&#34;&gt;dictEntry&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;ht_table&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;];&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#00a8c8&#34;&gt;long&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;ht_used&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;];&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;long&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;rehashidx&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;/* rehashing not in progress if rehashidx == -1 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;/* Keep small vars at end for optimal (minimal) struct padding */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;int16_t&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;pauserehash&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;/* If &amp;gt;0 rehashing is paused (&amp;lt;0 indicates coding error) */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;signed&lt;/span&gt; &lt;span style=&#34;color:#00a8c8&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;ht_size_exp&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;];&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;/* exponent of size. (size = 1&amp;lt;&amp;lt;exp) */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#111&#34;&gt;};&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
