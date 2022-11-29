@@ -4,8 +4,6 @@ type : "post"
 tags :
     - 源码剖析 
     - Redis
-categories :
-    - 折腾
 title: "Redis源码剖析(一)"
 description: 更新中
 date: 2022-05-22
@@ -18,7 +16,7 @@ toc: true
 
 由于我对C语言没有深入了解，有很多知识点会在前面补充。
 
-1. __attribute__ ((__packed__)): 对齐优化
+- __attribute__ ((__packed__)): 对齐优化
 
 	__attribute__((args)) 是GNU C的一个机制，可以通过编译器来修饰结构体，函数等。
 
@@ -30,13 +28,13 @@ toc: true
 
 	详细的用法见 [机制详解](https://blog.csdn.net/weaiken/article/details/88085360)。
 
-2. uint8_t uint16_t ... size_t 使用
+-  uint8_t uint16_t ... size_t 使用
 
 	后面加_t表示是一个typedef 定义的类型，本质是原有类型。这样做是为了更好的跨平台移植，因为不同的平台中int,long 这些基础类型可能占用的字节不同，这对于一些对内存严格要求的库造成不便。使用uint8_t 等类型，在不同平台上都代表占一个字节8位，便于程序的实现。
 
 	同理 size_t 也是用来保持跨平台移植性。可以是unsigned int unsigned char unsigned long等等，取决于实现，size_t = typeof(sizeof(X))。
 
-3. static inline
+- static inline
    
 	 头文件中很多函数使用了static inline 关键字，inline 建议编译器将函数作为一个宏内联，这样可以减少函数调用时的堆栈消耗，提高性能。但是编译器不一定会内联函数，这时候static可以保证这个函数是仅在本文件可见，避免重复包含冲突。
 
@@ -587,4 +585,42 @@ static inline void zipEntry(unsigned char *p, zlentry *e) {
     e->p = p;
 }
 ```
+## 字典
 
+### 结构
+
+节点:
+
+```c
+typedef struct dictEntry {
+    void *key;
+    // 节省内存 不同场景下使用不同字段
+    union {
+        void *val; // db.dict 储存值
+        uint64_t u64; 
+        int64_t s64;  // db.expires 储存过期时间
+        double d;
+    } v;
+    // 单链表法 解决哈希冲突。
+    struct dictEntry *next;     /* Next entry in the same hash bucket. */
+    void *metadata[];           /* An arbitrary number of bytes (starting at a
+                                 * pointer-aligned address) of size as returned
+                                 * by dictType's dictEntryMetadataBytes(). */
+} dictEntry;
+```
+可以看出是使用链表法来解决hash冲突的。
+
+```c
+struct dict {
+    dictType *type; // 对应特定类型操作函数
+
+    dictEntry **ht_table[2];
+    unsigned long ht_used[2];
+
+    long rehashidx; /* rehashing not in progress if rehashidx == -1 */
+
+    /* Keep small vars at end for optimal (minimal) struct padding */
+    int16_t pauserehash; /* If >0 rehashing is paused (<0 indicates coding error) */
+    signed char ht_size_exp[2]; /* exponent of size. (size = 1<<exp) */
+};
+```

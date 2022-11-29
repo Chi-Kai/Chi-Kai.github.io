@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title>悉达多  | 联邦学习论文阅读</title>
+	<meta name="viewport" content="width=device-width,minimum-scale=1">
+	<meta name="generator" content="Hugo 0.107.0">
+	
+	
+	<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+	
+
+	
+	
+	<link href="/dist/app.css" rel="stylesheet">
+	
+
+	
+
+	
+	
+<link rel="shortcut icon" href="img/favicon-32x32.png" type="image/png" />
+
+	
+
+	
+	
+	
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CWBXLVG90W"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-CWBXLVG90W', { 'anonymize_ip': false });
+}
+</script>
+
+	
+	
+	
+
+
+
+<link rel="stylesheet" href='https://chi-kai.github.io/lib/katex.min.css' crossorigin="anonymous">
+
+
+<script defer src='https://chi-kai.github.io/lib/katex.min.js' crossorigin="anonymous"></script>
+
+
+<script defer src='https://chi-kai.github.io/lib/contrib/auto-render.min.js'
+crossorigin="anonymous"
+onload='renderMathInElement(document.body);'></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+
+	
+	
+	
+	<script>
+		(function (u, c) {
+			var d = document,
+				t = 'script',
+				o = d.createElement(t),
+				s = d.getElementsByTagName(t)[0];
+			o.src = u;
+			if (c) {
+				o.addEventListener('load', function (e) {
+					c(e);
+				});
+			}
+			s.parentNode.insertBefore(o, s);
+		})('https:\/\/chi-kai.github.io\/lib\/pangu.min.js', function () {
+			pangu.spacingPage();
+		});
+	</script>
+	
+	
+	
+	<style type="text/css" media="screen, print">
+		@font-face {
+			font-family: "FancyTitleFont";
+			font-style: normal;
+			font-display: swap;
+			src: url('https://chi-kai.github.io/fonts/exampleFont.woff2') format('woff2'),
+				url('https://chi-kai.github.io/fonts/exampleFont.woff') format('woff');
+		}
+		 
+		  
+		 
+		@font-face {
+			font-family: 'Noto Serif CJK SC';
+			font-style: normal;
+			font-weight: 300;
+			font-display: swap;
+			src: local('Noto Serif CJK SC Light'), local('NotoSerifCJK-Light'),
+				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff2') format('woff2'),
+				 
+				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff') format('woff');
+			 
+		}
+
+		 
+		@font-face {
+			font-family: 'Noto Serif CJK SC';
+			font-style: normal;
+			font-weight: 400;
+			font-display: swap;
+			src: local('Noto Serif CJK SC'), local('NotoSerifCJK-Regular'),
+				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff2') format('woff2'),
+				 
+				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff') format('woff');
+			 
+		}
+
+		 
+		@font-face {
+			font-family: 'Noto Serif CJK SC';
+			font-style: normal;
+			font-weight: 500;
+			font-display: swap;
+			src: local('Noto Serif CJK SC Medium'), local('NotoSerifCJK-Medium'),
+				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff2') format('woff2'),
+				 
+				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff') format('woff');
+			 
+		}
+	</style>
+	
+</head>
+
+<body class="bg-gray-100 text-gray-700 font-sans">
+	<div class="p-6 sm:p-10 md:p-16 flex flex-wrap">
+		<header class="w-full md:w-2/5 xl:w-1/2 md:pr-12 lg:pr-20 xl:pr-24 order-1 md:order-1 max-w-2xl">
+			<div
+				class="z-50 bg-gray-100 bg-opacity-75 bg-opacity-custom lg:min-w-0.7 max-w-xl md:float-right md:text-right leading-loose tracking-tight md:sticky md:top-0 pt-2">
+				
+<div>
+	<h2>
+		<a href="https://chi-kai.github.io" title="悉达多" class="heading font-cursive icon">悉达多</a>
+	</h2>
+</div>
+<h1 class="pt-2">联邦学习论文阅读</h1>
+
+<h3 class="text-java-700 font-normal leading-relaxed pt-2">持续更新</h3>
+
+<div class="flex flex-wrap justify-end pt-2 "><div class="md:flex-grow-0 font-light">
+	
+
+	
+
+	
+	
+	
+	
+	<a class="post-taxonomy-tag text-eucalyptus-500"
+		href='/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0'>联邦学习</a>&nbsp;&#47;
+	
+	<a class="post-taxonomy-tag text-eucalyptus-500"
+		href='/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB'>论文阅读</a>
+	
+	
+	
+</div><time class="text-eucalyptus-500 md:text-right md:flex-grow font-light pl-4"
+		datetime="2022-11-06T00:00:00Z">2022-11-6</time>
+</div>
+
+<details class="toc" open>
+<summary>
+    <hr />
+</summary>
+<div class="inline toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#towards-on-device-federated-learning-a-direct-acyclic-graph-based-blockchain-approach">《Towards On-Device Federated Learning: A Direct Acyclic Graph-based Blockchain Approach》</a>
+      <ul>
+        <li><a href="#目标">目标</a></li>
+        <li><a href="#主要贡献">主要贡献</a></li>
+        <li><a href="#dag-fl-模型">DAG-FL 模型</a></li>
+        <li><a href="#异步构架">异步构架</a></li>
+        <li><a href="#共识算法">共识算法</a></li>
+        <li><a href="#fl算法">FL算法</a></li>
+        <li><a href="#dag-fl-操作">DAG-FL 操作</a></li>
+        <li><a href="#未来工作">未来工作</a></li>
+      </ul>
+    </li>
+    <li><a href="#implicit-model-specialization-through-dag-based-decentralized-federated-learning">《Implicit Model Specialization through DAG-based Decentralized Federated Learning》</a>
+      <ul>
+        <li><a href="#背景">背景</a></li>
+        <li><a href="#模型">模型</a></li>
+      </ul>
+    </li>
+    <li><a href="#safa-a-semi-asynchronous-protocol-for-fast-federated-learning-with-low-overhead">《SAFA: A Semi-Asynchronous Protocol for Fast Federated Learning With Low Overhead》</a>
+      <ul>
+        <li><a href="#背景-1">背景</a></li>
+        <li><a href="#模型-1">模型</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+</details>
+
+<hr />
+
+
+			</div>
+		</header>
+		<main role="main" class="w-full md:w-3/5 xl:w-1/2 max-w-3xl order-2 md:order-2 min-h-70vh pt-2 pb-4">
+			
+
+<article>
+	<section class="mx-auto content">
+		<div class="c-rich-text"><h2 id="towards-on-device-federated-learning-a-direct-acyclic-graph-based-blockchain-approach">《Towards On-Device Federated Learning: A Direct Acyclic Graph-based Blockchain Approach》</h2>
+<h3 id="目标">目标</h3>
+<p>为了解决联邦学习中的设备异步和异常检测问题，同时避免由区块链导致的资源浪费</p>
+<ul>
+<li>
+<p>设备异步。传统的中心化和同步FL(Google FL),一个节点必须等待其他节点完成任务才能一起进入下一轮训练，一个崩溃的节点可能阻塞整个系统。</p>
+</li>
+<li>
+<p>异常检测。一个节点的数据集和操作对其他节点是不可见的。一些恶意节点可能会破坏整个系统的准确度和降低效率。</p>
+</li>
+</ul>
+<h3 id="主要贡献">主要贡献</h3>
+<p>提出了第一个基于DAG的FL异步框架来解决设备异步和异常节点检测问题。</p>
+<h3 id="dag-fl-模型">DAG-FL 模型</h3>
+<p><img src="http://tva1.sinaimg.cn/large/008upJWily1h7vnbi5q76j30ru0n1tcw.jpg" alt="DAG-FL结构.png"></p>
+<p>“This feature promises that a node in DAG-FL can immediately participate in an iteration of FL whenever it is in idle state. When the node completes an iteration of FL and gets a new trained local model, the new local model can be published on its local DAG as a transaction immediately, and latter the new published transaction would be seen by all other nodes.” (<a href="zotero://select/library/items/MG76RNTD">Cao 等。, p. 4</a>) (<a href="zotero://open-pdf/library/items/BZ4CNUBL?page=4">pdf</a>) ”</p>
+<p>还是用本地的数据来训练模型，并没有和其他节点做聚合？</p>
+<p>“initial” (<a href="zotero://select/library/items/MG76RNTD">Cao 等。, p. 5</a>) (<a href="zotero://open-pdf/library/items/BZ4CNUBL?page=5">pdf</a>)</p>
+<h3 id="异步构架">异步构架</h3>
+<ul>
+<li>
+<p>FL Layer:</p>
+<p>全局模型由存储在DAG中的本地模型使用FedAvg算法聚合产生，节点使用本地数据集进行训练。得到的新的模型被当作一个交易发布到DAG中。（每笔交易就是一个模型）</p>
+</li>
+<li>
+<p>DAG Layer:</p>
+<p>每个节点维护一个本地DAG，其中每个交易包含下相应的认证信息，本地模型参数，和许可链接。本地DAG通过广播和无线网络更新，最终一个新的交易可以得到传播。</p>
+</li>
+<li>
+<p>Application Layer:</p>
+<p>一个外部接口，通过智能合约发布任务。这个客户端可以观察整个FL过程的进展，从而控制整个FL的进行和停止。</p>
+</li>
+</ul>
+<p>异步性分析：</p>
+<p>   在整个DAG-FL中没有central server,每个节点是通过本地已有的模型来构建新的全局模型。节点可以在合适的时间来进行FL迭代，获取的新的模型发布在本地DAG,随后可以被其他节点所见。节点之间的行为互不影响可以异步进行。</p>
+<h3 id="共识算法">共识算法</h3>
+<p>当一个节点完成一轮迭代，生成一个新的模型。他会从本地DAG选取几个tips(加入DAG但是没有被验证的block)来进行验证:</p>
+<ul>
+<li>
+<p>验证使用RSA等算法加密的身份证书。可以避免恶意节点的女巫攻击。</p>
+</li>
+<li>
+<p>使用本地的测试集来计算模型的精确度。</p>
+</li>
+</ul>
+<p>然后选取模型精确度最高的几个模型来构成新的全局模型。</p>
+<p>节点使用这个模型和本地数据集训练，得到的新模型通过一个新的交易发布到DAG中。</p>
+<p>随着DAG的持续扩展，一个交易的每次认证都意味着这个交易代表的模型被选择去构建一个全局模型，进而影响最终模型的生成。得到的认证越多，它在FL中的影响越大。反之，节点就会被孤立，在FL中影响越小。</p>
+<p>所以，最终DAG-FL训练的模型会向大多数节点期望的方向发展，少部分恶意节点会逐渐被孤立，影响降到最小化。</p>
+<h3 id="fl算法">FL算法</h3>
+<p>符号定义:</p>
+<ol>
+<li>
+<p>D = {1,2,3,…,N $_D$ },代表整个设备集群。D $_i$是第i个节点。</p>
+</li>
+<li>
+<p>S $_i$是D $_i$的训练集，|S $_i$| = N $_i$,这里N $_i$是S $_i$的samples数量。</p>
+</li>
+<li>
+<p>D $_i$在本地创建一个仅自己可见的DAG为g $_i$，存储在其中的交易为w</p>
+</li>
+<li>
+<p>时间t，在D $_i$训练得到的本地模型为w $_i$ $^t$</p>
+</li>
+</ol>
+<p>算法流程:</p>
+<ol>
+<li>D $_i$在t $_0$开始FL算法迭代，首先验证本地DAG的一些tips(验证他们的身份和用测试集验证准确度)</li>
+<li>将准确度较高的的k个tips使用FedAvg算法聚合成一个全局模型:
+$$
+\omega^{t_{0}}=\sum_{i=1}^{k} n_{i} \omega_{d_{i}}^{t_{i}}
+$$
+这里 n $_i$是表示模型重要性的权重因子，为了简化这里设置为1/k,表示同等重要。</li>
+<li>节点从数据集S $_i$中提取m个samples作为一个最小batch z$_i$ 来对得到的全局模型训练 $\beta$个epochs.</li>
+<li>得到一个新模型 $\omega <em>{i}^{ t</em>{0}}$,将它发布到$g_{i}$上。</li>
+</ol>
+<h3 id="dag-fl-操作">DAG-FL 操作</h3>
+<p>这里介绍框架中的两个重要算法。</p>
+<h4 id="dag-fl-controlling">DAG-FL Controlling</h4>
+<p><img src="http://tva1.sinaimg.cn/large/008upJWily1h7voje2iexj30tp0r90zh.jpg" alt="DAG-FL Controlling.png"></p>
+<p>在应用层的外接客户端可以认为是一个权威组织，负责任务发布任务。通过智能合约执行DAG-FL 控制算法。过程如上图。</p>
+<h4 id="dag-fl-updating">DAG-FL Updating</h4>
+<p><img src="http://tva1.sinaimg.cn/large/008upJWily1h7vro3iz6gj30tr0qu0ze.jpg" alt="DAG-FL Updating.png"></p>
+<p>节点在空闲时执行DAG-FL Updating 算法。</p>
+<ol>
+<li>节点随机从本地DAG选取staleness范围在可以接收的tip。</li>
+<li>节点先认证所选tips的身份，然后用自己的test数据集来计算所选tips的模型精确度。</li>
+<li>选择精确度高的k个tips，使用FedAvging算法得到一个全局模型。节点用本地数据来训练这个全局模型。</li>
+<li>一个新的交易被生成。包括身份信息，上一阶段训练得到的模型，和最k个tips的验证信息。</li>
+</ol>
+<h3 id="未来工作">未来工作</h3>
+<ol>
+<li>在模型可用性上，使用一个小的test set可能对于一些特定场景不适合，考虑其他的异常检测方法。</li>
+<li>信用评估</li>
+<li>权重聚合。本文的模型使用的方法是同等权重系数的FedAvg,可以使用更好的方法来给高质量的模型更高的权重提高模型精度。</li>
+</ol>
+<h2 id="implicit-model-specialization-through-dag-based-decentralized-federated-learning">《Implicit Model Specialization through DAG-based Decentralized Federated Learning》</h2>
+<h3 id="背景">背景</h3>
+<p>由于联邦学习数据的非独立同分布特性，所有节点训练一个模型太过宽泛，提出一种基于DAG区块链的联邦学习框架，所有节点利用本地数据和其他节点相似的数据训练自己的特例化模型，和全局的泛化模型结合来提高系统的性能。</p>
+<p>这篇论文是在联邦学习之前已经有的对本地数据特例化的研究基础上，引入DAG区块链。</p>
+<h3 id="模型">模型</h3>
+<p><img src="https://s2.loli.net/2022/11/12/EWSmpuqlzK4TMAt.png" alt=""></p>
+<p>每个节点执行四个步骤，通过基础的随机移动算法选择DAG上的两个tips,将这个两个选择的模型参数平均，得到的模型在本地数据集上训练，如果最终得到的模型有提高就发布。</p>
+<h4 id="tips选择算法">tips选择算法</h4>
+<p><img src="https://s2.loli.net/2022/11/12/clpHA9C21hkRoUV.png" alt="">
+从区块链接的相反方向随机遍历。每个交易(区块)根据它的子图大小分配一个权重，通常会选择最高权重的区块，使得这个遍历方向收敛。
+<img src="https://s2.loli.net/2022/11/12/uJkGPclTq24VEDa.png" alt=""></p>
+<p>同时，对于每个节点有特定化的偏向处理，遍历的每一步，对于下一跳可以到达的潜在模型在本地数据集上进行评估。</p>
+<p>WEIGHTEDCHOICE 函数从这些模型中随机选择，并根据子节点对本地数据的精确度进行加权。（到底是按照权重还是随机选择？）</p>
+<p>这里的精确度计和权重计算：</p>
+<p><img src="https://s2.loli.net/2022/11/12/NxPmWCyJBFhMAbv.png" alt=""></p>
+<p>遍历的随机性可以由 α 参数确定，其中值越大，权重之间的差异越大，因此随机性越小，确定性越高。另一方面，较小的 α 值会导致权重收敛，从而导致更多随机性。模型之间的预期精度差异取决于我们的方法所应用的机器学习问题，以及学习率、批量大小和局部时期等超参数。为了在模型之间的精度变化很小的情况下也能实现良好的特性化，即使在差异很大的情况下也能实现良好的泛化，将每个步骤中的精度分布 max(accuracies) - min(accuracies) 精度归一化 * 的一部分：</p>
+<p><img src="https://s2.loli.net/2022/11/12/cHbGaDKXUvMLl6P.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/11/12/7bDcLwGtZp2e1Co.png" alt=""></p>
+<h2 id="safa-a-semi-asynchronous-protocol-for-fast-federated-learning-with-low-overhead">《SAFA: A Semi-Asynchronous Protocol for Fast Federated Learning With Low Overhead》</h2>
+<h3 id="背景-1">背景</h3>
+<p>原有的FedAvg算法存在一些问题:</p>
+<ul>
+<li>同步开销大： 每轮迭代中央服务器需要传输全局模型给所有客户端，带宽达到一个峰值。</li>
+<li>客户端利用不足：随机选择的客户端使得许多可以参加训练的客户端闲置。</li>
+</ul>
+<blockquote>
+<p>这个论点不充分。FedAvg是在所有可用的客户端中随机选择一定比例，并不是完全随机的。</p>
+</blockquote>
+<ul>
+<li>进度浪费: 被选中的设备如果在完成本地训练之前失败，则之前的工作都会作废。</li>
+<li>每回合效率低: 在每轮结束进行聚合，FedAvg必须等待所有客户端完成。如果一些客户端故障，整个过程会等到超时结束。</li>
+</ul>
+<h3 id="模型-1">模型</h3>
+<p>SAFA包括三部分: Lag-tolerant Model Distribution (<strong>滞后容忍模型分布</strong>)，Compensatory
+First-Come-First-Merge (CFCFM) client selection [<strong>补偿性先到先合并 (CFCFM) 客户端选择</strong>],
+discriminative aggregation (<strong>判别聚合</strong>)</p>
+<p>下面SAFA的一个系统图:</p>
+<p><img src="https://s2.loli.net/2022/11/13/R9dHQ6s1tjNDrWp.png" alt=""></p>
+<p>文中所用的参数表</p>
+<p><img src="https://s2.loli.net/2022/11/13/wXgupKY9TJLVN3Z.png" alt=""></p>
+<h4 id="lag-tolerant-model-distribution">Lag-tolerant Model Distribution</h4>
+<p>整个模块关键的有两点:</p>
+<ol>
+<li>
+<p>有选择的同步全局模型。</p>
+<p>不像FedAvg算法一样每轮每个参与节点都要同步模型，这是一个交流密集的过程，开销很大。SAFA模型只要求两种类型必须同步。<strong>上一轮成功完成的节点(FedAvg中的正常节点)和被标记为过时的节点</strong>，这个过时节点是由于网络或者其他原因本地模型落后全局太多的客户端。这里有个滞后容忍参数 $\tau$，来调节这个滞后范围。</p>
+<p><img src="https://s2.loli.net/2022/11/13/HYekTp8LqDa92Ic.png" alt=""></p>
+<p>这里t-1表示上一轮的最新模型, $\omega _{k}$代表第k个节点的本地模型，$\omega$ 代表全局模型。可以看到，在 $t- \tau$ 范围内本地节点的滞后是可以容忍的。</p>
+</li>
+<li>
+<p>没有被选中的节点也可以参与迭代。</p>
+<p>没有被选中的节点也可以上传更新。这部分不会被直接合并，而是会通过一个bypass结构影响下一轮。
+一个cache用来保存那些选中的节点上传的更新，没被选中的节点的更新保存在bypass中。bypass会在汇聚步骤完成后和cache合并,使得实际的有影响节点比率比参数C决定的更高。</p>
+</li>
+</ol>
+<h4 id="compensatory-first-come-first-merge-cfcfm-client-selection">Compensatory First-Come-First-Merge (CFCFM) client selection</h4>
+<p>代替必须等待所有选中节点上传更新，SAFA采用<strong>先来先合并</strong>方法，只要上传的更新达到所需要的比率（是不是意味着可以上传的节点大于实际所需要的节点）就可以执行合并操作。</p>
+<p>给予那些参与较少的客户更高的优先级。在每一轮中，服务器都会维护一个错过上一轮训练的客户端的 id 列表，它们上传的更新会优先选择。</p>
+<p><img src="https://s2.loli.net/2022/11/14/h6bZz4YPaOc87rf.png" alt=""></p>
+<h4 id="discriminative-aggregation">Discriminative Aggregation</h4>
+<p>聚合算法如下:</p>
+<p><img src="https://s2.loli.net/2022/11/15/UlZErVnbgSC5KHG.png" alt=""></p>
+<p>对于选择的客户端，它们的更新将在合并到全局模型后保留在缓存中。对于未选择的客户端，更新不会在本轮生效，但会被缓存带入下一轮。对于崩溃的客户端，只有在它们没有被弃用的情况下，它们的模型才会保持不变。</p>
+<h4 id="算法流程">算法流程</h4>
+<p><img src="https://s2.loli.net/2022/11/15/kxSZgVusbUM29hY.png" alt=""></p>
+<p>每轮开始时，服务器先检查客户端的模型，根据给定的超参数$\tau$和滞后容忍算法来分配模型。服务器收集上传的更新，错过上次更新的节点会被优先采集。等采集到的更新满足预先设置的标准后，执行三步合并，然后更新缓存状态。</p>
+</div>
+	</section>
+
+
+</article>
+
+		</main>
+		<div class="w-full h-0 flex-none order-3"></div>
+		<aside role="contentinfo"
+			class="w-full md:w-2/5 xl:w-1/2 md:pr-12 lg:pr-20 xl:pr-24 order-4 md:order-3 md:sticky md:bottom-0 self-end max-w-2xl">
+			<div class="md:float-right md:text-right leading-loose tracking-tight md:mb-2">
+				
+	<div class="md:max-w-xs  flex flex-col md:items-end">
+	<ul class="font-serif flex-grow-0 flex justify-between flex-wrap md:flex-col">
+	
+	
+	<li class="px-1 md:px-0">
+		<a href="/post/" title="Posts page" 
+			class="font-medium text-medium-red-violet-600 hover:text-medium-red-violet-400" >
+			Posts
+		</a>
+	</li>
+	
+	<li class="px-1 md:px-0">
+		<a href="/tags/" title="Tags page" >
+			Tags
+		</a>
+	</li>
+	
+	<li class="px-1 md:px-0">
+		<a href="/about/" title="About page" >
+			About
+		</a>
+	</li>
+	
+	
+	
+	
+	<div id="fastSearch" class="m-0">
+		<input id="searchInput" type="text" size=10 
+			class="bg-gray-100 focus:outline-none border-b border-gray-100 focus:border-eucalyptus-300 md:text-right
+			placeholder-java-500 min-w-0 max-w-xxxs"
+			placeholder="search" />
+		<ul id="searchResults" class="bg-gray-200 px-2 divide-y divide-gray-400">
+		</ul>
+	</div>
+	
+</ul>
+	
+
+<div class="flex flex-wrap-reverse md:justify-end content-end md:content-start justify-start items-start   max-h-16">
+	
+	<a href='https://github.com/Chi-Kai' target="_blank" class="github icon pl-1 text-eucalyptus-400 hover:text-java-400" title="github link" rel="noopener"
+		aria-label="follow on github——Opens in a new window">
+		
+		<div class="fill-current h-8 w-8">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g>
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path fill-rule="nonzero" d="M5.883 18.653c-.3-.2-.558-.455-.86-.816a50.32 50.32 0 0 1-.466-.579c-.463-.575-.755-.84-1.057-.949a1 1 0 0 1 .676-1.883c.752.27 1.261.735 1.947 1.588-.094-.117.34.427.433.539.19.227.33.365.44.438.204.137.587.196 1.15.14.023-.382.094-.753.202-1.095C5.38 15.31 3.7 13.396 3.7 9.64c0-1.24.37-2.356 1.058-3.292-.218-.894-.185-1.975.302-3.192a1 1 0 0 1 .63-.582c.081-.024.127-.035.208-.047.803-.123 1.937.17 3.415 1.096A11.731 11.731 0 0 1 12 3.315c.912 0 1.818.104 2.684.308 1.477-.933 2.613-1.226 3.422-1.096.085.013.157.03.218.05a1 1 0 0 1 .616.58c.487 1.216.52 2.297.302 3.19.691.936 1.058 2.045 1.058 3.293 0 3.757-1.674 5.665-4.642 6.392.125.415.19.879.19 1.38a300.492 300.492 0 0 1-.012 2.716 1 1 0 0 1-.019 1.958c-1.139.228-1.983-.532-1.983-1.525l.002-.446.005-.705c.005-.708.007-1.338.007-1.998 0-.697-.183-1.152-.425-1.36-.661-.57-.326-1.655.54-1.752 2.967-.333 4.337-1.482 4.337-4.66 0-.955-.312-1.744-.913-2.404a1 1 0 0 1-.19-1.045c.166-.414.237-.957.096-1.614l-.01.003c-.491.139-1.11.44-1.858.949a1 1 0 0 1-.833.135A9.626 9.626 0 0 0 12 5.315c-.89 0-1.772.119-2.592.35a1 1 0 0 1-.83-.134c-.752-.507-1.374-.807-1.868-.947-.144.653-.073 1.194.092 1.607a1 1 0 0 1-.189 1.045C6.016 7.89 5.7 8.694 5.7 9.64c0 3.172 1.371 4.328 4.322 4.66.865.097 1.201 1.177.544 1.748-.192.168-.429.732-.429 1.364v3.15c0 .986-.835 1.725-1.96 1.528a1 1 0 0 1-.04-1.962v-.99c-.91.061-1.662-.088-2.254-.485z"/>
+    </g>
+</svg>
+
+		</div>
+	</a>
+	
+	<a href='chikai0307@gmail.com' target="_blank" class="mail icon pl-1 text-eucalyptus-400 hover:text-java-400" title="mail link" rel="noopener"
+		aria-label="follow on mail——Opens in a new window">
+		
+		<div class="fill-current h-8 w-8">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g>
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm17 4.238l-7.928 7.1L4 7.216V19h16V7.238zM4.511 5l7.55 6.662L19.502 5H4.511z"/>
+    </g>
+</svg>
+		</div>
+	</a>
+	
+</div>
+	<div class="text-sm text-gray-500 leading-tight a-gray">
+		
+		<br />
+		Built with Hugo and theme <a href="https://github.com/heyeshuang/hugo-theme-tokiwa">Tokiwa</a>. 3547 words in this page.
+	</div>
+</div>
+
+			</div>
+		</aside>
+		<footer class="w-full md:w-3/5 xl:w-1/2 order-3 max-w-3xl md:order-4 pt-2">
+			
+<hr class="double-line" />
+<div class="flex flex-wrap justify-between pb-2 leading-loose font-serif">
+    
+    <a class="flex-grow-0" href="/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
+        <svg class="fill-current inline-block h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+            height="24">
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path d="M7.828 11H20v2H7.828l5.364 5.364-1.414 1.414L4 12l7.778-7.778 1.414 1.414z" /></svg>
+        Raft论文阅读
+    </a>
+    
+    
+    <a class="flex-grow-0" href="/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/">
+        DAG区块链综述
+        <svg class="fill-current inline-block h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+            height="24">
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" /></svg></a>
+    
+</div>
+<div >
+
+
+
+<div class="font-serif pb-2 flex align-start leading-loose">
+	<span class="heading pr-6 leading-loose">Related</span>
+	<span >
+		
+			<a href="/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/">联邦学习综述</a>&nbsp;&nbsp;&#47;&nbsp;
+		
+			<a href="/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">Raft论文阅读</a>
+		
+</span>
+</div>
+
+</div>
+<hr />
+<div class="pb-2">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "ck" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+<hr />
+
+		</footer>
+		
+
+<script src="/dist/app.js"></script>
+
+
+<script src="/lib/fuse.min.js"></script> 
+<script src="/lib/fastsearch.js"></script>
+
+	</div>
+</body>
+
+</html>
