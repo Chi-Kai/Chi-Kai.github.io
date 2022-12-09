@@ -179,6 +179,8 @@ discriminative aggregation (&lt;strong&gt;判别聚合&lt;/strong&gt;)&lt;/p&gt;
 &lt;h4 id=&#34;算法流程&#34;&gt;算法流程&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/11/15/kxSZgVusbUM29hY.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;每轮开始时，服务器先检查客户端的模型，根据给定的超参数$\tau$和滞后容忍算法来分配模型。服务器收集上传的更新，错过上次更新的节点会被优先采集。等采集到的更新满足预先设置的标准后，执行三步合并，然后更新缓存状态。&lt;/p&gt;
+&lt;h2 id=&#34;iot-22a-blockchain-based-model-migration-approach-for-secure-and-sustainable-federated-learning-in-iot-systems&#34;&gt;IOT ‘22《A Blockchain-based Model Migration Approach for Secure and Sustainable Federated Learning in IoT Systems》&lt;/h2&gt;
+&lt;h3 id=&#34;背景-2&#34;&gt;背景&lt;/h3&gt;
 </description>
     </item>
     

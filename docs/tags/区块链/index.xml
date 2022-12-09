@@ -23,6 +23,25 @@
 &lt;p&gt;详细的内容见 &lt;a href=&#34;https://lzphi.cn/2020/12/20/2020-12-17-Tangle-%E7%99%BD%E7%9A%AE%E4%B9%A6/&#34;&gt;Tangle白皮书中文版&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;tangle&lt;/strong&gt; 是 &lt;strong&gt;IOTA&lt;/strong&gt; 所用的技术，为物联网和小额支付提供支持。不同于常见的区块链，它使用一个DAG（有向无环图）作为结构，这里称为Tangle。&lt;/p&gt;
 &lt;p&gt;传统区块链系统的单链结构在交易认证，吞吐量，资源消耗等方面存在缺陷，DAG结构的区块链是一个有效的解决方案。&lt;/p&gt;
+&lt;h2 id=&#34;fabric-白皮书&#34;&gt;Fabric 白皮书&lt;/h2&gt;
+&lt;p&gt;Hyperledger Fabric 是 Linux 基金会 的 一个项目，是Hyperledger下面的一个子项目。作为一个开源联盟链，被很多项目应用。&lt;/p&gt;
+&lt;p&gt;它的主要特点是模块化的共识机制，相对高性能，和可以使用常规语言编写智能合约(golang)。&lt;/p&gt;
+&lt;h3 id=&#34;概念&#34;&gt;概念&lt;/h3&gt;
+&lt;h4 id=&#34;联盟链&#34;&gt;联盟链&lt;/h4&gt;
+&lt;p&gt;文中划分联盟链和公链的标准是: &lt;strong&gt;是否发币和节点身份是否可知&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;状态机复制(SMR)是建设弹性应用众所周知的方式，但是如果我们把运行在区块链上的智能合约看作一种分布式应用，与传统的SMR区别在于:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;许多应用并发运行&lt;/li&gt;
+&lt;li&gt;这些应用可以被任何人动态地部署&lt;/li&gt;
+&lt;li&gt;这些应用的代码是不被信任的，可能有恶意&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;order-execute&#34;&gt;order-execute&lt;/h4&gt;
+&lt;p&gt;现有的大部分可以运行智能合约的区块链遵循SMR实现一种order-execute的架构: 节点先将交易排序再将它们广播给其他节点，然后每个节点顺序执行。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/12/06/B4Ns3GZAKl8dIXT.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;所有节点对所有交易的顺序执行限制了性能，并且需要采取复杂的措施来防止源自不受信任的合约（例如在以太坊中使用“gas”计算运行时）的针对平台的拒绝服务攻击；智能合约很难做到并发。&lt;/p&gt;
+&lt;p&gt;最大的限制是交易必须是确定的，这就使得不能使用常规编程语言来实现，必须使用特定的语言。&lt;/p&gt;
+&lt;h4 id=&#34;execute-order-validate&#34;&gt;execute-order-validate&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/12/07/jDBxcLmYrfXSnbl.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 </description>
     </item>
     

@@ -189,6 +189,11 @@ onload='renderMathInElement(document.body);'></script>
     <li><a href="#比特币白皮书">比特币白皮书</a></li>
     <li><a href="#以太坊白皮书">以太坊白皮书</a></li>
     <li><a href="#tangle-白皮书">Tangle 白皮书</a></li>
+    <li><a href="#fabric-白皮书">Fabric 白皮书</a>
+      <ul>
+        <li><a href="#概念">概念</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 </div>
@@ -210,6 +215,25 @@ onload='renderMathInElement(document.body);'></script>
 <p>详细的内容见 <a href="https://lzphi.cn/2020/12/20/2020-12-17-Tangle-%E7%99%BD%E7%9A%AE%E4%B9%A6/">Tangle白皮书中文版</a></p>
 <p><strong>tangle</strong> 是 <strong>IOTA</strong> 所用的技术，为物联网和小额支付提供支持。不同于常见的区块链，它使用一个DAG（有向无环图）作为结构，这里称为Tangle。</p>
 <p>传统区块链系统的单链结构在交易认证，吞吐量，资源消耗等方面存在缺陷，DAG结构的区块链是一个有效的解决方案。</p>
+<h2 id="fabric-白皮书">Fabric 白皮书</h2>
+<p>Hyperledger Fabric 是 Linux 基金会 的 一个项目，是Hyperledger下面的一个子项目。作为一个开源联盟链，被很多项目应用。</p>
+<p>它的主要特点是模块化的共识机制，相对高性能，和可以使用常规语言编写智能合约(golang)。</p>
+<h3 id="概念">概念</h3>
+<h4 id="联盟链">联盟链</h4>
+<p>文中划分联盟链和公链的标准是: <strong>是否发币和节点身份是否可知</strong></p>
+<p>状态机复制(SMR)是建设弹性应用众所周知的方式，但是如果我们把运行在区块链上的智能合约看作一种分布式应用，与传统的SMR区别在于:</p>
+<ul>
+<li>许多应用并发运行</li>
+<li>这些应用可以被任何人动态地部署</li>
+<li>这些应用的代码是不被信任的，可能有恶意</li>
+</ul>
+<h4 id="order-execute">order-execute</h4>
+<p>现有的大部分可以运行智能合约的区块链遵循SMR实现一种order-execute的架构: 节点先将交易排序再将它们广播给其他节点，然后每个节点顺序执行。</p>
+<p><img src="https://s2.loli.net/2022/12/06/B4Ns3GZAKl8dIXT.png" alt=""></p>
+<p>所有节点对所有交易的顺序执行限制了性能，并且需要采取复杂的措施来防止源自不受信任的合约（例如在以太坊中使用“gas”计算运行时）的针对平台的拒绝服务攻击；智能合约很难做到并发。</p>
+<p>最大的限制是交易必须是确定的，这就使得不能使用常规编程语言来实现，必须使用特定的语言。</p>
+<h4 id="execute-order-validate">execute-order-validate</h4>
+<p><img src="https://s2.loli.net/2022/12/07/jDBxcLmYrfXSnbl.png" alt=""></p>
 </div>
 	</section>
 
@@ -293,7 +317,7 @@ onload='renderMathInElement(document.body);'></script>
 	<div class="text-sm text-gray-500 leading-tight a-gray">
 		
 		<br />
-		Built with Hugo and theme <a href="https://github.com/heyeshuang/hugo-theme-tokiwa">Tokiwa</a>. 152 words in this page.
+		Built with Hugo and theme <a href="https://github.com/heyeshuang/hugo-theme-tokiwa">Tokiwa</a>. 603 words in this page.
 	</div>
 </div>
 

@@ -12,6 +12,13 @@ toc: true
 ---
 # 基础数据结构部分
 ## 动态字符串 SDS 
+
+实现在 sds.h/sds.c。
+
+### 设计原则
+
+为什么不使用c语言原生的字符串操作库? c字符串用'\0'作为终止符，不能满足二进制安全，而且求字符串长度，拼接等操作都要遍历到'\0'来实现，需要自己控制内存使用，操作复杂度高。
+
 ### 前置知识
 
 由于我对C语言没有深入了解，有很多知识点会在前面补充。
@@ -59,6 +66,9 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 };
 
 ```
+记录了已经使用的空间和分配的空间，比C字符串操作效率更高。和 C 语言中的字符串操作相比，SDS 通过记录字符数组的使用长度和分配空间大小，避免了对字符串的遍历操作，降低了操作开销，进一步就可以帮助诸多字符串操作更加高效地完成，比如创建、追加、复制、比较等。
+
+
 
 #### 二进制安全
  
@@ -476,7 +486,7 @@ int zslDelete(zskiplist *zsl, double score, sds ele, zskiplistNode **node) {
 
 具体的实现在ziplist.h和ziplist.c
 
-压缩列表是Redis中一种高效利用内存的数据结构，用来储存字符串和数字，它的push和pop操作都是O(1)。Redis的有序集合、散列和列表都直接或者间接使用了压缩列表。当有序集合或散列表的元素个数比较少，且元素都是短字符串时，Redis便使用压缩列表作为其底层数据存储结构。列表使用快速链表（quicklist）数据结构存储，而快速链表就是双向链表与压缩列表的组合。
+压缩列表是Redis中一种高效利用内存的数据结构，用来储存字符串和数字，它的push和pop操作都是  **O(1)** 。Redis的有序集合、散列和列表都直接或者间接使用了压缩列表。当有序集合或散列表的元素个数比较少，且元素都是短字符串时，Redis便使用压缩列表作为其底层数据存储结构。列表使用快速链表（quicklist）数据结构存储，而快速链表就是双向链表与压缩列表的组合。
 
 ```c
 // ziplist 结构
@@ -573,8 +583,7 @@ typedef struct zlentry {
 ```
 对于压缩列表的任意元素，获取前一个元素的长度、判断存储的数据类型、获取数据内容都需要经过复杂的解码运算。解码后的结果应该被缓存起来，为此定义了结构体zlentry，用于表示解码后的压缩列表元素。
 
- 
-
+解码操作，主要用宏实现:
 ```c
 static inline void zipEntry(unsigned char *p, zlentry *e) {
     ZIP_DECODE_PREVLEN(p, e->prevrawlensize, e->prevrawlen);
@@ -585,6 +594,27 @@ static inline void zipEntry(unsigned char *p, zlentry *e) {
     e->p = p;
 }
 ```
+这里主要就是对字节的读取，可以去看源代码。
+
+### 操作
+#### 创建
+```c
+/* Create a new empty ziplist. */
+// 先申请初始的空间(4+4+2+1),再对zlbytes,zltail,zllen,zlend逐个初始化
+unsigned char *ziplistNew(void) {
+    unsigned int bytes = ZIPLIST_HEADER_SIZE+ZIPLIST_END_SIZE;
+    unsigned char *zl = zmalloc(bytes);
+    ZIPLIST_BYTES(zl) = intrev32ifbe(bytes);
+    ZIPLIST_TAIL_OFFSET(zl) = intrev32ifbe(ZIPLIST_HEADER_SIZE);
+    ZIPLIST_LENGTH(zl) = 0;
+    zl[bytes-1] = ZIP_END;
+    return zl;
+}
+```
+#### 插入元素
+
+
+
 ## 字典
 
 ### 结构
@@ -613,14 +643,447 @@ typedef struct dictEntry {
 ```c
 struct dict {
     dictType *type; // 对应特定类型操作函数
-
-    dictEntry **ht_table[2];
-    unsigned long ht_used[2];
+    
+    dictEntry **ht_table[2]; // 哈希表。有两个，一个正常使用，另外一个在rehash时使用
+    unsigned long ht_used[2]; // 记录每个哈希表被使用的数目。
 
     long rehashidx; /* rehashing not in progress if rehashidx == -1 */
 
     /* Keep small vars at end for optimal (minimal) struct padding */
     int16_t pauserehash; /* If >0 rehashing is paused (<0 indicates coding error) */
+    // size 的 系数，size 是2 的N次幂
     signed char ht_size_exp[2]; /* exponent of size. (size = 1<<exp) */
 };
 ```
+这里可以看到一个dictType 用来对应特定类型的操作函数,这些函数体现了面向对象编程的思想，会在后面合适的时机用到。
+
+比如找个hashFunction 用来控制dict使用的hash函数，默认为siphash。
+
+```go
+typedef struct dictType {
+    uint64_t (*hashFunction)(const void *key); // hash函数
+    void *(*keyDup)(dict *d, const void *key); // key的 复制函数
+    void *(*valDup)(dict *d, const void *obj); // val 的复制函数
+    int (*keyCompare)(dict *d, const void *key1, const void *key2); // key 对比函数
+    void (*keyDestructor)(dict *d, void *key); // key 销毁函数
+    void (*valDestructor)(dict *d, void *obj); // val 销毁函数
+    int (*expandAllowed)(size_t moreMem, double usedRatio); //扩展函数 
+    /* Allow a dictEntry to carry extra caller-defined metadata.  The
+     * extra memory is initialized to 0 when a dictEntry is allocated. */
+    size_t (*dictEntryMetadataBytes)(dict *d); // 元数据
+} dictType;
+```
+### 创建
+
+先申请空间，再初始化参数
+
+```c
+/* Reset hash table parameters already initialized with _dictInit()*/
+static void _dictReset(dict *d, int htidx)
+{
+    d->ht_table[htidx] = NULL;
+    d->ht_size_exp[htidx] = -1;
+    d->ht_used[htidx] = 0;
+}
+
+/* Create a new hash table */
+dict *dictCreate(dictType *type)
+{
+    dict *d = zmalloc(sizeof(*d));
+
+    _dictInit(d,type);
+    return d;
+}
+
+/* Initialize the hash table */
+int _dictInit(dict *d, dictType *type)
+{
+    _dictReset(d, 0);
+    _dictReset(d, 1);
+    d->type = type;
+    d->rehashidx = -1;
+    d->pauserehash = 0;
+    return DICT_OK; // 使用一些宏来反馈结果
+}
+```
+
+### 增加与扩容
+
+这里先提前讲一下Rehash的概念，便于理解增加扩容中的一些操作:
+
+扩容后，字典容量及掩码值会发生改变，同一个键与掩码经位运算后得到的索引值就会发生改变，从而导致根据键查找不到值的情况。解决这个问题的方法是，**新扩容的内存放到一个全新的Hash表中（ht[1]），并给字典打上在进行rehash操作中的标识（即rehashidx! =-1）**。此后，新添加的键值对都往新的Hash表中存储；而修改、删除、查找操作需要在ht[0]、ht[1]中进行检查，然后再决定去对哪个Hash表操作。除此之外，还需要把老Hash表（ht[0]）中的数据重新计算索引值后全部迁移插入到新的Hash表(ht[1])中，此迁移过程称作rehash。
+
+先看增加单个entry的操作:
+
+```c
+/* Add an element to the target hash table */
+int dictAdd(dict *d, void *key, void *val)
+{
+    dictEntry *entry = dictAddRaw(d,key,NULL);
+    if (!entry) return DICT_ERR;
+    dictSetVal(d, entry, val);
+    return DICT_OK;
+}
+
+dictEntry *dictAddRaw(dict *d, void *key, dictEntry **existing)
+{
+    long index;
+    dictEntry *entry;
+    int htidx;
+
+    // 如果正在rehash,在add时进行一步rehash，这里是将大范围的rehash分散来减小资源集中消耗
+    if (dictIsRehashing(d)) _dictRehashStep(d);
+
+    /* Get the index of the new element, or -1 if
+     * the element already exists. */
+    if ((index = _dictKeyIndex(d, key, dictHashKey(d,key), existing)) == -1)
+        return NULL;
+
+    /* Allocate the memory and store the new entry.
+     * Insert the element in top, with the assumption that in a database
+     * system it is more likely that recently added entries are accessed
+     * more frequently. */
+    htidx = dictIsRehashing(d) ? 1 : 0;
+    size_t metasize = dictMetadataSize(d);
+    entry = zmalloc(sizeof(*entry) + metasize);
+    if (metasize > 0) {
+        memset(dictMetadata(entry), 0, metasize);
+    }
+    // 插入在顶部:根据时空局限性
+    entry->next = d->ht_table[htidx][index];
+    d->ht_table[htidx][index] = entry;
+    d->ht_used[htidx]++;
+
+    /* Set the hash entry fields. */
+    dictSetKey(d, entry, key);
+    return entry;
+}
+```
+可以看出，add调用了一个底层的addraw函数。addraw首先使用dictkeyindex来查找一个合适的插入位置，如果这个key已经存在就退出add操作。然后确定是否在rehash,上面我们讲过如果在rehash那么 **新添加的键值对都往新的Hash表中存储**。后面就申请空间在相应位置顶部插入，这是数据库时空局限性的体现。
+
+这里看一下dictSetKey和dictSetVal:
+
+```c
+#define dictSetKey(d, entry, _key_) do { \
+    if ((d)->type->keyDup) \
+        (entry)->key = (d)->type->keyDup((d), _key_); \
+    else \
+        (entry)->key = (_key_); \
+} while(0)
+
+#define dictSetVal(d, entry, _val_) do { \
+    if ((d)->type->valDup) \
+        (entry)->v.val = (d)->type->valDup((d), _val_); \
+    else \
+        (entry)->v.val = (_val_); \
+} while(0)
+```
+可以看出是用宏的形式调用dict的dicttype函数，也就是说这些操作是可以调整的。
+
+扩容操作:
+
+```c
+// 将d扩容到2^size的大小
+int _dictExpand(dict *d, unsigned long size, int* malloc_failed)
+{
+    if (malloc_failed) *malloc_failed = 0;
+
+    /* the size is invalid if it is smaller than the number of
+     * elements already inside the hash table */
+    if (dictIsRehashing(d) || d->ht_used[0] > size)
+        return DICT_ERR;
+
+    /* the new hash table */
+    dictEntry **new_ht_table;
+    unsigned long new_ht_used;
+    signed char new_ht_size_exp = _dictNextExp(size);
+
+    /* Detect overflows */
+    size_t newsize = 1ul<<new_ht_size_exp;
+    // 后者判断在什么时候成立?
+    if (newsize < size || newsize * sizeof(dictEntry*) < newsize)
+        return DICT_ERR;
+
+    /* Rehashing to the same table size is not useful. */
+    if (new_ht_size_exp == d->ht_size_exp[0]) return DICT_ERR;
+
+    /* Allocate the new hash table and initialize all pointers to NULL */
+    if (malloc_failed) {
+        new_ht_table = ztrycalloc(newsize*sizeof(dictEntry*));
+        *malloc_failed = new_ht_table == NULL;
+        if (*malloc_failed)
+            return DICT_ERR;
+    } else
+        new_ht_table = zcalloc(newsize*sizeof(dictEntry*));
+
+    // 新的hash表被使用的数量
+    new_ht_used = 0;
+
+    /* Is this the first initialization? If so it's not really a rehashing
+     * we just set the first hash table so that it can accept keys. */
+    if (d->ht_table[0] == NULL) {
+        d->ht_size_exp[0] = new_ht_size_exp;
+        d->ht_used[0] = new_ht_used;
+        d->ht_table[0] = new_ht_table;
+        return DICT_OK;
+    }
+
+    /* Prepare a second hash table for incremental rehashing */
+    d->ht_size_exp[1] = new_ht_size_exp;
+    d->ht_used[1] = new_ht_used;
+    d->ht_table[1] = new_ht_table;
+    d->rehashidx = 0;
+    return DICT_OK;
+}
+```
+首先判断是否在rehash，在rehash中不能扩容。然后创建一个新的hash table，这个newsize是2的n次幂。expand操作在刚开始初始化时会使用，也会在这里做一个判断。更常用的是在扩容后进行rehash操作。
+
+获得size的函数:
+
+```c
+// 确保hash cap 为2的N次幂
+static signed char _dictNextExp(unsigned long size)
+{
+    unsigned char e = DICT_HT_INITIAL_EXP;
+
+    if (size >= LONG_MAX) return (8*sizeof(long)-1);
+    // 1 << e == 1 * 2^e  
+    // 找到一个大于size 的2^e
+    while(1) {
+        if (((unsigned long)1<<e) >= size)
+            return e;
+        e++;
+    }
+}
+
+```
+### 渐进式Rehash
+
+直接看函数:
+
+```c
+int dictRehash(dict *d, int n) {
+    int empty_visits = n*10; /* Max number of empty buckets to visit. */
+    if (!dictIsRehashing(d)) return 0;
+
+    while(n-- && d->ht_used[0] != 0) {
+        dictEntry *de, *nextde;
+
+        /* Note that rehashidx can't overflow as we are sure there are more
+         * elements because ht[0].used != 0 */
+        assert(DICTHT_SIZE(d->ht_size_exp[0]) > (unsigned long)d->rehashidx);
+        while(d->ht_table[0][d->rehashidx] == NULL) {
+            d->rehashidx++;
+            if (--empty_visits == 0) return 1;
+        }
+        de = d->ht_table[0][d->rehashidx];
+        /* Move all the keys in this bucket from the old to the new hash HT */
+        while(de) {
+            uint64_t h;
+
+            nextde = de->next;
+            /* Get the index in the new hash table */
+            h = dictHashKey(d, de->key) & DICTHT_SIZE_MASK(d->ht_size_exp[1]);
+            de->next = d->ht_table[1][h];
+            d->ht_table[1][h] = de;
+            d->ht_used[0]--;
+            d->ht_used[1]++;
+            de = nextde;
+        }
+        d->ht_table[0][d->rehashidx] = NULL;
+        d->rehashidx++;
+    }
+
+    /* Check if we already rehashed the whole table... */
+    if (d->ht_used[0] == 0) {
+        zfree(d->ht_table[0]);
+        /* Copy the new ht onto the old one */
+        d->ht_table[0] = d->ht_table[1];
+        d->ht_used[0] = d->ht_used[1];
+        d->ht_size_exp[0] = d->ht_size_exp[1];
+        _dictReset(d, 1);
+        d->rehashidx = -1;
+        return 0;
+    }
+
+    /* More to rehash... */
+    return 1;
+}
+```
+rehash除了扩容时会触发，缩容时也会触发。Redis整个rehash的实现，主要分为如下几步完成。
+
+1. 给Hash表ht[1]申请足够的空间；扩容时空间大小为当前容量*2，即d->ht[0]. used*2；当使用量不到总空间10%时，则进行缩容。缩容时空间大小则为能恰好包含d->ht[0].used个节点的2^N次方幂整数，并把字典中字段rehashidx标识为0
+2. 进行rehash操作调用的是dictRehash函数，重新计算ht[0]中每个键的Hash值与索引值（重新计算就叫rehash），依次添加到新的Hash表ht[1]，并把老Hash表中该键值对删除。把字典中字段rehashidx字段修改为Hash表ht[0]中正在进行rehash操作节点的索引值.
+3. rehash操作后，清空ht[0]，然后对调一下ht[1]与ht[0]的值，并把字典中rehashidx字段标识为-1。
+   
+我们知道，Redis可以提供高性能的线上服务，而且是单进程模式，当数据库中键值对数量达到了百万、千万、亿级别时，整个rehash过程将非常缓慢，如果不优化rehash过程，可能会造成很严重的服务不可用现象。Redis优化的思想很巧妙，利用分而治之的思想了进行rehash操作，大致的步骤如下。
+
+执行插入、删除、查找、修改等操作前，都先判断当前字典rehash操作是否在进行中，进行中则调用dictRehashStep函数进行rehash操作（每次只对1个节点进行rehash操作，共执行1次）。除这些操作之外，当服务空闲时，如果当前字典也需要进行rehsh操作，则会调用incrementallyRehash函数进行批量rehash操作（每次对100个节点进行rehash操作，共执行1毫秒）。在经历N次rehash操作后，整个ht[0]的数据都会迁移到ht[1]中，这样做的好处就把是本应集中处理的时间分散到了上百万、千万、亿次操作中，所以其耗时可忽略不计。
+
+```c
+/* This function performs just a step of rehashing, and only if hashing has
+ * not been paused for our hash table. When we have iterators in the
+ * middle of a rehashing we can't mess with the two hash tables otherwise
+ * some elements can be missed or duplicated.
+ *
+ * This function is called by common lookup or update operations in the
+ * dictionary so that the hash table automatically migrates from H1 to H2
+ * while it is actively used. */
+static void _dictRehashStep(dict *d) {
+    if (d->pauserehash == 0) dictRehash(d,1);
+}
+```
+### 删除
+
+```c
+static dictEntry *dictGenericDelete(dict *d, const void *key, int nofree) {
+    uint64_t h, idx;
+    dictEntry *he, *prevHe;
+    int table;
+
+    /* dict is empty */
+    if (dictSize(d) == 0) return NULL;
+
+    if (dictIsRehashing(d)) _dictRehashStep(d);
+    h = dictHashKey(d, key);
+
+    for (table = 0; table <= 1; table++) {
+        idx = h & DICTHT_SIZE_MASK(d->ht_size_exp[table]);
+        he = d->ht_table[table][idx];
+        prevHe = NULL;
+        // 查找
+        while(he) {
+            if (key==he->key || dictCompareKeys(d, key, he->key)) {
+                /* Unlink the element from the list */
+                if (prevHe)
+                    prevHe->next = he->next;
+                else // 在bucket顶部,直接略过
+                    d->ht_table[table][idx] = he->next;
+                if (!nofree) {
+                    dictFreeUnlinkedEntry(d, he);
+                }
+                d->ht_used[table]--;
+                return he;
+            }
+            prevHe = he;
+            he = he->next;
+        }
+        if (!dictIsRehashing(d)) break;
+    }
+    return NULL; /* not found */
+}
+```
+### 遍历
+
+遍历Redis整个数据库主要有两种方式：全遍历（例如keys命令）、间断遍历（hscan命令）:
+- 全遍历: 一次命令执行就遍历完整个数据库。
+- 间断遍历: 每次命令执行只取部分数据，分多次遍历。
+
+迭代器——可在容器（容器可为字典、链表等数据结构）上遍访的接口，设计人员无须关心容器的内容，调用迭代器固定的接口就可遍历数据，在很多高级语言中都有实现。
+
+字典迭代器主要用于迭代字典这个数据结构中的数据，既然是迭代字典中的数据，必然会出现一个问题，迭代过程中，如果发生了数据增删，则可能导致字典触发rehash操作，或迭代开始时字典正在进行rehash操作，从而导致一条数据可能多次遍历到。
+
+```c
+typedef struct dictIterator {
+    dict *d;
+    long index; // 迭代hash中的索引值
+    // safe 为1表示是安全迭代器，可以在add,find等rehash场景中使用
+    int table, safe;
+    // entry 当前读取节点，nextEntry entry 节点的next字段
+    dictEntry *entry, *nextEntry;
+    /* unsafe iterator fingerprint for misuse detection. */
+    unsigned long long fingerprint;// 字典指纹，字典发生改变随之改变
+} dictIterator;
+```
+fingerprint字段是一个64位的整数，表示在给定时间内字典的状态。在这里称其为字典的指纹，因为该字段的值为字典（dict结构体）中所有字段值组合在一起生成的Hash值，所以当字典中数据发生任何变化时，其值都会不同，生成算法可参见源码dict.c文件中的dictFingerprint函数。
+
+```c
+/* A fingerprint is a 64 bit number that represents the state of the dictionary
+ * at a given time, it's just a few dict properties xored together.
+ * When an unsafe iterator is initialized, we get the dict fingerprint, and check
+ * the fingerprint again when the iterator is released.
+ * If the two fingerprints are different it means that the user of the iterator
+ * performed forbidden operations against the dictionary while iterating. */
+unsigned long long dictFingerprint(dict *d) {
+    unsigned long long integers[6], hash = 0;
+    int j;
+
+    integers[0] = (long) d->ht_table[0];
+    integers[1] = d->ht_size_exp[0];
+    integers[2] = d->ht_used[0];
+    integers[3] = (long) d->ht_table[1];
+    integers[4] = d->ht_size_exp[1];
+    integers[5] = d->ht_used[1];
+
+    /* We hash N integers by summing every successive integer with the integer
+     * hashing of the previous sum. Basically:
+     *
+     * Result = hash(hash(hash(int1)+int2)+int3) ...
+     *
+     * This way the same set of integers in a different order will (likely) hash
+     * to a different number. */
+    for (j = 0; j < 6; j++) {
+        hash += integers[j];
+        /* For the hashing step we use Tomas Wang's 64 bit integer hash. */
+        hash = (~hash) + (hash << 21); // hash = (hash << 21) - hash - 1;
+        hash = hash ^ (hash >> 24);
+        hash = (hash + (hash << 3)) + (hash << 8); // hash * 265
+        hash = hash ^ (hash >> 14);
+        hash = (hash + (hash << 2)) + (hash << 4); // hash * 21
+        hash = hash ^ (hash >> 28);
+        hash = hash + (hash << 31);
+    }
+    return hash;
+}
+```
+根据迭代器结构中的safe字段，将迭代器分为普通迭代器和安全迭代器:
+
+- 普通迭代器: 只遍历数据
+- 安全迭代器: 遍历的同时删除数据
+
+#### 普通迭代器
+
+普通迭代器迭代字典中数据时，会对迭代器中fingerprint字段的值作严格的校验，来保证迭代过程中字典结构不发生任何变化，确保读取出的数据不出现重复
+
+当Redis执行部分命令时会使用普通迭代器迭代字典数据，例如sort命令。sort命令主要作用是对给定列表、集合、有序集合的元素进行排序，如果给定的是有序集合，其成员名存储用的是字典，分值存储用的是跳跃表，则执行sort命令读取数据的时候会用到迭代器来遍历整个字典。
+
+```c
+     dict *set = ((zset*)sortval->ptr)->dict;
+        dictIterator *di;
+        dictEntry *setele;
+        sds sdsele;
+        di = dictGetIterator(set);
+        while((setele = dictNext(di)) != NULL) {
+            sdsele =  dictGetKey(setele);
+            vector[j].obj = createStringObject(sdsele,sdslen(sdsele));
+            vector[j].u.score = 0;
+            vector[j].u.cmpobj = NULL;
+            j++;
+        }
+        dictReleaseIterator(di);
+```
+
+1. 调用dictGetIterator函数初始化一个普通迭代器，此时会把iter->safe值置为0，表示初始化的迭代器为普通迭代器
+    ```c
+    void dictInitIterator(dictIterator *iter, dict *d)
+    {
+        iter->d = d;
+        iter->table = 0;
+        iter->index = -1;
+        iter->safe = 0;
+        iter->entry = NULL;
+        iter->nextEntry = NULL;
+    }
+
+    dictIterator *dictGetIterator(dict *d)
+    {
+      dictIterator *iter = zmalloc(sizeof(*iter));
+      dictInitIterator(iter, d);
+      return iter;
+    }
+    ```
+2. 循环调用dictNext函数依次遍历字典中Hash表的节点，首次遍历时会通过dictFingerprint函数拿到当前字典的指纹值。
+
+3. 
+
+#### 安全迭代器
