@@ -55,8 +55,7 @@ toc: true
 	```
 
 3. 当收到一个更高term的回复RPC,Candidate转变为Follower，term变为更高的term,投票变为null。
-4. 当收到一个更高的term的心跳时，状态转变为Follower,
-term变为更高的term,投票变为null。
+4. 当收到一个更高的term的心跳时，状态转变为Follower,term变为更高的term,投票变为null。
 5. 节点在两种情况拒绝投票，一是Candidate的term小于自己，二是自己在本term中已经投过票。
 	```golang
 	if rf.currentTerm > args.Term ||
@@ -101,7 +100,7 @@ leader 只能发送日志给follower，而不能从follower接收日志，所以
 
 ![幽灵复现](http://tva1.sinaimg.cn/large/008upJWily1h7oklyiaigj30ue0vaww7.jpg)
 
-在上图中，raft 为了避免出现一致性问题，要求 leader 绝不会提交过去的 term 的 entry （即使该 entry 已经被复制到了多数节点上）。leader 永远只提交当前 term 的 entry， 过去的 entry 只会随着当前的 entry 被一并提交。（上图中的 c，term2 只会跟随 term4 被提交。）
+在上图中，raft 为了避免出现一致性问题，要求 leader 绝不会提交过去的 term 的 entry （即使该 entry 已经被复制到了多数节点上）。leader 永远只提交当前 term 的 entry，过去的 entry 只会随着当前的 entry 被一并提交。（上图中的 c，term2 只会跟随 term4 被提交。）
 
 如果一个 candidate 能取得多数同意，说明它的日志已经是多数节点中最完备的， 那么也就可以认为该 candidate 已经包含了整个集群的所有 committed entries。
 

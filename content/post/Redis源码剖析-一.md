@@ -613,7 +613,7 @@ unsigned char *ziplistNew(void) {
 ```
 #### 插入元素
 
-
+1. 编码。计算previous_entry_length字段、encoding字段和content字段的内容。
 
 ## 字典
 
@@ -1087,3 +1087,5 @@ unsigned long long dictFingerprint(dict *d) {
 3. 
 
 #### 安全迭代器
+
+## 

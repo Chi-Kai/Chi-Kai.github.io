@@ -4,7 +4,7 @@ baseURL = "https://chi-kai.github.io"
 disqusShortname = "ck"
 hasCJKLanguage = true
 languageCode = "zh-cn"
-theme = "tokiwa"
+theme = "PaperMod"
 title = "悉达多"
 googleAnalytics = "G-CWBXLVG90W"
 
