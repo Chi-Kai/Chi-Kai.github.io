@@ -1,11 +1,10 @@
 ---
-title:
-  "{ NAME }": 
+title: test
 author: KC
 type: post
-tags: 
-date:
-  "{ DATE:YYYY-MM-DD HH:mm:ss }": 
+tags:
+  - 联邦学习
+date: 2024-05-15
 description: 
 toc: true
 draft: false
