@@ -1,14 +1,13 @@
-
 ---
-
-title: {{NAME}}
-author : "KC"
-type : "post"
-tags: [{{VALUE:tag？}}]
-date: {{DATE:YYYY-MM-DD HH:mm:ss}}
-description: 时不时补充
+title:
+  "{ NAME }": 
+author: KC
+type: post
+tags: 
+date:
+  "{ DATE:YYYY-MM-DD HH:mm:ss }": 
+description: 
 toc: true
 draft: false
-feature: 
-
+feature:
 ---
