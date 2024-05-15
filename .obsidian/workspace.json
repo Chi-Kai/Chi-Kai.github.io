@@ -4,27 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "2b34963dde84c9c4",
+        "id": "45f1aac566632f27",
         "type": "tabs",
         "children": [
           {
-            "id": "32f112b8eb63eb9a",
+            "id": "8048cbf6a1433340",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/post/区块链学习.md",
+                "file": "content/post/test.md",
                 "mode": "source",
                 "source": false
               }
-            }
-          },
-          {
-            "id": "4e71da3ca05f2e19",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
             }
           }
         ]
@@ -101,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/post/区块链学习.md",
+                "file": "content/post/test.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/post/区块链学习.md",
+                "file": "content/post/test.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -141,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/post/区块链学习.md"
+                "file": "content/post/test.md"
               }
             }
           },
@@ -175,17 +167,20 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "32f112b8eb63eb9a",
+  "active": "8048cbf6a1433340",
   "lastOpenFiles": [
+    "_Templates/hugo博客模板.md",
+    "content/post/test.md",
+    "content/post/联邦学习相关论文阅读.md",
+    "test.md",
+    "2022-10-17.md",
+    "content/post/联邦学习综述.md",
     "content/post/区块链学习.md",
     "content/post/Redis源码剖析-一.md",
     "content/post/Raft论文阅读.md",
     "content/post/DAG区块链综述.md",
     "content/post/区块链学习-eth.md",
     "content/post/区块链数据管理会议纪要.md",
-    "content/post/联邦学习综述.md",
-    "content/post/联邦学习相关论文阅读.md",
-    "_Templates/hugo博客模板.md",
     "_Templates",
     "论文阅读/后门攻击.md",
     "Omnivore/2023-10-27/第1章 数据库管理系统概述 - MiniOB.md",
@@ -206,16 +201,13 @@
     "任务清单.md",
     "ToDo.md",
     "数据库/CMU15-445/P0.md",
-    "数据库/CMU15-445.md",
     "数据库/CMU15-445",
-    "英语/书籍.md",
     "图片附件/Pasted image 20231228155204.png",
     "图片附件/Pasted image 20231228155126.png",
     "图片附件/Pasted image 20231228155110.png",
     "图片附件/Pasted image 20231228154509.png",
     "图片附件/Pasted image 20231228153701.png",
     "图片附件/Pasted image 20231228153625.png",
-    "健身/饮食.md",
     "前端",
     "The Document is All You Need！一站式 LLM底层技术原理入门指南.pdf",
     "算术",
