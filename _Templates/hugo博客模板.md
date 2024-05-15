@@ -1,12 +1,10 @@
 ---
 title:
-  "{ NAME }": 
 author: KC
 type: post
-tags: 
+tags:
 date:
-  "{ DATE:YYYY-MM-DD HH:mm:ss }": 
-description: 
+description:
 toc: true
 draft: false
 feature:

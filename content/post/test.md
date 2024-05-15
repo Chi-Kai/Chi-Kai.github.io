@@ -3,9 +3,7 @@ title:
   "{ NAME }": 
 author: KC
 type: post
-tags:
-  - Raft
-  - Redis
+tags: 
 date:
   "{ DATE:YYYY-MM-DD HH:mm:ss }": 
 description: 
@@ -13,4 +11,3 @@ toc: true
 draft: false
 feature:
 ---
-test
