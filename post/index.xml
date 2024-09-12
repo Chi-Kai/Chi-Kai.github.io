@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 悉达多</title><link>https://chi-kai.github.io/post/</link><description>Recent content in Posts on 悉达多</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 20 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://chi-kai.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title/><link>https://chi-kai.github.io/post/%E6%B0%B4%E5%8D%B0%E9%AA%8C%E8%AF%81/</link><pubDate>Wed, 15 May 2024 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/%E6%B0%B4%E5%8D%B0%E9%AA%8C%E8%AF%81/</guid><description>&lt;h2 id="后门水印">后门水印&lt;/h2>
 &lt;ol>
 &lt;li>服务器嵌入 2 客户端验证（客户端能力弱，不能嵌入）&lt;/li>
-&lt;li>如何客户端保证收到的服务器模型。&lt;/li>
+&lt;li>如何客户端保证收到的服务器模型被正确嵌入水印？&lt;/li>
 &lt;li>嵌入服务器调度?&lt;/li>
 &lt;li>&lt;/li>
-&lt;/ol></description></item><item><title>区块链白皮书解读</title><link>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</link><pubDate>Fri, 25 Nov 2022 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</guid><description>&lt;h2 id="比特币白皮书">比特币白皮书&lt;/h2>
+&lt;/ol>
+&lt;h2 id="频域干扰检测不出来">频域干扰，检测不出来&lt;/h2>
+&lt;h2 id="多臂老虎机客户端选择">多臂老虎机客户端选择&lt;/h2></description></item><item><title>区块链白皮书解读</title><link>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</link><pubDate>Fri, 25 Nov 2022 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</guid><description>&lt;h2 id="比特币白皮书">比特币白皮书&lt;/h2>
 &lt;h2 id="以太坊白皮书">以太坊白皮书&lt;/h2>
 &lt;h2 id="tangle-白皮书">Tangle 白皮书&lt;/h2>
 &lt;p>详细的内容见 &lt;a href="https://lzphi.cn/2020/12/20/2020-12-17-Tangle-%E7%99%BD%E7%9A%AE%E4%B9%A6/">Tangle白皮书中文版&lt;/a>&lt;/p>
@@ -1516,4 +1518,4 @@ sds使用 len 来控制字符串长度，而不是使用&amp;quot;\0&amp;quot;,�
 &lt;li>&lt;/li>
 &lt;/ol>
 &lt;h4 id="安全迭代器">安全迭代器&lt;/h4>
-&lt;h2 id="heading">&lt;/h2></description></item></channel></rss>
+&lt;h2 id="heading">&lt;/h2></description></item><item><title/><link>https://chi-kai.github.io/post/%E6%89%8B%E5%86%99redis/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/%E6%89%8B%E5%86%99redis/</guid><description/></item></channel></rss>
