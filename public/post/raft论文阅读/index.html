@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	
 	<title>悉达多  | Raft论文阅读</title>
 	<meta name="viewport" content="width=device-width,minimum-scale=1">
-	<meta name="generator" content="Hugo 0.107.0">
+	<meta name="generator" content="Hugo 0.128.2">
 	
 	
 	<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
@@ -29,16 +29,25 @@
 	
 	
 	
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CWBXLVG90W"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-CWBXLVG90W', { 'anonymize_ip': false });
-}
-</script>
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-CWBXLVG90W"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-CWBXLVG90W');
+        }
+      </script>
+    
+  
+
 
 	
 	
@@ -46,13 +55,13 @@ if (!doNotTrack) {
 
 
 
-<link rel="stylesheet" href='https://chi-kai.github.io/lib/katex.min.css' crossorigin="anonymous">
+<link rel="stylesheet" href='http://localhost:1313/lib/katex.min.css' crossorigin="anonymous">
 
 
-<script defer src='https://chi-kai.github.io/lib/katex.min.js' crossorigin="anonymous"></script>
+<script defer src='http://localhost:1313/lib/katex.min.js' crossorigin="anonymous"></script>
 
 
-<script defer src='https://chi-kai.github.io/lib/contrib/auto-render.min.js'
+<script defer src='http://localhost:1313/lib/contrib/auto-render.min.js'
 crossorigin="anonymous"
 onload='renderMathInElement(document.body);'></script>
 
@@ -84,7 +93,7 @@ onload='renderMathInElement(document.body);'></script>
 				});
 			}
 			s.parentNode.insertBefore(o, s);
-		})('https:\/\/chi-kai.github.io\/lib\/pangu.min.js', function () {
+		})('http:\/\/localhost:1313\/lib\/pangu.min.js', function () {
 			pangu.spacingPage();
 		});
 	</script>
@@ -96,8 +105,8 @@ onload='renderMathInElement(document.body);'></script>
 			font-family: "FancyTitleFont";
 			font-style: normal;
 			font-display: swap;
-			src: url('https://chi-kai.github.io/fonts/exampleFont.woff2') format('woff2'),
-				url('https://chi-kai.github.io/fonts/exampleFont.woff') format('woff');
+			src: url('http://localhost:1313/fonts/exampleFont.woff2') format('woff2'),
+				url('http://localhost:1313/fonts/exampleFont.woff') format('woff');
 		}
 		 
 		  
@@ -108,9 +117,9 @@ onload='renderMathInElement(document.body);'></script>
 			font-weight: 300;
 			font-display: swap;
 			src: local('Noto Serif CJK SC Light'), local('NotoSerifCJK-Light'),
-				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff2') format('woff2'),
+				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff2') format('woff2'),
 				 
-				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff') format('woff');
+				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff') format('woff');
 			 
 		}
 
@@ -121,9 +130,9 @@ onload='renderMathInElement(document.body);'></script>
 			font-weight: 400;
 			font-display: swap;
 			src: local('Noto Serif CJK SC'), local('NotoSerifCJK-Regular'),
-				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff2') format('woff2'),
+				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff2') format('woff2'),
 				 
-				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff') format('woff');
+				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff') format('woff');
 			 
 		}
 
@@ -134,9 +143,9 @@ onload='renderMathInElement(document.body);'></script>
 			font-weight: 500;
 			font-display: swap;
 			src: local('Noto Serif CJK SC Medium'), local('NotoSerifCJK-Medium'),
-				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff2') format('woff2'),
+				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff2') format('woff2'),
 				 
-				url('https://chi-kai.github.io/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff') format('woff');
+				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff') format('woff');
 			 
 		}
 	</style>
@@ -151,7 +160,7 @@ onload='renderMathInElement(document.body);'></script>
 				
 <div>
 	<h2>
-		<a href="https://chi-kai.github.io" title="悉达多" class="heading font-cursive icon">悉达多</a>
+		<a href="http://localhost:1313/" title="悉达多" class="heading font-cursive icon">悉达多</a>
 	</h2>
 </div>
 <h1 class="pt-2">Raft论文阅读</h1>
@@ -251,8 +260,7 @@ onload='renderMathInElement(document.body);'></script>
 <p>当收到一个更高term的回复RPC,Candidate转变为Follower，term变为更高的term,投票变为null。</p>
 </li>
 <li>
-<p>当收到一个更高的term的心跳时，状态转变为Follower,
-term变为更高的term,投票变为null。</p>
+<p>当收到一个更高的term的心跳时，状态转变为Follower,term变为更高的term,投票变为null。</p>
 </li>
 <li>
 <p>节点在两种情况拒绝投票，一是Candidate的term小于自己，二是自己在本term中已经投过票。</p>
@@ -291,7 +299,7 @@ term变为更高的term,投票变为null。</p>
 </blockquote>
 <h3 id="提交之前任期内的日志条目">提交之前任期内的日志条目</h3>
 <p><img src="http://tva1.sinaimg.cn/large/008upJWily1h7oklyiaigj30ue0vaww7.jpg" alt="幽灵复现"></p>
-<p>在上图中，raft 为了避免出现一致性问题，要求 leader 绝不会提交过去的 term 的 entry （即使该 entry 已经被复制到了多数节点上）。leader 永远只提交当前 term 的 entry， 过去的 entry 只会随着当前的 entry 被一并提交。（上图中的 c，term2 只会跟随 term4 被提交。）</p>
+<p>在上图中，raft 为了避免出现一致性问题，要求 leader 绝不会提交过去的 term 的 entry （即使该 entry 已经被复制到了多数节点上）。leader 永远只提交当前 term 的 entry，过去的 entry 只会随着当前的 entry 被一并提交。（上图中的 c，term2 只会跟随 term4 被提交。）</p>
 <p>如果一个 candidate 能取得多数同意，说明它的日志已经是多数节点中最完备的， 那么也就可以认为该 candidate 已经包含了整个集群的所有 committed entries。</p>
 <p>因此 leader 当选后，应当立刻发起 AppendEntriesRPC 提交一个 no-op entry。注意，这是一个 Must，不是一个 Should，否则会有许多 corner case 存在问题。如:</p>
 <ul>
@@ -431,7 +439,7 @@ term变为更高的term,投票变为null。</p>
 <hr />
 <div class="pb-2">
     <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	
-	<title>悉达多  | 区块链白皮书解读</title>
+	<title>悉达多  | 区块链数据管理会议纪要</title>
 	<meta name="viewport" content="width=device-width,minimum-scale=1">
 	<meta name="generator" content="Hugo 0.128.2">
 	
@@ -163,9 +163,7 @@ onload='renderMathInElement(document.body);'></script>
 		<a href="http://localhost:1313/" title="悉达多" class="heading font-cursive icon">悉达多</a>
 	</h2>
 </div>
-<h1 class="pt-2">区块链白皮书解读</h1>
-
-<h3 class="text-java-700 font-normal leading-relaxed pt-2">时不时更新</h3>
+<h1 class="pt-2">区块链数据管理会议纪要</h1>
 
 <div class="flex flex-wrap justify-end pt-2 "><div class="md:flex-grow-0 font-light">
 	
@@ -173,40 +171,9 @@ onload='renderMathInElement(document.body);'></script>
 	
 
 	
-	
-	
-	
-	<a class="post-taxonomy-tag text-eucalyptus-500"
-		href='/tags/%E5%8C%BA%E5%9D%97%E9%93%BE'>区块链</a>&nbsp;&#47;
-	
-	<a class="post-taxonomy-tag text-eucalyptus-500"
-		href='/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB'>论文阅读</a>
-	
-	
-	
 </div><time class="text-eucalyptus-500 md:text-right md:flex-grow font-light pl-4"
-		datetime="2022-11-25T00:00:00Z">2022-11-25</time>
+		datetime="2022-12-20T10:01:54&#43;08:00">2022-12-20</time>
 </div>
-
-<details class="toc" open>
-<summary>
-    <hr />
-</summary>
-<div class="inline toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#比特币白皮书">比特币白皮书</a></li>
-    <li><a href="#以太坊白皮书">以太坊白皮书</a></li>
-    <li><a href="#tangle-白皮书">Tangle 白皮书</a></li>
-    <li><a href="#fabric-白皮书">Fabric 白皮书</a>
-      <ul>
-        <li><a href="#概念">概念</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-</div>
-</details>
 
 <hr />
 
@@ -218,38 +185,90 @@ onload='renderMathInElement(document.body);'></script>
 
 <article>
 	<section class="mx-auto content">
-		<div class="c-rich-text"><h2 id="比特币白皮书">比特币白皮书</h2>
-<h2 id="以太坊白皮书">以太坊白皮书</h2>
-<h2 id="tangle-白皮书">Tangle 白皮书</h2>
-<p>详细的内容见 <a href="https://lzphi.cn/2020/12/20/2020-12-17-Tangle-%E7%99%BD%E7%9A%AE%E4%B9%A6/">Tangle白皮书中文版</a></p>
-<p><strong>tangle</strong> 是 <strong>IOTA</strong> 所用的技术，为物联网和小额支付提供支持。不同于常见的区块链，它使用一个DAG（有向无环图）作为结构，这里称为Tangle。</p>
-<p>传统区块链系统的单链结构在交易认证，吞吐量，资源消耗等方面存在缺陷，DAG结构的区块链是一个有效的解决方案。</p>
-<h2 id="fabric-白皮书">Fabric 白皮书</h2>
-<p><strong>Hyperledger Fabric</strong> 是 Linux 基金会 的 一个项目，是Hyperledger下面的一个子项目。作为一个开源联盟链，被很多项目应用。</p>
-<p>它的主要特点是模块化的共识机制，相对高性能，和可以使用常规语言编写智能合约(golang)。</p>
-<h3 id="概念">概念</h3>
-<h4 id="联盟链">联盟链</h4>
-<p>文中划分联盟链和公链的标准是: <strong>是否发币和节点身份是否可知</strong></p>
-<p>状态机复制(SMR)是建设弹性应用众所周知的方式，但是如果我们把运行在区块链上的智能合约看作一种分布式应用，与传统的SMR区别在于:</p>
-<ul>
-<li>许多应用并发运行</li>
-<li>这些应用可以被任何人动态地部署</li>
-<li>这些应用的代码是不被信任的，可能有恶意</li>
-</ul>
-<h4 id="order-execute">order-execute</h4>
-<p>现有的大部分可以运行智能合约的区块链遵循SMR实现一种order-execute的架构: 节点先将交易排序再将它们广播给其他节点，然后每个节点顺序执行。</p>
-<p><img src="https://s2.loli.net/2022/12/06/B4Ns3GZAKl8dIXT.png" alt=""></p>
-<p>这个架构存在的一些问题:</p>
-<ul>
-<li>
-<p>所有节点按照顺序执行交易会限制性能（例如TPS），通常将不相关的操作并发执行可以提升性能，但是对智能合约很难做到并发，因为代码之间的依赖关系很难确定</p>
-</li>
-<li>
-<p>order-execute最大的限制是，所有节点所执行的交易必须满足确定性.类似以太坊这样采用Solidity这样的编程语言可以一定程度上保证代码确定性，但对于更流行的语言（例如Go，Java，C/C++），则很难保证确定性（比如Go中的map iterator就无法保证确定性）。</p>
-</li>
-</ul>
-<h4 id="execute-order-validate">execute-order-validate</h4>
-<p><img src="https://s2.loli.net/2022/12/07/jDBxcLmYrfXSnbl.png" alt=""></p>
+		<div class="c-rich-text"><h2 id="区块链技术教学与虚拟仿真平台">区块链技术教学与虚拟仿真平台</h2>
+<p>来自复旦大学的阚海斌教授分享了他们关于区块链技术教学的一些内容和开发使用的仿真平台</p>
+<p><img src="https://s2.loli.net/2022/12/20/pj94y3WEfNkogGU.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/20/5sGWNMnKtfqhIZR.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/20/XVGLWc35nKJdEye.png" alt=""></p>
+<p><a href="https://ilab.fudan.edu.cn/blockchain/login">仿真平台</a></p>
+<h2 id="heading"></h2>
+<p><img src="https://s2.loli.net/2022/12/20/Y6zRNikCP2QwxoK.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/20/hqMT8e7nKrAIUjy.png" alt=""></p>
+<h2 id="区块链存储机制">区块链存储机制</h2>
+<h3 id="区块链存储概述">区块链存储概述</h3>
+<p><img src="https://s2.loli.net/2022/12/23/prbUAXVulfgKa9C.png" alt=""></p>
+<p>逻辑形式----区块数据，相当于数据库日志</p>
+<p>物理方式----状态数据，相当于数据库存储内容</p>
+<p>区块链场景下还要验证数据。</p>
+<h3 id="区块数据存储">区块数据存储</h3>
+<p>总体构架: 逻辑结构---转化层---物理存储</p>
+<p><img src="https://s2.loli.net/2022/12/23/Uo4fzSKBiqONulH.png" alt=""></p>
+<p>逻辑结构:</p>
+<p><img src="https://s2.loli.net/2022/12/23/UEc4XyIjozLYlC6.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/23/7xMEeqmjU5LQPsV.png" alt=""></p>
+<p>转化层:</p>
+<p><img src="https://s2.loli.net/2022/12/24/pyrXDcUw5gYSvTd.png" alt=""></p>
+<p>物理存储:</p>
+<p><img src="https://s2.loli.net/2022/12/24/2dc78XQrC4pDnSx.png" alt=""></p>
+<h3 id="状态数据存储">状态数据存储</h3>
+<p><img src="https://s2.loli.net/2022/12/24/tcwLOETspI73Nyq.png" alt=""></p>
+<p>UTXO模型:</p>
+<p><img src="https://s2.loli.net/2022/12/24/q9vDWzmKA7u1OZ4.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/zd61EhSgYjlKfep.png" alt=""></p>
+<p>账户模型(K-V模型):</p>
+<p><img src="https://s2.loli.net/2022/12/24/OVTQe1PsCNZlGqd.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/RiHLGIz6t74hSxa.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/W63Q8Vm7iXDbjaC.png" alt=""></p>
+<h3 id="以太坊mpt">以太坊MPT</h3>
+<p>既能做验证还能做索引:</p>
+<p><img src="https://s2.loli.net/2022/12/24/vQNknEtsIoe4cyG.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/zJpFD8Ct2USLZgH.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/Y3DQcqMN1zUef8S.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/hIDpOsMAGnfZljo.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/TRpfPlEnQj3WZkm.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/EfkNZJPcLDp4UqW.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/tKNbhBHjZpzJrS1.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/3sBx7FaJnprcIXj.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/24/CHaFZmb5GWncEvt.png" alt=""></p>
+<h3 id="数据验证">数据验证</h3>
+<p><img src="https://s2.loli.net/2022/12/25/oMPXNDTgwHleUSC.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/tseHOYJk2K3DEaU.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/oDvBjQ5F9Km38pM.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/ILk4rJbWxu7aiE8.png" alt=""></p>
+<h3 id="以太坊区块结构">以太坊区块结构</h3>
+<p><img src="https://s2.loli.net/2022/12/25/MCxXWrObBYLUGRI.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/uUaH5cxzSpo7VeZ.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/qK2FuyUIQ68eZjb.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/pwgQcJ4RfZNX9YI.png" alt=""></p>
+<h3 id="fabric-存储">Fabric 存储</h3>
+<p><img src="https://s2.loli.net/2022/12/25/EgC1D3c6JSHz2bm.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/wtiS4RNlzZdQpfa.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/yia9kr2PONSYJEW.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/Zr3ta5MUbe2xNyV.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/oiUQIt3jM1YaDAg.png" alt=""></p>
+<h3 id="存储优化">存储优化</h3>
+<p><img src="https://s2.loli.net/2022/12/25/rx7UifsLXaz8FQl.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/Fm9JrtSa1MWwfoj.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/DwC1IOuXRl3ht5Z.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/oEHcpg7z1vljL5N.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/NyCpb52fgUGX8Ij.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/a4oTO8kYwvzmbsx.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/kRCAdB9s7XMbuti.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/sLFXzHbPClG1TDA.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/MuSOyoEBkAs6TeJ.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/dkFGCgfcyuoSz4q.png" alt=""></p>
+<h2 id="区块链存储可扩展性">区块链存储可扩展性</h2>
+<p><img src="https://s2.loli.net/2022/12/25/jNzC213eBThQnVH.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/UMvQYrK4wyAlNFT.png" alt=""></p>
+<p>挑战:</p>
+<ol>
+<li>存不下-全量存储无法适应海量数据</li>
+<li>存的慢-链式存储吞吐量低/图式冲突事务多。</li>
+<li>查找困难-查不准</li>
+<li>功能单一-不支持分布式事务，丰富区块链查询功能</li>
+</ol>
+<p><img src="https://s2.loli.net/2022/12/21/iBauZKHLTbAsGlc.png" alt=""></p>
+<p><img src="https://s2.loli.net/2022/12/25/erHm38sAfVFabNO.png" alt=""></p>
 </div>
 	</section>
 
@@ -333,7 +352,7 @@ onload='renderMathInElement(document.body);'></script>
 	<div class="text-sm text-gray-500 leading-tight a-gray">
 		
 		<br />
-		Built with Hugo and theme <a href="https://github.com/heyeshuang/hugo-theme-tokiwa">Tokiwa</a>. 698 words in this page.
+		Built with Hugo and theme <a href="https://github.com/heyeshuang/hugo-theme-tokiwa">Tokiwa</a>. 312 words in this page.
 	</div>
 </div>
 
@@ -344,17 +363,17 @@ onload='renderMathInElement(document.body);'></script>
 <hr class="double-line" />
 <div class="flex flex-wrap justify-between pb-2 leading-loose font-serif">
     
-    <a class="flex-grow-0" href="/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
+    <a class="flex-grow-0" href="/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AD%A6%E4%B9%A0-eth/">
         <svg class="fill-current inline-block h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
             height="24">
             <path fill="none" d="M0 0h24v24H0z" />
             <path d="M7.828 11H20v2H7.828l5.364 5.364-1.414 1.414L4 12l7.778-7.778 1.414 1.414z" /></svg>
-        DAG区块链论文阅读
+        区块链学习--Eth
     </a>
     
     
-    <a class="flex-grow-0" href="/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AD%A6%E4%B9%A0/">
-        区块链学习---BTC
+    <a class="flex-grow-0" href="/post/%E6%B0%B4%E5%8D%B0%E9%AA%8C%E8%AF%81/">
+        
         <svg class="fill-current inline-block h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
             height="24">
             <path fill="none" d="M0 0h24v24H0z" />
@@ -364,23 +383,6 @@ onload='renderMathInElement(document.body);'></script>
 <div >
 
 
-
-<div class="font-serif pb-2 flex align-start leading-loose">
-	<span class="heading pr-6 leading-loose">Related</span>
-	<span >
-		
-			<a href="/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">DAG区块链论文阅读</a>&nbsp;&nbsp;&#47;&nbsp;
-		
-			<a href="/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/">DAG区块链综述</a>&nbsp;&nbsp;&#47;&nbsp;
-		
-			<a href="/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">联邦学习论文阅读</a>&nbsp;&nbsp;&#47;&nbsp;
-		
-			<a href="/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">Raft论文阅读</a>&nbsp;&nbsp;&#47;&nbsp;
-		
-			<a href="/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/">联邦学习综述</a>
-		
-</span>
-</div>
 
 </div>
 <hr />

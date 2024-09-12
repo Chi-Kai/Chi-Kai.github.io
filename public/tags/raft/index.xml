@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Raft on 悉达多</title>
-    <link>https://chi-kai.github.io/tags/raft/</link>
+    <link>http://localhost:1313/tags/raft/</link>
     <description>Recent content in Raft on 悉达多</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sun, 30 Oct 2022 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://chi-kai.github.io/tags/raft/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://localhost:1313/tags/raft/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Raft论文阅读</title>
-      <link>https://chi-kai.github.io/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
+      <link>http://localhost:1313/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
       <pubDate>Sun, 30 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://chi-kai.github.io/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
+      <guid>http://localhost:1313/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
       <description>&lt;h2 id=&#34;领导人选举&#34;&gt;领导人选举&lt;/h2&gt;
 &lt;p&gt;首先按照论文中最关键的figure 2补全节点和RPC结构。&lt;/p&gt;
 &lt;p&gt;节点有三个状态: Leader,Candidate,Follower 和 两个计时器: 选举计时器，心跳计时器。&lt;/p&gt;
@@ -56,8 +56,7 @@
 &lt;p&gt;当收到一个更高term的回复RPC,Candidate转变为Follower，term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;当收到一个更高的term的心跳时，状态转变为Follower,
-term变为更高的term,投票变为null。&lt;/p&gt;
+&lt;p&gt;当收到一个更高的term的心跳时，状态转变为Follower,term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;节点在两种情况拒绝投票，一是Candidate的term小于自己，二是自己在本term中已经投过票。&lt;/p&gt;
@@ -96,7 +95,7 @@ term变为更高的term,投票变为null。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3 id=&#34;提交之前任期内的日志条目&#34;&gt;提交之前任期内的日志条目&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&#34;http://tva1.sinaimg.cn/large/008upJWily1h7oklyiaigj30ue0vaww7.jpg&#34; alt=&#34;幽灵复现&#34;&gt;&lt;/p&gt;
-&lt;p&gt;在上图中，raft 为了避免出现一致性问题，要求 leader 绝不会提交过去的 term 的 entry （即使该 entry 已经被复制到了多数节点上）。leader 永远只提交当前 term 的 entry， 过去的 entry 只会随着当前的 entry 被一并提交。（上图中的 c，term2 只会跟随 term4 被提交。）&lt;/p&gt;
+&lt;p&gt;在上图中，raft 为了避免出现一致性问题，要求 leader 绝不会提交过去的 term 的 entry （即使该 entry 已经被复制到了多数节点上）。leader 永远只提交当前 term 的 entry，过去的 entry 只会随着当前的 entry 被一并提交。（上图中的 c，term2 只会跟随 term4 被提交。）&lt;/p&gt;
 &lt;p&gt;如果一个 candidate 能取得多数同意，说明它的日志已经是多数节点中最完备的， 那么也就可以认为该 candidate 已经包含了整个集群的所有 committed entries。&lt;/p&gt;
 &lt;p&gt;因此 leader 当选后，应当立刻发起 AppendEntriesRPC 提交一个 no-op entry。注意，这是一个 Must，不是一个 Should，否则会有许多 corner case 存在问题。如:&lt;/p&gt;
 &lt;ul&gt;

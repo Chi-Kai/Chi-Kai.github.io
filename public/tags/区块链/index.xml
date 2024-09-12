@@ -2,36 +2,62 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>区块链 on 悉达多</title>
-    <link>https://chi-kai.github.io/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/</link>
+    <link>http://localhost:1313/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/</link>
     <description>Recent content in 区块链 on 悉达多</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Fri, 25 Nov 2022 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://chi-kai.github.io/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://localhost:1313/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>区块链白皮书解读</title>
-      <link>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</link>
+      <link>http://localhost:1313/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</link>
       <pubDate>Fri, 25 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</guid>
+      <guid>http://localhost:1313/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</guid>
       <description>&lt;h2 id=&#34;比特币白皮书&#34;&gt;比特币白皮书&lt;/h2&gt;
 &lt;h2 id=&#34;以太坊白皮书&#34;&gt;以太坊白皮书&lt;/h2&gt;
 &lt;h2 id=&#34;tangle-白皮书&#34;&gt;Tangle 白皮书&lt;/h2&gt;
 &lt;p&gt;详细的内容见 &lt;a href=&#34;https://lzphi.cn/2020/12/20/2020-12-17-Tangle-%E7%99%BD%E7%9A%AE%E4%B9%A6/&#34;&gt;Tangle白皮书中文版&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;tangle&lt;/strong&gt; 是 &lt;strong&gt;IOTA&lt;/strong&gt; 所用的技术，为物联网和小额支付提供支持。不同于常见的区块链，它使用一个DAG（有向无环图）作为结构，这里称为Tangle。&lt;/p&gt;
 &lt;p&gt;传统区块链系统的单链结构在交易认证，吞吐量，资源消耗等方面存在缺陷，DAG结构的区块链是一个有效的解决方案。&lt;/p&gt;
+&lt;h2 id=&#34;fabric-白皮书&#34;&gt;Fabric 白皮书&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Hyperledger Fabric&lt;/strong&gt; 是 Linux 基金会 的 一个项目，是Hyperledger下面的一个子项目。作为一个开源联盟链，被很多项目应用。&lt;/p&gt;
+&lt;p&gt;它的主要特点是模块化的共识机制，相对高性能，和可以使用常规语言编写智能合约(golang)。&lt;/p&gt;
+&lt;h3 id=&#34;概念&#34;&gt;概念&lt;/h3&gt;
+&lt;h4 id=&#34;联盟链&#34;&gt;联盟链&lt;/h4&gt;
+&lt;p&gt;文中划分联盟链和公链的标准是: &lt;strong&gt;是否发币和节点身份是否可知&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;状态机复制(SMR)是建设弹性应用众所周知的方式，但是如果我们把运行在区块链上的智能合约看作一种分布式应用，与传统的SMR区别在于:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;许多应用并发运行&lt;/li&gt;
+&lt;li&gt;这些应用可以被任何人动态地部署&lt;/li&gt;
+&lt;li&gt;这些应用的代码是不被信任的，可能有恶意&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;order-execute&#34;&gt;order-execute&lt;/h4&gt;
+&lt;p&gt;现有的大部分可以运行智能合约的区块链遵循SMR实现一种order-execute的架构: 节点先将交易排序再将它们广播给其他节点，然后每个节点顺序执行。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/12/06/B4Ns3GZAKl8dIXT.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这个架构存在的一些问题:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;所有节点按照顺序执行交易会限制性能（例如TPS），通常将不相关的操作并发执行可以提升性能，但是对智能合约很难做到并发，因为代码之间的依赖关系很难确定&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;order-execute最大的限制是，所有节点所执行的交易必须满足确定性.类似以太坊这样采用Solidity这样的编程语言可以一定程度上保证代码确定性，但对于更流行的语言（例如Go，Java，C/C++），则很难保证确定性（比如Go中的map iterator就无法保证确定性）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;execute-order-validate&#34;&gt;execute-order-validate&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/12/07/jDBxcLmYrfXSnbl.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>DAG区块链论文阅读</title>
-      <link>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
+      <link>http://localhost:1313/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
       <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
+      <guid>http://localhost:1313/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
       <description>&lt;h2 id=&#34;direct-acyclic-graph-based-ledger-for-internet-of-things-performance-and-security-analysis&#34;&gt;《Direct Acyclic Graph-Based Ledger for Internet of Things: Performance and Security Analysis》&lt;/h2&gt;
 &lt;h3 id=&#34;问题背景&#34;&gt;问题背景&lt;/h3&gt;
 &lt;p&gt;由于区块链的安全性，去中心化，可信性，在IoT系统上有可观的应用前景（如智能车，能源交易）。IoT系统具有规模大，资源受限的特性。所以其上的共识算法必须满足资源需求小,低消耗，和高的交易吞吐量。&lt;/p&gt;
@@ -98,10 +124,10 @@
     
     <item>
       <title>DAG区块链综述</title>
-      <link>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/</link>
+      <link>http://localhost:1313/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/</link>
       <pubDate>Mon, 07 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://chi-kai.github.io/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/</guid>
+      <guid>http://localhost:1313/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/</guid>
       <description>&lt;h2 id=&#34;问题现状&#34;&gt;问题现状&lt;/h2&gt;
 &lt;h4 id=&#34;区块链面临的问题&#34;&gt;区块链面临的问题&lt;/h4&gt;
 &lt;p&gt;区块链作为现在一个热门技术，越来越多的人涌入其中。传统的区块链由于其单链结构和共识算法的限制，存在[!!!]等问题。
