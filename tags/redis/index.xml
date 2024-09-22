@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Redis on 悉达多</title><link>https://chi-kai.github.io/tags/redis/</link><description>Recent content in Redis on 悉达多</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 20 Jul 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://chi-kai.github.io/tags/redis/index.xml" rel="self" type="application/rss+xml"/><item><title>手写Redis</title><link>https://chi-kai.github.io/post/%E6%89%8B%E5%86%99redis/</link><pubDate>Sat, 20 Jul 2024 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/%E6%89%8B%E5%86%99redis/</guid><description>&lt;h1 id="redis-架构解析-redis-10">Redis 架构解析 (Redis 1.0)&lt;/h1>
-&lt;p>程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中
+&lt;p>程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中，这就是redis中著名的ae库。
 ![[Pasted image 20240920194849.png]]
 aeMain作用是持续处理aeloop中的事务:
 ![[Pasted image 20240920195230.png]]
