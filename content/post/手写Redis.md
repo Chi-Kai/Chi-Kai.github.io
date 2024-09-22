@@ -14,4 +14,61 @@ draft: false
 ![[Pasted image 20240920194849.png]]
 aeMain在ae.c中。可以看出aeMain就是持续处理事务:
 ![[Pasted image 20240920195230.png]]
-首先我们要
+主要关注的是三个结构体，定义了FileEvent和TimeEvent，以及事件循环:
+```c
+/* File event structure */
+
+typedef struct aeFileEvent {
+
+    int fd;
+
+    int mask; /* one of AE_(READABLE|WRITABLE|EXCEPTION) */
+
+    aeFileProc *fileProc; // 回调函数
+
+    aeEventFinalizerProc *finalizerProc; // 事件完成时回调
+
+    void *clientData;
+
+    struct aeFileEvent *next;
+
+} aeFileEvent;
+
+  
+
+/* Time event structure */
+
+typedef struct aeTimeEvent {
+
+    long long id; /* time event identifier. */
+
+    long when_sec; /* seconds */
+
+    long when_ms; /* milliseconds */
+
+    aeTimeProc *timeProc;
+
+    aeEventFinalizerProc *finalizerProc;
+
+    void *clientData;
+
+    struct aeTimeEvent *next;
+
+} aeTimeEvent;
+
+  
+
+/* State of an event based program */
+
+typedef struct aeEventLoop {
+
+    long long timeEventNextId;
+
+    aeFileEvent *fileEventHead;
+
+    aeTimeEvent *timeEventHead;
+
+    int stop;
+
+} aeEventLoop;
+```
