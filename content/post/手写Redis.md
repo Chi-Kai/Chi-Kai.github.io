@@ -101,4 +101,6 @@ ae库最主要的函数就是`aeProcessEvents` , 它的主要功能是处理文
 4. 返回处理的事件数量。
 我们接着看回main函数,在事件循环中注册了一个server的acceptHandler函数，一旦有客户端链接可读，就触发。
 ![[Pasted image 20240922161721.png]]
-
+![[Pasted image 20240922164350.png]]
+其中这个函数有两个操作 accept客户端请求和创建一个新的客户端。我们看这个createClient函数,除了设置一些客户端状态外，还为每个客户端注册了一个处理请求的函数readQueryFromClient。当客户端fd可读就触发
+![[Pasted image 20240922164641.png]]
