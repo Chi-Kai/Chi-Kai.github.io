@@ -10,7 +10,7 @@ toc: true
 draft: false
 ---
 # Redis 架构解析 (Redis 1.0)
-程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中
+程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中，这就是redis中著名的ae库。
 ![[Pasted image 20240920194849.png]]
 aeMain作用是持续处理aeloop中的事务:
 ![[Pasted image 20240920195230.png]]
