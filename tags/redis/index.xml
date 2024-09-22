@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Redis on 悉达多</title><link>https://chi-kai.github.io/tags/redis/</link><description>Recent content in Redis on 悉达多</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 20 Jul 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://chi-kai.github.io/tags/redis/index.xml" rel="self" type="application/rss+xml"/><item><title>手写Redis</title><link>https://chi-kai.github.io/post/%E6%89%8B%E5%86%99redis/</link><pubDate>Sat, 20 Jul 2024 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/%E6%89%8B%E5%86%99redis/</guid><description>&lt;h1 id="redis-架构解析-redis-10">Redis 架构解析 (Redis 1.0)&lt;/h1>
-&lt;p>程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中，这就是redis中著名的ae库。
+&lt;p>程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中，这就是redis中著名的ae库。下面我们先介绍一下ae库:
 ![[Pasted image 20240920194849.png]]
 aeMain作用是持续处理aeloop中的事务:
 ![[Pasted image 20240920195230.png]]
@@ -73,7 +73,24 @@ ae库主要关注的是三个结构体，定义了FileEvent和TimeEvent，以及
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>        &lt;span style="color:#111">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>    &lt;span style="color:#111">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果 &lt;code>flags&lt;/code> 中设置了 &lt;code>AE_FILE_EVENTS&lt;/code>，则遍历文件事件链表，将需要监听的文件描述符添加到 &lt;code>rfds&lt;/code>, &lt;code>wfds&lt;/code>, &lt;code>efds&lt;/code> 中，并更新 &lt;code>maxfd&lt;/code> 和 &lt;code>numfd&lt;/code>。
-&lt;code>rfds wfds efds&lt;/code> 是类型为&lt;code>fd_set&lt;/code>的描述符集合。&lt;/p></description></item><item><title>Redis源码剖析(一)</title><link>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</link><pubDate>Sun, 22 May 2022 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</guid><description>&lt;h1 id="基础数据结构部分">基础数据结构部分&lt;/h1>
+&lt;code>rfds wfds efds&lt;/code> 是类型为&lt;code>fd_set&lt;/code>的描述符集合。
+然后它做了哪些事情呢:&lt;/p>
+&lt;ol>
+&lt;li>获取当前到最新时间事件的差，作为select的超时时间。&lt;/li>
+&lt;li>处理 &lt;code>select&lt;/code> 返回的事件。
+&lt;ul>
+&lt;li>如果 &lt;code>select&lt;/code> 返回值大于0，表示有事件发生，遍历文件事件链表，检查哪些文件描述符上有事件发生，并调用相应的处理函数 &lt;code>fileProc&lt;/code>。&lt;/li>
+&lt;li>处理完事件后，重新从链表头开始遍历，因为事件处理可能会修改链表结构。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>处理时间事件：
+&lt;ul>
+&lt;li>如果 flags 中设置了 AE_TIME_EVENTS，则遍历时间事件链表，检查哪些时间事件已经到期，并调用相应的处理函数 timeProc。&lt;/li>
+&lt;li>如果时间事件需要重复触发，则更新其触发时间；否则，删除该时间事件。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>返回处理的事件数量。&lt;/li>
+&lt;/ol></description></item><item><title>Redis源码剖析(一)</title><link>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</link><pubDate>Sun, 22 May 2022 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</guid><description>&lt;h1 id="基础数据结构部分">基础数据结构部分&lt;/h1>
 &lt;h2 id="动态字符串-sds">动态字符串 SDS&lt;/h2>
 &lt;p>实现在 sds.h/sds.c。&lt;/p>
 &lt;h3 id="设计原则">设计原则&lt;/h3>

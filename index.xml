@@ -58,7 +58,7 @@
 &lt;p>实验部分首先介绍了实验的设计，包括使用的数据集、DNN架构、水印算法和攻击方法。作为基线的攻击方法包括剪枝、微调和反学习等。实验结果表明，Dehydra在数据有限的设置下，能够实现对所有十种主流黑盒水印的强效移除，同时至少保留了90%的模型效用。与现有攻击方法相比，Dehydra在移除水印方面表现出更高的有效性，且对模型效用的影响更小。&lt;/p>
 &lt;h2 id="自己思考-1">自己思考&lt;/h2>
 &lt;p>本文提出的Dehydra方法在水印移除领域具有创新性，特别是在减少对数据依赖和提高攻击有效性方面。然而，该方法也有一些局限性。首先，Dehydra主要针对图像分类任务，对于其他类型的DNN模型，如自然语言处理模型，其有效性尚未得到验证。其次，Dehydra的攻击效果可能受到模型结构和水印算法设计的影响，对于某些特定的水印算法，可能需要进一步调整攻击策略。未来的工作可以探索Dehydra在其他任务和模型上的应用，并研究如何提高其对不同水印算法的适应性。此外，研究者们还可以探索如何结合Dehydra与其他攻击方法，以实现更全面的水印防御策略。&lt;/p></description></item><item><title>手写Redis</title><link>https://chi-kai.github.io/post/%E6%89%8B%E5%86%99redis/</link><pubDate>Sat, 20 Jul 2024 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/%E6%89%8B%E5%86%99redis/</guid><description>&lt;h1 id="redis-架构解析-redis-10">Redis 架构解析 (Redis 1.0)&lt;/h1>
-&lt;p>程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中，这就是redis中著名的ae库。
+&lt;p>程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中，这就是redis中著名的ae库。下面我们先介绍一下ae库:
 ![[Pasted image 20240920194849.png]]
 aeMain作用是持续处理aeloop中的事务:
 ![[Pasted image 20240920195230.png]]
@@ -132,7 +132,24 @@ ae库主要关注的是三个结构体，定义了FileEvent和TimeEvent，以及
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>        &lt;span style="color:#111">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>    &lt;span style="color:#111">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果 &lt;code>flags&lt;/code> 中设置了 &lt;code>AE_FILE_EVENTS&lt;/code>，则遍历文件事件链表，将需要监听的文件描述符添加到 &lt;code>rfds&lt;/code>, &lt;code>wfds&lt;/code>, &lt;code>efds&lt;/code> 中，并更新 &lt;code>maxfd&lt;/code> 和 &lt;code>numfd&lt;/code>。
-&lt;code>rfds wfds efds&lt;/code> 是类型为&lt;code>fd_set&lt;/code>的描述符集合。&lt;/p></description></item><item><title>K8s实践</title><link>https://chi-kai.github.io/post/k8s%E5%AE%9E%E8%B7%B5/</link><pubDate>Mon, 20 May 2024 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/k8s%E5%AE%9E%E8%B7%B5/</guid><description>&lt;ol>
+&lt;code>rfds wfds efds&lt;/code> 是类型为&lt;code>fd_set&lt;/code>的描述符集合。
+然后它做了哪些事情呢:&lt;/p>
+&lt;ol>
+&lt;li>获取当前到最新时间事件的差，作为select的超时时间。&lt;/li>
+&lt;li>处理 &lt;code>select&lt;/code> 返回的事件。
+&lt;ul>
+&lt;li>如果 &lt;code>select&lt;/code> 返回值大于0，表示有事件发生，遍历文件事件链表，检查哪些文件描述符上有事件发生，并调用相应的处理函数 &lt;code>fileProc&lt;/code>。&lt;/li>
+&lt;li>处理完事件后，重新从链表头开始遍历，因为事件处理可能会修改链表结构。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>处理时间事件：
+&lt;ul>
+&lt;li>如果 flags 中设置了 AE_TIME_EVENTS，则遍历时间事件链表，检查哪些时间事件已经到期，并调用相应的处理函数 timeProc。&lt;/li>
+&lt;li>如果时间事件需要重复触发，则更新其触发时间；否则，删除该时间事件。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>返回处理的事件数量。&lt;/li>
+&lt;/ol></description></item><item><title>K8s实践</title><link>https://chi-kai.github.io/post/k8s%E5%AE%9E%E8%B7%B5/</link><pubDate>Mon, 20 May 2024 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/k8s%E5%AE%9E%E8%B7%B5/</guid><description>&lt;ol>
 &lt;li>所有命令要主要对应的namespace&lt;/li>
 &lt;li>&amp;quot;PENDING&amp;quot; 状态表示服务正在等待底层网络资源的分配。通常情况下，当你在本地测试集群时，LoadBalancer 类型的服务会处于 Pending 状态，因为本地集群通常没有外部负载均衡器可供分配。&lt;/li>
 &lt;li>代理会影响本地kind集群的请求&lt;/li>
