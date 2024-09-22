@@ -14,3 +14,4 @@ draft: false
 ![[Pasted image 20240920194849.png]]
 aeMain在ae.c中。可以看出aeMain就是持续处理事务:
 ![[Pasted image 20240920195230.png]]
+首先我们要
