@@ -72,3 +72,20 @@ typedef struct aeEventLoop {
 
 } aeEventLoop;
 ```
+ae库最主要的函数就是`aeProcessEvents` , 它的主要功能是处理文件事件（如网络套接字读写事件）和时间事件（如定时器事件）。它会根据传入的标志位（`flags`）决定是否处理这两种事件，并返回处理的事件数量。
+下面讲一下大概的流程:
+```c
+    /* Check file events */
+    if (flags & AE_FILE_EVENTS) {
+        while (fe != NULL) {
+            if (fe->mask & AE_READABLE) FD_SET(fe->fd, &rfds);
+            if (fe->mask & AE_WRITABLE) FD_SET(fe->fd, &wfds);
+            if (fe->mask & AE_EXCEPTION) FD_SET(fe->fd, &efds);
+            if (maxfd < fe->fd) maxfd = fe->fd;
+            numfd++;
+            fe = fe->next;
+        }
+    }
+```
+如果 `flags` 中设置了 `AE_FILE_EVENTS`，则遍历文件事件链表，将需要监听的文件描述符添加到 `rfds`, `wfds`, `efds` 中，并更新 `maxfd` 和 `numfd`。
+`rfds wfds efds` 是类型为`fd_set`的描述符集合。
