@@ -12,6 +12,7 @@ draft: false
 # Redis 架构解析 (Redis 1.0)
 程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中，这就是redis中著名的ae库。下面我们先介绍一下ae库:
 ![[Pasted image 20240920194849.png]]
+### ae库
 aeMain作用是持续处理aeloop中的事务:
 ![[Pasted image 20240920195230.png]]
 ae库主要关注的是三个结构体，定义了FileEvent和TimeEvent，以及事件循环
@@ -98,3 +99,6 @@ ae库最主要的函数就是`aeProcessEvents` , 它的主要功能是处理文
 	- 如果 flags 中设置了 AE_TIME_EVENTS，则遍历时间事件链表，检查哪些时间事件已经到期，并调用相应的处理函数 timeProc。
 	- 如果时间事件需要重复触发，则更新其触发时间；否则，删除该时间事件。
 4. 返回处理的事件数量。
+我们接着看回main函数:
+![[Pasted image 20240922161721.png]]
+
