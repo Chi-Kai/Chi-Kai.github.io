@@ -10,11 +10,11 @@ toc: true
 draft: false
 ---
 # Redis 架构解析 (Redis 1.0)
-程序入口在redis.c中，从main函数可以看出,主要的操作的aeMain中
+程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中
 ![[Pasted image 20240920194849.png]]
-aeMain在ae.c中。可以看出aeMain就是持续处理事务:
+aeMain作用是持续处理aeloop中的事务:
 ![[Pasted image 20240920195230.png]]
-主要关注的是三个结构体，定义了FileEvent和TimeEvent，以及事件循环:
+ae库主要关注的是三个结构体，定义了FileEvent和TimeEvent，以及事件循环
 ```c
 /* File event structure */
 
