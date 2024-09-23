@@ -104,7 +104,7 @@ ae库最主要的函数就是`aeProcessEvents` , 它的主要功能是处理文
 ![[Pasted image 20240922164350.png]]
 其中这个函数有两个操作 accept客户端请求和创建一个新的客户端。我们看这个createClient函数,除了设置一些客户端状态外，还为每个客户端注册了一个处理请求的函数readQueryFromClient。当客户端fd可读就触发
 ![[Pasted image 20240922164641.png]]
-### 一条命令的执行
+### 一条命令的执行流程
 `readQueryFromClient` 函数的主要作用是从客户端读取数据，解析查询请求，并将其传递给 Redis 服务器进行处理。
 1. 读数据，将读到的数据写入缓冲区。这里可以看出，这个操作是持续进行的，也就是客户端可以保持这个链接，一旦客户端fd可读，就写入buffer。可以连续操作
 ![[Pasted image 20240923094649.png]]
@@ -126,3 +126,55 @@ if (c->argc && processCommand(c) && sdslen(c->querybuf)) goto again;
 ```
 下面看一条命令是怎么执行的。
 `processCommand` 函数是 Redis 服务器中用于处理客户端命令的核心函数。它负责解析、验证和执行客户端发送的命令，并根据命令的执行结果进行相应的处理。
+1. 查找命令
+```c
+cmd = lookupCommand(c->argv[0]->ptr);
+// 遍历cmdTable。这个表很小遍历也无所谓
+static struct redisCommand *lookupCommand(char *name) {
+    int j = 0;
+    while(cmdTable[j].name != NULL) {
+        if (!strcasecmp(name,cmdTable[j].name)) return &cmdTable[j];
+        j++;
+    }
+    return NULL;
+}
+// cmdTable
+static struct redisCommand cmdTable[] = {
+    {"get",getCommand,2,REDIS_CMD_INLINE},
+    {"set",setCommand,3,REDIS_CMD_BULK|REDIS_CMD_DENYOOM},\
+    //...
+    {NULL,NULL,0,0}
+};
+// redisComand
+typedef void redisCommandProc(redisClient *c);
+struct redisCommand {
+    char *name; 
+    redisCommandProc *proc; // 执行的命令函数
+    int arity; // 对应参数数量
+    int flags; // 标志
+};
+```
+2. 错误处理和内存管理。可以看出对一个命令有很多检查，对应的参数数量，内存等等
+![[Pasted image 20240923111602.png]]
+3. 执行命令并更新服务器状态。如果命令修改了数据（`server.dirty` 发生变化），并且有从服务器连接，则将命令传播给从服务器。如果有监控器连接，则也将命令传播给监控器。最后，增加服务器执行的命令计数。
+```c
+dirty = server.dirty;
+cmd->proc(c);
+if (server.dirty-dirty != 0 && listLength(server.slaves))
+    replicationFeedSlaves(server.slaves,cmd,c->db->id,c->argv,c->argc);
+if (listLength(server.monitors))
+    replicationFeedSlaves(server.monitors,cmd,c->db->id,c->argv,c->argc);
+server.stat_numcommands++;
+
+```
+4. 对客户端状态重置。
+```c
+if (c->flags & REDIS_CLOSE) {
+    freeClient(c);
+    return 0;
+}
+resetClient(c);
+return 1;
+```
+### 解析get命令执行
+
