@@ -104,7 +104,24 @@ ae库最主要的函数就是`aeProcessEvents` , 它的主要功能是处理文
 ![[Pasted image 20240922164350.png]]
 其中这个函数有两个操作 accept客户端请求和创建一个新的客户端。我们看这个createClient函数,除了设置一些客户端状态外，还为每个客户端注册了一个处理请求的函数readQueryFromClient。当客户端fd可读就触发
 ![[Pasted image 20240922164641.png]]
+### 一条命令的执行
 `readQueryFromClient` 函数的主要作用是从客户端读取数据，解析查询请求，并将其传递给 Redis 服务器进行处理。
 1. 读数据，将读到的数据写入缓冲区。这里可以看出，这个操作是持续进行的，也就是客户端可以保持这个链接，一旦客户端fd可读，就写入buffer。可以连续操作
 ![[Pasted image 20240923094649.png]]
-2. 处理数据。
+2. 处理数据。首先将收到的字符串分离处理，把命令和参数分开。这里就不细看了。处理完之后，命令被放到argv中，参数放到argc中。可以看到这里有一个跳转语句goto。当buffer还有命令时会重复执行。这里还有一个bulklen参数，是判断处理批量读取操作。
+```c
+again:
+	if (c->bulklen == -1) {
+    char *p = strchr(c->querybuf, '\n');
+    if (p) {
+        // 解析命令和参数
+    } else if (sdslen(c->querybuf) >= REDIS_REQUEST_MAX_SIZE) {
+        redisLog(REDIS_DEBUG, "Client protocol error");
+        freeClient(c);
+        return;
+	}
+  }
+// 执行语句
+if (c->argc && processCommand(c) && sdslen(c->querybuf)) goto again;
+```
+下面看一条命令是怎么执行的。
