@@ -95,12 +95,29 @@ ae库主要关注的是三个结构体，定义了FileEvent和TimeEvent，以及
 ![[Pasted image 20240922161721.png]]
 ![[Pasted image 20240922164350.png]]
 其中这个函数有两个操作 accept客户端请求和创建一个新的客户端。我们看这个createClient函数,除了设置一些客户端状态外，还为每个客户端注册了一个处理请求的函数readQueryFromClient。当客户端fd可读就触发
-![[Pasted image 20240922164641.png]]
-&lt;code>readQueryFromClient&lt;/code> 函数的主要作用是从客户端读取数据，解析查询请求，并将其传递给 Redis 服务器进行处理。&lt;/li>
+![[Pasted image 20240922164641.png]]&lt;/li>
+&lt;/ol>
+&lt;h3 id="一条命令的执行">一条命令的执行&lt;/h3>
+&lt;p>&lt;code>readQueryFromClient&lt;/code> 函数的主要作用是从客户端读取数据，解析查询请求，并将其传递给 Redis 服务器进行处理。&lt;/p>
+&lt;ol>
 &lt;li>读数据，将读到的数据写入缓冲区。这里可以看出，这个操作是持续进行的，也就是客户端可以保持这个链接，一旦客户端fd可读，就写入buffer。可以连续操作
 ![[Pasted image 20240923094649.png]]&lt;/li>
-&lt;li>处理数据。&lt;/li>
-&lt;/ol></description></item><item><title>Redis源码剖析(一)</title><link>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</link><pubDate>Sun, 22 May 2022 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</guid><description>&lt;h1 id="基础数据结构部分">基础数据结构部分&lt;/h1>
+&lt;li>处理数据。首先将收到的字符串分离处理，把命令和参数分开。这里就不细看了。处理完之后，命令被放到argv中，参数放到argc中。可以看到这里有一个跳转语句goto。当buffer还有命令时会重复执行。这里还有一个bulklen参数，是判断处理批量读取操作。&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">again&lt;/span>&lt;span style="color:#111">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00a8c8">if&lt;/span> &lt;span style="color:#111">(&lt;/span>&lt;span style="color:#111">c&lt;/span>&lt;span style="color:#f92672">-&amp;gt;&lt;/span>&lt;span style="color:#111">bulklen&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#111">)&lt;/span> &lt;span style="color:#111">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00a8c8">char&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#111">p&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#75af00">strchr&lt;/span>&lt;span style="color:#111">(&lt;/span>&lt;span style="color:#111">c&lt;/span>&lt;span style="color:#f92672">-&amp;gt;&lt;/span>&lt;span style="color:#111">querybuf&lt;/span>&lt;span style="color:#111">,&lt;/span> &lt;span style="color:#d88200">&amp;#39;\n&amp;#39;&lt;/span>&lt;span style="color:#111">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00a8c8">if&lt;/span> &lt;span style="color:#111">(&lt;/span>&lt;span style="color:#111">p&lt;/span>&lt;span style="color:#111">)&lt;/span> &lt;span style="color:#111">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 解析命令和参数
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#111">}&lt;/span> &lt;span style="color:#00a8c8">else&lt;/span> &lt;span style="color:#00a8c8">if&lt;/span> &lt;span style="color:#111">(&lt;/span>&lt;span style="color:#75af00">sdslen&lt;/span>&lt;span style="color:#111">(&lt;/span>&lt;span style="color:#111">c&lt;/span>&lt;span style="color:#f92672">-&amp;gt;&lt;/span>&lt;span style="color:#111">querybuf&lt;/span>&lt;span style="color:#111">)&lt;/span> &lt;span style="color:#f92672">&amp;gt;=&lt;/span> &lt;span style="color:#111">REDIS_REQUEST_MAX_SIZE&lt;/span>&lt;span style="color:#111">)&lt;/span> &lt;span style="color:#111">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75af00">redisLog&lt;/span>&lt;span style="color:#111">(&lt;/span>&lt;span style="color:#111">REDIS_DEBUG&lt;/span>&lt;span style="color:#111">,&lt;/span> &lt;span style="color:#d88200">&amp;#34;Client protocol error&amp;#34;&lt;/span>&lt;span style="color:#111">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75af00">freeClient&lt;/span>&lt;span style="color:#111">(&lt;/span>&lt;span style="color:#111">c&lt;/span>&lt;span style="color:#111">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00a8c8">return&lt;/span>&lt;span style="color:#111">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#111">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#111">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 执行语句
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#00a8c8">if&lt;/span> &lt;span style="color:#111">(&lt;/span>&lt;span style="color:#111">c&lt;/span>&lt;span style="color:#f92672">-&amp;gt;&lt;/span>&lt;span style="color:#111">argc&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#75af00">processCommand&lt;/span>&lt;span style="color:#111">(&lt;/span>&lt;span style="color:#111">c&lt;/span>&lt;span style="color:#111">)&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#75af00">sdslen&lt;/span>&lt;span style="color:#111">(&lt;/span>&lt;span style="color:#111">c&lt;/span>&lt;span style="color:#f92672">-&amp;gt;&lt;/span>&lt;span style="color:#111">querybuf&lt;/span>&lt;span style="color:#111">))&lt;/span> &lt;span style="color:#00a8c8">goto&lt;/span> &lt;span style="color:#111">again&lt;/span>&lt;span style="color:#111">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>下面看一条命令是怎么执行的。&lt;/p></description></item><item><title>Redis源码剖析(一)</title><link>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</link><pubDate>Sun, 22 May 2022 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/</guid><description>&lt;h1 id="基础数据结构部分">基础数据结构部分&lt;/h1>
 &lt;h2 id="动态字符串-sds">动态字符串 SDS&lt;/h2>
 &lt;p>实现在 sds.h/sds.c。&lt;/p>
 &lt;h3 id="设计原则">设计原则&lt;/h3>
