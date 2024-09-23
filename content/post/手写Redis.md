@@ -125,3 +125,4 @@ again:
 if (c->argc && processCommand(c) && sdslen(c->querybuf)) goto again;
 ```
 下面看一条命令是怎么执行的。
+`processCommand` 函数是 Redis 服务器中用于处理客户端命令的核心函数。它负责解析、验证和执行客户端发送的命令，并根据命令的执行结果进行相应的处理。
