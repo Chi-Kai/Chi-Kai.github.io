@@ -104,3 +104,7 @@ ae库最主要的函数就是`aeProcessEvents` , 它的主要功能是处理文
 ![[Pasted image 20240922164350.png]]
 其中这个函数有两个操作 accept客户端请求和创建一个新的客户端。我们看这个createClient函数,除了设置一些客户端状态外，还为每个客户端注册了一个处理请求的函数readQueryFromClient。当客户端fd可读就触发
 ![[Pasted image 20240922164641.png]]
+`readQueryFromClient` 函数的主要作用是从客户端读取数据，解析查询请求，并将其传递给 Redis 服务器进行处理。
+1. 读数据，将读到的数据写入缓冲区。这里可以看出，这个操作是持续进行的，也就是客户端可以保持这个链接，一旦客户端fd可读，就写入buffer。可以连续操作
+![[Pasted image 20240923094649.png]]
+2. 处理数据。
