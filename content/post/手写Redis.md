@@ -177,4 +177,27 @@ resetClient(c);
 return 1;
 ```
 ### 解析get命令执行
-
+可以看到comtable中 get命令对应的是 getCommand函数:
+```c
+static void getCommand(redisClient *c) {
+    robj *o = lookupKeyRead(c->db,c->argv[1]);
+    if (o == NULL) {
+        addReply(c,shared.nullbulk);
+    } else {
+        if (o->type != REDIS_STRING) {
+            addReply(c,shared.wrongtypeerr);
+        } else {
+            addReplySds(c,sdscatprintf(sdsempty(),"$%d\r\n",(int)sdslen(o->ptr)));
+            addReply(c,o);
+            addReply(c,shared.crlf);
+        }
+    }
+}
+```
+使用`lookupKeyRead` 来在db中查找对应的值。
+```c
+static robj *lookupKeyRead(redisDb *db, robj *key) {
+    expireIfNeeded(db,key);
+    return lookupKey(db,key);
+}
+```
