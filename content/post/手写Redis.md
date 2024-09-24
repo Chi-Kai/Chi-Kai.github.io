@@ -201,3 +201,22 @@ static robj *lookupKeyRead(redisDb *db, robj *key) {
     return lookupKey(db,key);
 }
 ```
+expireIfNeeded 函数通过检查键的过期时间，决定是否删除过期的键。当查询的key过期会被删除。而lookupKey则是调用dictFind来查询dict中对应的key。
+```c
+dictEntry *dictFind(dict *ht, const void *key)
+{
+    dictEntry *he;
+    unsigned int h;
+    if (ht->size == 0) return NULL;
+    h = dictHashKey(ht, key) & ht->sizemask;
+    he = ht->table[h];
+    while(he) {
+        if (dictCompareHashKeys(ht, key, he->key))
+            return he;
+        he = he->next;
+    }
+    return NULL;
+}
+```
+dict使用链表法处理哈希冲突。所以首先要将key转为hash后的h,然后查找。对于dict中结构的分析可以查看[[Redis源码剖析-一]]。
+得到数据后，使用addReply来写入。
