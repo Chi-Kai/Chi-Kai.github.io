@@ -219,4 +219,16 @@ dictEntry *dictFind(dict *ht, const void *key)
 }
 ```
 dict使用链表法处理哈希冲突。所以首先要将key转为hash后的h,然后查找。对于dict中结构的分析可以查看[[Redis源码剖析-一]]。
-得到数据后，使用addReply来写入。
+得到数据后，使用addReply来写入。它注册了一个sendReplyToClient事件（这个就不写了），将数据写入。
+```c
+static void addReply(redisClient *c, robj *obj) {
+    if (listLength(c->reply) == 0 &&
+        (c->replstate == REDIS_REPL_NONE ||
+         c->replstate == REDIS_REPL_ONLINE) &&
+        aeCreateFileEvent(server.el, c->fd, AE_WRITABLE,
+        sendReplyToClient, c, NULL) == AE_ERR) return;
+    if (!listAddNodeTail(c->reply,obj)) oom("listAddNodeTail");
+    incrRefCount(obj);
+}
+
+```
