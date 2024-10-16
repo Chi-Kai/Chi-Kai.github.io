@@ -58,7 +58,9 @@
 &lt;h2 id="实验结果-1">实验结果&lt;/h2>
 &lt;p>实验部分首先介绍了实验的设计，包括使用的数据集、DNN架构、水印算法和攻击方法。作为基线的攻击方法包括剪枝、微调和反学习等。实验结果表明，Dehydra在数据有限的设置下，能够实现对所有十种主流黑盒水印的强效移除，同时至少保留了90%的模型效用。与现有攻击方法相比，Dehydra在移除水印方面表现出更高的有效性，且对模型效用的影响更小。&lt;/p>
 &lt;h2 id="自己思考-1">自己思考&lt;/h2>
-&lt;p>本文提出的Dehydra方法在水印移除领域具有创新性，特别是在减少对数据依赖和提高攻击有效性方面。然而，该方法也有一些局限性。首先，Dehydra主要针对图像分类任务，对于其他类型的DNN模型，如自然语言处理模型，其有效性尚未得到验证。其次，Dehydra的攻击效果可能受到模型结构和水印算法设计的影响，对于某些特定的水印算法，可能需要进一步调整攻击策略。未来的工作可以探索Dehydra在其他任务和模型上的应用，并研究如何提高其对不同水印算法的适应性。此外，研究者们还可以探索如何结合Dehydra与其他攻击方法，以实现更全面的水印防御策略。&lt;/p></description></item><item><title>区块链白皮书解读</title><link>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</link><pubDate>Fri, 25 Nov 2022 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</guid><description>&lt;h2 id="比特币白皮书">比特币白皮书&lt;/h2>
+&lt;p>本文提出的Dehydra方法在水印移除领域具有创新性，特别是在减少对数据依赖和提高攻击有效性方面。然而，该方法也有一些局限性。首先，Dehydra主要针对图像分类任务，对于其他类型的DNN模型，如自然语言处理模型，其有效性尚未得到验证。其次，Dehydra的攻击效果可能受到模型结构和水印算法设计的影响，对于某些特定的水印算法，可能需要进一步调整攻击策略。未来的工作可以探索Dehydra在其他任务和模型上的应用，并研究如何提高其对不同水印算法的适应性。此外，研究者们还可以探索如何结合Dehydra与其他攻击方法，以实现更全面的水印防御策略。&lt;/p>
+&lt;h2 id="eccv24-revocable-backdoor-for-deep-model-trading">ECCV'24 Revocable Backdoor for Deep Model Trading&lt;/h2>
+&lt;h2 id="heading">&lt;/h2></description></item><item><title>区块链白皮书解读</title><link>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</link><pubDate>Fri, 25 Nov 2022 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/</guid><description>&lt;h2 id="比特币白皮书">比特币白皮书&lt;/h2>
 &lt;h2 id="以太坊白皮书">以太坊白皮书&lt;/h2>
 &lt;h2 id="tangle-白皮书">Tangle 白皮书&lt;/h2>
 &lt;p>详细的内容见 &lt;a href="https://lzphi.cn/2020/12/20/2020-12-17-Tangle-%E7%99%BD%E7%9A%AE%E4%B9%A6/">Tangle白皮书中文版&lt;/a>&lt;/p>
