@@ -13,7 +13,10 @@
 &lt;p>所有现有的模型合并工作都是在类似 &lt;strong>CLIP&lt;/strong> 的预训练模型上进行的
 &lt;strong>CLIP&lt;/strong> 是一个联合的图像和文本嵌入模型，通过 4 亿个图像和文本对以自监督的方式进行训练。这意味着它将文本和图像映射到同一个嵌入空间中。例如，一张狗的图片和句子“一张狗的图片”将具有非常相似的嵌入，并在向量空间中彼此接近。
 &lt;strong>CLIP&lt;/strong>模型通过计算文本和图像向量之间的余弦相似度来生成预测。这种模型特别适用于零样本学习任务，即模型不需要看到新的图像或文本的训练示例就能进行预测
-微调CLIP得到下游模型:&lt;/p>
+CLIP $\mathcal{M}$包括视觉编码器$\mathcal{V}$ 和文本编码器$T$,当计算一个输入$x$在目标类型空间$C$中的得分:
+$$\mathcal{M}(x, C)=\left[\left\langle\mathcal{V}(x), \mathcal{T}\left(c_{1}\right)\right\rangle, \cdots,\left\langle\mathcal{V}(x), \mathcal{T}\left(c_{k}\right)\right\rangle\right]^{\top}$$
+微调CLIP时，使用交叉熵函数来优化模型权重，其中$y$是真实标签:
+$$Loss(\mathcal{M}(x,C),y)$$&lt;/p>
 &lt;h3 id="模型合并">模型合并&lt;/h3>
 &lt;p>$$\theta = \theta &lt;em>{pre} + \lambda {\textstyle \sum&lt;/em>{i=1}^{n}} \theta _{i}$$&lt;/p>
 &lt;h2 id="方案设计">方案设计&lt;/h2>
