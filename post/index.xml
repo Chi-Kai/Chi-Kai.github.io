@@ -43,7 +43,7 @@ $$\begin{array}{l}F=p \cdot \mathcal{V}&lt;/em>{\theta_{\text {adv }}}(x \oplus 
 对于 λadv = 1，我们使用 Mθadv 的视觉编码器提取的特征来近似合并模型的特征。对于 λadv = 0，由于对手不知道 Δθbenign，我们使用 Mθpre 的视觉编码器提取的特征来近似合并模型的特征。&lt;/li>
 &lt;/ul>
 &lt;h3 id="off-task">off-task&lt;/h3>
-&lt;p>目标任务与攻击者任务不同，&lt;/p>
+&lt;p>目标任务与攻击者任务不同。假设目标&lt;/p>
 &lt;h2 id="实验结果">实验结果&lt;/h2>
 &lt;p>我们的实验设计包括了多种模型融合算法，以及与现有后门攻击方法的比较。实验结果表明：&lt;/p>
 &lt;ol>
@@ -71,8 +71,8 @@ $$\begin{array}{l}F=p \cdot \mathcal{V}&lt;/em>{\theta_{\text {adv }}}(x \oplus 
 &lt;li>研究如何结合多种防御机制来提高模型融合的安全性。&lt;/li>
 &lt;li>考虑实际部署场景，研究如何在不牺牲太多性能的情况下提高模型的鲁棒性。&lt;/li>
 &lt;/ul>
-&lt;p>--- idea: 多源模型版权保护。
-在模型融合过程中，关注每个融合模型的版权。比如a + b + c。每个的版权都能查到。
+&lt;h2 id="idea-多源模型版权保护">idea: 多源模型版权保护。&lt;/h2>
+&lt;p>在模型融合过程中，关注每个融合模型的版权。比如a + b + c。每个模型所有者的版权都能查到。
 &lt;strong>可能的挑战&lt;/strong>： 1. 版权冲突 a / b / c 后门水印冲突
 2. 水印容量
 3.&lt;/p>
