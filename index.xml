@@ -31,6 +31,19 @@ BadMerging攻击框架包含两个主要部分：攻击机制设计和特征插�
 &lt;h3 id="on-task">on-task&lt;/h3>
 &lt;p>目标任务与攻击者任务相同。比如说攻击者的模型任务是猫狗识别，后门就是将猫识别为🐖。BadMerging-On 目的是&lt;strong>迫使最终的合并模型在执行攻击者任务时按照攻击者的意愿行事&lt;/strong>
 这里假设两个场景:（1） 多任务学习场景意味着合并来自不同领域的任务向量以进行多任务学习（2）单任务学习场景意味着合并来自同一领域的任务向量以提高效用&lt;/p>
+&lt;ul>
+&lt;li>Step1: 优化通用触发器，该触发器能够在合并参数为0时激活后门。$\lambda_{adv}=0$ 时损失函数如下:
+$$\underset{t}{\arg \min } \sum_{x \in \mathcal{D}&lt;em>{\mathrm{tgt}}} \mathcal{L}&lt;/em>{C E}\left[\mathcal{M}&lt;em>{\left(\theta&lt;/em>{\mathrm{pre}}+\Delta \theta_{\text {benign }}\right)}\left(x \oplus t, C_{\mathrm{tgt}}\right),c\right]$$
+作者观察到不同任务的任务向量是正交的。由于攻击者不知道$\Delta \theta_{benign }$ ，可以使用$\theta_{pre}$ 来代替。
+$$\underset{t}{\arg \min } \sum_{x \in \mathcal{D}&lt;em>{\mathrm{tgt}}} \mathcal{L}&lt;/em>{C E}\left[\mathcal{M}&lt;em>{\theta&lt;/em>{\mathrm{pre}}}\left(x \oplus t, C_{\mathrm{tgt}}\right), c\right]$$&lt;/li>
+&lt;li>Step2: 微调其任务特定模型，确保在合并参数为1时攻击有效。$\lambda_{adv}=1$ 时损失函数如下：
+$$\frac{1}{\left|\mathcal{D}&lt;em>{\mathrm{adv}}\right|} \sum&lt;/em>{(x, y) \in \mathcal{D}&lt;em>{\mathrm{adv}}}\left[\mathcal{L}&lt;/em>{C E}\left(\mathcal{M}&lt;em>{\theta&lt;/em>{\mathrm{adv}}}\left(x, C_{\mathrm{adv}}\right), y\right)+\alpha \cdot \mathcal{L}&lt;em>{B D}(x, c, t)\right]$$
+现在模型在系数为0和1时可以触发后门，但是有的中间值不能触发后门。所以引入插值损失函数:
+$$\begin{array}{l}F=p \cdot \mathcal{V}&lt;/em>{\theta_{\text {adv }}}(x \oplus t)+(1-p) \cdot \mathcal{V}&lt;em>{\theta&lt;/em>{\mathrm{pre}}}(x \oplus t), \\mathcal{L}&lt;em>{B D}(x, c, t)=\mathcal{L}&lt;/em>{C E}\left(\left[\left\langle F, \mathcal{T}\left(c_{1}\right)\right\rangle, \cdots,\left\langle F, \mathcal{T}\left(c_{k}\right)\right\rangle\right]^{\top}, c\right) .\end{array}$$
+对于 λadv = 1，我们使用 Mθadv 的视觉编码器提取的特征来近似合并模型的特征。对于 λadv = 0，由于对手不知道 Δθbenign，我们使用 Mθpre 的视觉编码器提取的特征来近似合并模型的特征。&lt;/li>
+&lt;/ul>
+&lt;h3 id="off-task">off-task&lt;/h3>
+&lt;p>这里主要考虑的时&lt;/p>
 &lt;h2 id="实验结果">实验结果&lt;/h2>
 &lt;p>我们的实验设计包括了多种模型融合算法，以及与现有后门攻击方法的比较。实验结果表明：&lt;/p>
 &lt;ol>
