@@ -43,7 +43,7 @@ $$\begin{array}{l}F=p \cdot \mathcal{V}&lt;/em>{\theta_{\text {adv }}}(x \oplus 
 对于 λadv = 1，我们使用 Mθadv 的视觉编码器提取的特征来近似合并模型的特征。对于 λadv = 0，由于对手不知道 Δθbenign，我们使用 Mθpre 的视觉编码器提取的特征来近似合并模型的特征。&lt;/li>
 &lt;/ul>
 &lt;h3 id="off-task">off-task&lt;/h3>
-&lt;p>这里主要考虑的时&lt;/p>
+&lt;p>目标任务与攻击者任务不同，&lt;/p>
 &lt;h2 id="实验结果">实验结果&lt;/h2>
 &lt;p>我们的实验设计包括了多种模型融合算法，以及与现有后门攻击方法的比较。实验结果表明：&lt;/p>
 &lt;ol>
