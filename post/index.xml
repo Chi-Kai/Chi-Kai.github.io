@@ -44,6 +44,10 @@ $$\begin{array}{l}F=p \cdot \mathcal{V}&lt;/em>{\theta_{\text {adv }}}(x \oplus 
 &lt;/ul>
 &lt;h3 id="off-task">off-task&lt;/h3>
 &lt;p>目标任务与攻击者任务不同。假设攻击者任务是CIFAR100，目标任务是Cars196，其中包含一个目标类“Acura RL”。由于攻击者不知道目标任务，因此他们不知道其中的其他类别，例如“BMW X3”。他们只知道目标类别并拥有该类别的一些参考图像（例如“Acura RL”的一些图像）。&lt;/p>
+&lt;ul>
+&lt;li>影子类型。在无法访问目标任务 Ctgt 的类的情况下，在开放世界中随机采样可能与目标任务无关的类。&lt;/li>
+&lt;li>数据增强处理。&lt;/li>
+&lt;/ul>
 &lt;h2 id="实验结果">实验结果&lt;/h2>
 &lt;p>我们的实验设计包括了多种模型融合算法，以及与现有后门攻击方法的比较。实验结果表明：&lt;/p>
 &lt;ol>
