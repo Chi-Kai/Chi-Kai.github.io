@@ -1,5 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>K8s on 悉达多</title><link>https://chi-kai.github.io/tags/k8s/</link><description>Recent content in K8s on 悉达多</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 20 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://chi-kai.github.io/tags/k8s/index.xml" rel="self" type="application/rss+xml"/><item><title>K8s实践</title><link>https://chi-kai.github.io/post/k8s%E5%AE%9E%E8%B7%B5/</link><pubDate>Mon, 20 May 2024 00:00:00 +0000</pubDate><guid>https://chi-kai.github.io/post/k8s%E5%AE%9E%E8%B7%B5/</guid><description>&lt;ol>
-&lt;li>所有命令要主要对应的namespace&lt;/li>
-&lt;li>&amp;quot;PENDING&amp;quot; 状态表示服务正在等待底层网络资源的分配。通常情况下，当你在本地测试集群时，LoadBalancer 类型的服务会处于 Pending 状态，因为本地集群通常没有外部负载均衡器可供分配。&lt;/li>
-&lt;li>代理会影响本地kind集群的请求&lt;/li>
-&lt;/ol></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>K8s on 悉达多</title>
+    <link>http://localhost:1313/tags/k8s/</link>
+    <description>Recent content in K8s on 悉达多</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 20 May 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>K8s实践</title>
+      <link>http://localhost:1313/post/k8s%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Mon, 20 May 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/k8s%E5%AE%9E%E8%B7%B5/</guid>
+      <description>&lt;ol&gt;&#xA;&lt;li&gt;所有命令要主要对应的namespace&lt;/li&gt;&#xA;&lt;li&gt;&amp;quot;PENDING&amp;quot; 状态表示服务正在等待底层网络资源的分配。通常情况下，当你在本地测试集群时，LoadBalancer 类型的服务会处于 Pending 状态，因为本地集群通常没有外部负载均衡器可供分配。&lt;/li&gt;&#xA;&lt;li&gt;代理会影响本地kind集群的请求&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+  </channel>
+</rss>
