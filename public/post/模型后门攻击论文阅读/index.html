@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-CWBXLVG90W"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-CWBXLVG90W');
+        }
+      </script><meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="robots" content="index, follow"><meta name="author" content="KC">
+<meta name="description" content="成功只有一个:按照自己的方式，去度过人生
+">
+<link rel="author" type="text/plain" href="/humans.txt">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+<meta name="theme-color" content="#494f5c">
+<meta name="msapplication-TileColor" content="#494f5c">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#494f5c">
+
+  <meta itemprop="name" content="模型后门攻击论文阅读">
+  <meta itemprop="description" content="prompt模板 背景: 你是一个资深的AI研究员，善于阅读，通过自己的思考来总结论文内容。你的语言通俗易懂，能够让不了解这篇论文的人也能明白论文的方法。">
+  <meta itemprop="datePublished" content="2023-09-19T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-09-19T00:00:00+00:00">
+  <meta itemprop="wordCount" content="14901">
+  <meta itemprop="keywords" content="论文阅读"><meta property="og:url" content="http://localhost:1313/post/%E6%A8%A1%E5%9E%8B%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
+  <meta property="og:site_name" content="悉达多">
+  <meta property="og:title" content="模型后门攻击论文阅读">
+  <meta property="og:description" content="prompt模板 背景: 你是一个资深的AI研究员，善于阅读，通过自己的思考来总结论文内容。你的语言通俗易懂，能够让不了解这篇论文的人也能明白论文的方法。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2023-09-19T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-09-19T00:00:00+00:00">
+    <meta property="article:tag" content="论文阅读">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="模型后门攻击论文阅读">
+  <meta name="twitter:description" content="prompt模板 背景: 你是一个资深的AI研究员，善于阅读，通过自己的思考来总结论文内容。你的语言通俗易懂，能够让不了解这篇论文的人也能明白论文的方法。">
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "模型后门攻击论文阅读",
+    "name": "模型后门攻击论文阅读",
+    "description": "prompt模板 背景: 你是一个资深的AI研究员，善于阅读，通过自己的思考来总结论文内容。你的语言通俗易懂，能够让不了解这篇论文的人也能明白论文的方法。\n",
+    "keywords": ["论文阅读"],
+    "articleBody": "prompt模板 背景: 你是一个资深的AI研究员，善于阅读，通过自己的思考来总结论文内容。你的语言通俗易懂，能够让不了解这篇论文的人也能明白论文的方法。\n要求: 请使用markdown格式输出。重点文字要加粗或者高亮\n输出格式:\n# 论文名 ## 摘要（综合全文得出，不仅仅是原文摘要内） ## 研究背景() ## 方案（详细描述；结构化，分点分层次；通俗易懂；展示公式；） ## 实验 (总结) ## 思考（分点; 论文的不足；未来的方向；） CCS'24 BadMerging: Backdoor Attacks Against Model Merging 摘要 随着预训练模型在下游任务中的广泛应用，模型融合（Model Merging, MM）作为一种有效的知识转移方法应运而生。MM通过合并多个独立微调的任务特定模型来构建一个能够处理多种任务的增强型模型。然而，这种方法可能引入安全风险，尤其是后门攻击。后门攻击允许攻击者通过在训练数据中注入恶意触发器来破坏机器学习模型。在本文中，我们首次提出了BadMerging，这是一种专门针对模型融合的后门攻击方法。BadMerging通过两阶段攻击机制和一种新颖的特征插值损失函数，即使在合并参数变化时，也能增强嵌入后门的鲁棒性。我们的方法不仅能够对攻击者提供的任务（on-task attack）进行攻击，还能对其他贡献者提供的任务（off-task attack）进行攻击。广泛的实验表明，BadMerging对各种模型融合算法都具有显著的攻击效果，并且现有的防御机制无法有效防御我们的攻击，这突显了需要更高级防御机制的必要性。\n背景 模型融合（MM）是一种新兴的技术，它通过合并多个微调后的任务特定模型来提高模型在多个任务上的性能。这种方法的优势在于能够利用已有的模型和知识，减少存储成本和计算资源，同时提高模型的通用性和性能。 MM 不需要来自多个任务的训练数据，而是通过合并权重来组合多个经过微调的特定于任务的模型，这些模型共享相同的模型架构。 ![[Pasted image 20241020172630.png]] 然而，这种合并过程也带来了安全隐患。如果合并的模型中包含了被恶意修改的模型，那么整个合并后的模型可能会继承这些安全漏洞，从而受到攻击者的控制。尽管模型融合的实用性已经得到了广泛认可，但其安全性问题却鲜有研究。\n与经典后门攻击不同，MM中对手只能贡献合并模型的一部分（例如，一个特定于任务的模型），而且==不能完全访问合并过程==。现有的后门攻击尽管能够有效地对单个特定任务模型进行后门处理，但都无法对合并模型进行后门处理（攻击成功率\u003c20%）。我们发现这是因为每个模型在合并过程中都会通过其合并系数重新缩放，并且==当系数小时后门会消失==\nBadMerging的关键思想是设计一种与合并系数变化无关的后门机制。\nBadMerging 进一步引入了on-task和off-task后门攻击的概念。on-task攻击会给攻击者提供的任务加入后门，而off-task攻击则会给由其他（良性）模型提供者提供的任务加入后门。这些攻击涵盖了MM的所有应用场景。在off-task攻击中，由于对手可能不知道将合并哪些任务，BadMerging 旨在将触发图像分类为对手为包含此类的任何任务选择的类。\n相关工作 预训练模型 所有现有的模型合并工作都是在类似 CLIP 的预训练模型上进行的 CLIP 是一个联合的图像和文本嵌入模型，通过 4 亿个图像和文本对以自监督的方式进行训练。这意味着它将文本和图像映射到同一个嵌入空间中。例如，一张狗的图片和句子“一张狗的图片”将具有非常相似的嵌入，并在向量空间中彼此接近。 CLIP模型通过计算文本和图像向量之间的余弦相似度来生成预测。这种模型特别适用于零样本学习任务，即模型不需要看到新的图像或文本的训练示例就能进行预测 CLIP $\\mathcal{M}$包括视觉编码器$\\mathcal{V}$ 和文本编码器$T$,当计算一个输入$x$在目标类型空间$C$中的得分: $$\\mathcal{M}(x, C)=\\left[\\left\\langle\\mathcal{V}(x), \\mathcal{T}\\left(c_{1}\\right)\\right\\rangle, \\cdots,\\left\\langle\\mathcal{V}(x), \\mathcal{T}\\left(c_{k}\\right)\\right\\rangle\\right]^{\\top}$$ 微调CLIP时，使用交叉熵函数来优化模型权重，其中$y$是真实标签: $$Loss(\\mathcal{M}(x,C),y)$$模型合并 $$\\theta = \\theta _{pre} + \\lambda {\\textstyle \\sum_{i=1}^{n}} \\theta _{i}$$方案设计 ![[Pasted image 20241018105016.png]] 假设一个合并模型的结构如下: $$\\begin{aligned}\\theta_{\\text {merged }} \u0026 =\\theta_{\\text {pre }}+\\sum_{i \\neq \\text { adv }} \\lambda_{i} \\cdot \\Delta \\theta_{i}+\\lambda_{\\mathrm{adv}} \\cdot \\Delta \\theta_{\\mathrm{adv}} \\\\\u0026 =\\theta_{\\text {pre }}+\\Delta \\theta_{\\mathrm{benign}}+\\lambda_{\\mathrm{adv}} \\cdot \\Delta \\theta_{\\mathrm{adv}}\\end{aligned}$$ BadMerging攻击框架包含两个主要部分：攻击机制设计和特征插值损失函数。\n两阶段攻击机制：BadMerging首先在第一阶段生成一个通用触发器，该触发器能够在合并参数为0时激活后门。然后在第二阶段，攻击者使用这个触发器来微调其任务特定模型，确保在合并参数为1时攻击有效。这样，攻击在合并参数从0到1的任何值下都能保持有效。 特征插值损失函数：为了增强触发器在不同合并参数下的鲁棒性，提出了一种新颖的特征插值损失函数。该损失函数通过插值触发器图像的特征，强制模型在不同合并参数下都将触发器图像分类为目标类别。 on-task 目标任务与攻击者任务相同。比如说攻击者的模型任务是猫狗识别，后门就是将猫识别为🐖。BadMerging-On 目的是迫使最终的合并模型在执行攻击者任务时按照攻击者的意愿行事 这里假设两个场景:（1） 多任务学习场景意味着合并来自不同领域的任务向量以进行多任务学习（2）单任务学习场景意味着合并来自同一领域的任务向量以提高效用\nStep1: 优化通用触发器，该触发器能够在合并参数为0时激活后门。$\\lambda_{adv}=0$ 时损失函数如下: $$\\underset{t}{\\arg \\min } \\sum_{x \\in \\mathcal{D}_{\\mathrm{tgt}}} \\mathcal{L}_{C E}\\left[\\mathcal{M}_{\\left(\\theta_{\\mathrm{pre}}+\\Delta \\theta_{\\text {benign }}\\right)}\\left(x \\oplus t, C_{\\mathrm{tgt}}\\right),c\\right]$$ 作者观察到不同任务的任务向量是正交的。由于攻击者不知道$\\Delta \\theta_{benign }$ ，可以使用$\\theta_{pre}$ 来代替。 $$\\underset{t}{\\arg \\min } \\sum_{x \\in \\mathcal{D}_{\\mathrm{tgt}}} \\mathcal{L}_{C E}\\left[\\mathcal{M}_{\\theta_{\\mathrm{pre}}}\\left(x \\oplus t, C_{\\mathrm{tgt}}\\right), c\\right]$$ Step2: 微调其任务特定模型，确保在合并参数为1时攻击有效。$\\lambda_{adv}=1$ 时损失函数如下： $$\\frac{1}{\\left|\\mathcal{D}_{\\mathrm{adv}}\\right|} \\sum_{(x, y) \\in \\mathcal{D}_{\\mathrm{adv}}}\\left[\\mathcal{L}_{C E}\\left(\\mathcal{M}_{\\theta_{\\mathrm{adv}}}\\left(x, C_{\\mathrm{adv}}\\right), y\\right)+\\alpha \\cdot \\mathcal{L}_{B D}(x, c, t)\\right]$$ 现在模型在系数为0和1时可以触发后门，但是有的中间值不能触发后门。所以引入插值损失函数: $$\\begin{array}{l}F=p \\cdot \\mathcal{V}_{\\theta_{\\text {adv }}}(x \\oplus t)+(1-p) \\cdot \\mathcal{V}_{\\theta_{\\mathrm{pre}}}(x \\oplus t), \\\\\\mathcal{L}_{B D}(x, c, t)=\\mathcal{L}_{C E}\\left(\\left[\\left\\langle F, \\mathcal{T}\\left(c_{1}\\right)\\right\\rangle, \\cdots,\\left\\langle F, \\mathcal{T}\\left(c_{k}\\right)\\right\\rangle\\right]^{\\top}, c\\right) .\\end{array}$$ 对于 λadv = 1，我们使用 Mθadv 的视觉编码器提取的特征来近似合并模型的特征。对于 λadv = 0，由于对手不知道 Δθbenign，我们使用 Mθpre 的视觉编码器提取的特征来近似合并模型的特征。 off-task 目标任务与攻击者任务不同。假设攻击者任务是CIFAR100，目标任务是Cars196，其中包含一个目标类“Acura RL”。由于攻击者不知道目标任务，因此他们不知道其中的其他类别，例如“BMW X3”。他们只知道目标类别并拥有该类别的一些参考图像（例如“Acura RL”的一些图像）。\n影子类型。在无法访问目标任务 Ctgt 的类的情况下，在开放世界中随机采样可能与目标任务无关的类。 数据增强处理。 实验结果 我们的实验设计包括了多种模型融合算法，以及与现有后门攻击方法的比较。实验结果表明：\n攻击效果：BadMerging在多种模型融合算法下都能实现高达90%以上的攻击成功率，显著优于现有方法。\n防御机制评估：我们评估了现有的检测和防御机制，包括Neural Cleanse和Fine-pruning，结果表明这些机制无法有效防御BadMerging攻击。\n自己思考 优点：\nBadMerging是首个针对模型融合的后门攻击框架，填补了该领域的研究空白。 通过两阶段攻击机制和特征插值损失函数，BadMerging展示了对不同合并参数的鲁棒性。 缺点：\nBadMerging需要对攻击者的任务特定模型进行微调，这可能需要较大的计算资源。 论文中没有详细讨论攻击在不同规模和复杂度的模型上的效果。 未来改进的方向：\n探索在更大规模的数据集和模型上的攻击效果，以及如何优化攻击策略以减少资源消耗。 研究如何结合多种防御机制来提高模型融合的安全性。 考虑实际部署场景，研究如何在不牺牲太多性能的情况下提高模型的鲁棒性。 idea: 多源模型版权保护。 在模型融合过程中，关注每个融合模型的版权。比如a + b + c。每个模型所有者的版权都能查到。 可能的挑战： 1. 版权冲突 a / b / c 后门水印冲突 2. 水印容量 3.\nCCS'24 Neural Dehydration: Effective Erasure of Black-box Watermarks from DNNs with Limited Data 摘要 本文提出了一种名为“Neural Dehydration”（简称Dehydra）的新型攻击框架，旨在有效移除深度神经网络（DNN）中的黑盒水印。黑盒水印是一种保护DNN知识产权的技术，通过在特定样本集上嵌入水印信息，并在疑似模型中提取水印以验证所有权。现有的水印移除攻击通常需要大量数据或对水印结构有先验知识，但这些攻击往往只能破解一小部分主流黑盒水印，且可能损害模型效用或依赖于大量数据。Dehydra通过利用DNN的内部结构来恢复和忘却水印信息，有效移除了所有十种主流黑盒水印，且只需有限或甚至不需要数据。具体来说，Dehydra首先使用模型反演技术恢复接近真实水印数据的样本，然后在微调过程中故意忘却这些样本。此外，Dehydra还引入了目标类别检测和恢复样本分割算法，以减少效用损失并实现无数据水印移除。在三个基准数据集和DNN架构上的广泛评估表明，Dehydra在数据有限的设置下，至少保留了90%的模型效用，同时实现了对所有覆盖水印的强效移除效果。\n背景 随着深度学习技术的快速发展，训练一个高性能的DNN模型变得越来越重要。然而，模型训练需要大量的数据收集和计算资源。为了保护这些训练好的模型不被非法复制或滥用，模型水印技术应运而生。水印技术通过在模型训练过程中嵌入特定的信息，使得在模型被非法使用时能够追踪到原始所有者。黑盒水印因其验证过程只需API访问而受到广泛关注。然而，现有的水印技术面临着被攻击者移除的风险，攻击者可能会通过修改模型参数来使水印失效。尽管已有研究提出了多种水印移除攻击，但这些攻击往往需要大量数据或对水印结构有深入了解，这在实际场景中是不现实的。因此，本文提出了一种无需数据或只需有限数据的水印移除攻击方法，旨在提高攻击的实用性和有效性。\n相关工作 在DNN模型水印领域，已有多种水印嵌入和提取技术被提出。这些技术主要分为白盒水印和黑盒水印两大类。白盒水印需要对模型内部参数进行访问，而黑盒水印则只需通过模型的预测行为进行验证。此外，针对水印的安全性，研究者们还提出了多种攻击方法，包括基于剪枝、微调和反学习的攻击。这些攻击方法试图通过修改模型参数或训练数据来移除水印，但它们通常需要大量数据或对水印算法有先验知识。最近，一些研究开始关注在数据受限条件下的水印移除问题，提出了一些新的攻击策略。然而，这些方法在实际应用中仍存在局限性，如攻击效果不佳或对数据的依赖性仍然较高。本文提出的Dehydra方法正是为了解决这些问题，通过利用模型内部信息来实现有效的水印移除，同时减少对外部数据的依赖。\n方案设计 ![[Pasted image 20241018115506.png]] Dehydra攻击框架主要包含两个阶段：水印恢复和水印忘却。在水印恢复阶段，Dehydra使用模型反演技术从目标水印模型中恢复出接近真实水印数据的样本。这一阶段利用了DNN的过参数化特性，通过优化技术重建与目标类别相关联的水印信息。在水印忘却阶段，Dehydra在微调过程中故意忘却这些恢复出的样本，以此来移除水印。为了提高攻击的有效性和减少对数据的依赖，Dehydra进一步引入了目标类别检测和恢复样本分割算法。目标类别检测算法通过分析模型的损失景观来识别固定类别的水印，并检测其目标类别。恢复样本分割算法则基于正常数据优势现象，将恢复样本分割为代理水印数据和代理正常数据，以确保在移除水印的同时保持模型的原始效用。Dehydra的这些设计使其能够在数据受限的条件下实现有效的水印移除。\n实验结果 实验部分首先介绍了实验的设计，包括使用的数据集、DNN架构、水印算法和攻击方法。作为基线的攻击方法包括剪枝、微调和反学习等。实验结果表明，Dehydra在数据有限的设置下，能够实现对所有十种主流黑盒水印的强效移除，同时至少保留了90%的模型效用。与现有攻击方法相比，Dehydra在移除水印方面表现出更高的有效性，且对模型效用的影响更小。\n自己思考 本文提出的Dehydra方法在水印移除领域具有创新性，特别是在减少对数据依赖和提高攻击有效性方面。然而，该方法也有一些局限性。首先，Dehydra主要针对图像分类任务，对于其他类型的DNN模型，如自然语言处理模型，其有效性尚未得到验证。其次，Dehydra的攻击效果可能受到模型结构和水印算法设计的影响，对于某些特定的水印算法，可能需要进一步调整攻击策略。未来的工作可以探索Dehydra在其他任务和模型上的应用，并研究如何提高其对不同水印算法的适应性。此外，研究者们还可以探索如何结合Dehydra与其他攻击方法，以实现更全面的水印防御策略。\nECCV'24 (CCF B) Revocable Backdoor for Deep Model Trading 摘要 本文提出了一种新型的可撤销后门（revocable backdoor）概念，并将其应用于深度模型交易场景中。在深度模型交易中，卖家希望在不泄露模型核心价值的情况下，让买家评估模型性能；而买家则希望在不满意时能够退回模型并获得退款。为了解决这一矛盾，作者设计了一种特殊的后门，该后门在植入时不会降低模型性能，且卖家可以在任何时候通过特定的掩码矩阵（mask matrices）轻松撤销后门，而无需重新训练模型。 ==这种可撤销后门不仅能够保护卖家的利益，防止买家在未完成最终支付时滥用模型，同时也能保证买家在支付最终款项后获得一个干净的模型。== 通过在多个数据集和网络架构上的实验，作者证明了该可撤销后门的可行性和鲁棒性。\n背景 深度学习模型在多个领域取得了显著的成就，成为重要的数字产品。然而，这些模型容易受到后门攻击的威胁，攻击者通过在训练阶段植入后门，使得模型在特定触发器出现时返回攻击者期望的结果。这种攻击严重破坏了深度模型的可信度。尽管后门攻击通常被视为安全威胁，但也有研究者利用后门攻击进行正向目的，如模型版权保护、人工智能可解释性和对抗性示例防御等。本文首次提出可撤销后门的概念，将其应用于深度模型交易，旨在在不降低模型性能的前提下，实现对后门的控制，同时保护买卖双方的利益。\n相关工作 在机器学习安全领域，后门攻击和防御是两个重要的研究方向。后门攻击的目标是让深度模型在触发器出现时返回攻击者期望的结果。早期的后门攻击如BadNets通过在训练阶段的数据投毒实现攻击，而后续的研究则探索了更隐蔽的触发器模式。除了基于数据投毒的后门攻击，还有通过控制训练过程实现的后门攻击。这些攻击方法在隐蔽性和攻击效果上有所不同，但都需要在模型中留下痕迹。\n针对后门攻击的威胁，后门防御技术也迅速发展。后门检测技术旨在确定模型是否包含后门，而后门净化技术则旨在在不显著降低模型性能的前提下消除后门。例如，Neural Cleanse通过分析模型的异常行为来检测后门，而Fine-Pruning则通过网络剪枝来消除后门。这些防御技术在检测和清除后门方面取得了一定的效果，但也存在局限性。\n方案设计 ![[Pasted image 20250106140543.png]] 论文的方法框架分为两个主要部分：后门植入和后门撤销。\n后门植入 训练数据集：假设有一个干净的训练数据集 $\\mathcal{D} = {(x_i, y_i)}_{i=1}^N$，其中 $x_i$ 是图像，$y_i$ 是其标签。 触发模式：定义一个触发模式 $\\delta$，它是一个与图像大小相同的矩阵，元素值在 $[-t, t]$ 之间。 毒化数据集：从干净数据集中选择一部分图像，将其与触发模式 $\\delta$ 结合，生成毒化图像，并将这些图像的标签改为攻击者期望的目标标签。毒化数据集记为 $\\mathcal{D}_p$，干净数据集记为 $\\mathcal{D}_c$。 模型训练：使用干净数据集和毒化数据集共同训练模型。训练的目标是最小化以下损失函数： $$ L_{bd} = \\frac{1}{|\\mathcal{D}_c|} \\sum_{(x,y) \\in \\mathcal{D}_c} \\ell(f_\\theta(x), y) - \\frac{1}{|\\mathcal{D}_p|} \\sum_{(x,y) \\in \\mathcal{D}_p} \\max(\\ell(f_\\theta(x + \\delta), y), c) $$其中，$\\ell(\\cdot)$ 是交叉熵损失函数，$c$ 是一个超参数，用于控制模型在毒化输入上的错误率。第一项确保模型在干净输入上的性能不下降，第二项确保模型在毒化输入上返回错误结果。\n后门撤销 掩码矩阵：在模型的内部层中引入可训练的掩码矩阵 $M_k$，用于控制特征图的输出。掩码矩阵的初始值为1，表示不改变特征图。 正则化：为了确保掩码矩阵不会对干净输入产生过大影响，引入正则化项： $$ L_R = \\sum |M_{k_{ij}} - 1| $$该正则化项使得掩码矩阵的元素尽可能接近1。 3. 掩码矩阵作用: $f_{\\theta_{\\text {mask }}}(\\cdot)=f_{\\mathrm{n}}\\left(\\cdots M_{2} \\cdot f_{2}\\left(M_{1} \\cdot f_{1}(x)\\right)\\right)$ 4. 后门撤销：通过最小化以下损失函数来更新掩码矩阵：\n$$ L_{rev} = \\frac{1}{|\\mathcal{D}_c|} \\sum_{(x,y) \\in \\mathcal{D}_c} \\ell(f_{\\theta_{mask}}(x), y) + \\frac{1}{|\\mathcal{D}_p|} \\sum_{(x,y) \\in \\mathcal{D}_p} \\ell(f_{\\theta_{mask}}(x + \\delta), y) $$其中，$f_{\\theta_{mask}}$ 是带有掩码矩阵的模型。通过最小化该损失函数，掩码矩阵可以有效地切断后门的推理路径，使得模型在触发条件出现时也能返回正确结果。\n触发模式微调 为了进一步提高触发模式的不可感知性和攻击的鲁棒性，论文还提出了触发模式微调的方法。在模型训练完成后，冻结模型参数和掩码矩阵，仅更新触发模式 $\\delta$，通过最小化以下损失函数：\n$$ L = L_{bd} + L_{rev} + \\beta \\|\\delta\\|_2 $$其中，$\\beta$ 是控制触发模式修改幅度的超参数。\n实验结果 实验设计包括三个数据集：CIFAR-10、GTSRB和Sub-ImageNet，以及两种网络架构：ResNet-18和VGG。实验中，作者将提出的可撤销后门方法与多种现有的后门攻击方法进行了比较，包括BadNets、Blend、SIG、LSB、WaNet和BppAttack。实验结果表明，提出的可撤销后门方法在攻击有效性、模型保真度和后门可撤销性方面均优于现有方法。在没有防御措施的情况下，可撤销后门能够显著降低模型在有毒输入下的准确性，同时保持在干净输入下的准确性不变。此外，通过引入掩码矩阵，模型能够恢复到干净模型的性能水平。\n自己思考 本文的优点在于提出了一种创新的可撤销后门概念，并将其成功应用于深度模型交易场景。这种方法不仅能够保护卖家的利益，防止未授权使用，同时也能保证买家在支付最终款项后获得一个干净的模型。此外，实验结果表明，该方法在多个数据集和网络架构上都具有很好的可行性和鲁棒性。\n然而，该方法也存在一些局限性。例如，可撤销后门的实现依赖于掩码矩阵的设计，这可能需要对模型的内部结构有深入的了解。此外，该方法在面对更复杂的防御策略时，其有效性可能会受到影响。\n未来的改进方向可以包括：1) 探索更加隐蔽的触发器模式，以提高后门的隐蔽性；2) 研究更加高效的后门撤销方法，以减少对模型性能的影响；3) 考虑在更广泛的攻击和防御场景下，评估可撤销后门的适用性和有效性。\nCCS'24 TabularMark: Watermarking Tabular Datasets for Machine Learning 摘要 本文提出了一种用于机器学习表格数据集的水印方案TabularMark，旨在保护共享数据的所有权，同时保留数据的实用性，且不影响下游机器学习模型的性能。现有的表格数据集水印方法在可检测性、非侵入性和鲁棒性方面存在不足，并且只从数据统计的角度保留数据的实用性，忽略了在数据集上训练的机器学习模型的性能。TabularMark通过数据噪声分区和假设检验的方法来嵌入和检测水印，能够适应数值和分类属性，同时保持数据的实用性。实验结果表明，TabularMark在可检测性、非侵入性和鲁棒性方面具有优越性。\n背景 随着机器学习的广泛应用，结构化表格数据集在多个行业中变得普遍，但这些数据集容易被未经授权的复制和使用。因此，需要一种机制来保护这些数据集的所有权。水印技术是一种广泛采用的技术，用于声明和防止共享数据的未经授权使用。然而，现有的水印方法主要针对多媒体数据，如图像和音频，这些方法难以直接应用于表格数据集，因为表格数据集的特性与多媒体数据不同，例如，表格数据通常由精确值组成，每个条目都携带重要和特定的信息，几乎没有感知冗余。此外，表格数据可能包含不同类型的数据，如数值和分类数据，可能需要更复杂的水印策略。TabularMark方案通过在嵌入阶段引入设计的扰动，并在检测阶段使用自定义阈值的单比例z检验来确定水印的存在，从而解决了这些问题。\n相关工作 现有的表格数据集水印方案主要分为两类：非可逆水印和可逆水印。非可逆水印方案通过修改数据的最小有效位（LSB）来嵌入水印，但这种方法不适用于分类属性，因为编码的分类属性通常是小范围整数，提供有限的水印容量，并可能造成不希望的失真。另一种方法是将水印位嵌入数据的统计信息中，但这种方法需要使用主键进行数据分区，而主键在表格数据集中并非必需，且替换原始主键会阻止正确提取水印信息，违反了鲁棒性。可逆水印方案允许从水印数据中提取水印并完全恢复原始数据，但这些方法通常限于整数属性，不适用于表格数据集中广泛存在的浮点属性。此外，现有的水印方案主要关注数据的基本统计量，如均值和方差，而没有考虑对下游机器学习模型性能的影响。\n方案设计 TabularMark方案包括以下关键模块：\n数据噪声分区：在嵌入阶段，通过将数据噪声分为两个部分，并在特定单元格中引入设计的扰动来嵌入水印。\n假设检验检测：在检测阶段，使用单比例z检验来检测嵌入阶段引入的扰动，从而可靠地确定水印的存在。\n关键单元格的选择与管理：通过控制扰动单元格的数量来管理机器学习模型的实用性，确保水印的非侵入性。\n多属性匹配：为了在数据顺序被攻击破坏时检测水印，使用多个属性的最重要位（MSB）来匹配包含关键单元格的元组。\n鲁棒性分析：通过模拟攻击者的潜在策略并数学证明攻击者需要改变的单元格数量的下限，来展示TabularMark的水印难以被移除。\n实验结果 实验设计包括在真实世界和合成数据集上进行测试，以验证TabularMark在可检测性、非侵入性和鲁棒性方面的表现。实验使用了XGBoost、随机森林和线性回归等机器学习模型，并与现有的水印方案进行了比较。实验结果表明，TabularMark在保持数据实用性的同时，能够有效地检测水印，并且在面对插入、删除、改性等攻击时表现出鲁棒性。与现有方案相比，TabularMark在非侵入性和鲁棒性方面表现更好。\n自己思考 TabularMark的优点在于它提供了一种既保护数据所有权又不影响数据实用性的水印方案，特别是在机器学习模型的性能方面。它通过精巧的设计，能够在不显著改变数据集统计特性的情况下嵌入和检测水印。然而，该方案可能在处理大规模数据集时面临性能挑战，因为需要对每个关键单元格进行详细的管理。此外，该方案可能需要进一步的优化，以适应更广泛的数据类型和更复杂的攻击场景。\n未来改进的方向可能包括提高处理大规模数据集的效率，扩展对不同数据类型和结构的支持，以及增强对复杂攻击场景的鲁棒性。此外，可以考虑将TabularMark与其他数据保护技术（如差分隐私）结合，以提供更全面的数据分析保护解决方案。\nCCS'24 Byzantine-robust averaging through local similarity in decentralization 摘要 本文提出了一种名为BALANCE（Byzantine-robust averaging through local similarity in decentralization）的新型算法，旨在防御分布式联邦学习（DFL）中的投毒攻击。在传统的联邦学习中，多个客户端通过中心服务器的协助来协作训练机器学习模型，而不会泄露它们的私有训练数据。然而，这种服务器辅助的联邦学习（server-assisted FL）由于服务器的通信瓶颈和信任依赖问题，存在可扩展性差的问题。为了解决这些挑战，研究者们提出了去中心化的联邦学习（DFL）架构，允许客户端以无服务器和点对点的方式协作训练模型。但DFL由于其完全去中心化的特性，极易受到恶意客户端通过发送精心设计的本地模型来操纵系统的投毒攻击。本文提出的BALANCE算法通过利用客户端自己的本地模型作为相似性参考，来判断接收到的模型是否为恶意。我们为BALANCE在强凸和非凸设置下提供了理论收敛保证，并证明其在投毒攻击下的收敛速度与无拜占庭环境中的最新方法相匹配。广泛的实验也证明了BALANCE在防御投毒攻击方面的有效性，并优于现有的DFL方法。\n背景 联邦学习（FL）是一种分布式学习范式，它允许多个客户端协作训练机器学习模型，而无需共享它们的原始训练数据。这种范式在保护数据隐私的同时，还能利用分布式数据源的优势。然而，传统的服务器辅助型联邦学习（server-assisted FL）存在几个关键限制：首先，中心服务器成为单点故障的风险，容易受到网络攻击或系统故障的影响；其次，随着客户端数量的增加，服务器的通信瓶颈问题会显著降低大规模分布式训练的可扩展性；最后，所有参与的客户端都必须信任中心服务器，这可能导致服务器对客户端模型产生任意影响。为了克服这些限制，研究者们提出了完全去中心化的联邦学习设计，即去中心化联邦学习（DFL）。在DFL中，客户端以点对点的方式交换信息，无需服务器的协助。尽管DFL提供了许多优势，但其易受投毒攻击的脆弱性成为了其广泛应用的主要障碍。恶意客户端可以通过操纵本地训练数据或直接操纵发送给邻近客户端的本地模型来任意操纵系统。\n相关工作 在联邦学习的安全和隐私领域，研究者们已经提出了多种方法来防御拜占庭攻击，包括数据投毒攻击和模型投毒攻击。这些方法主要基于服务器辅助型联邦学习设计。例如，Krum算法通过选择与客户端本地模型距离最近的模型来防御攻击；而Median和Trimmed Mean算法则通过去除一定比例的极端值来减少恶意模型的影响。然而，这些方法在DFL环境中并不适用，因为DFL没有中心服务器来协调这些防御措施。最近，一些研究者提出了针对DFL环境的拜占庭鲁棒性方法，如LEARN和SCCLIP。LEARN算法要求客户端在每个训练轮次中多次交换本地模型更新和模型，然后使用修剪均值聚合规则来组合接收到的本地模型更新和模型。SCCLIP算法则通过基于客户端自己的本地模型来剪辑所有从邻近客户端接收到的本地模型。尽管这些方法在理论上提供了一定的防御能力，但它们要么缺乏通信效率，要么不能为所有良性客户端提供准确的最终模型的理论保证。\n方案设计 BALANCE算法的核心思想是每个客户端使用自己的本地模型作为相似性参考，以判断接收到的模型是否为恶意。具体来说，如果接收到的模型在方向和大小上与客户端自己的模型接近，则被认为是良性的；否则，该模型将被忽略。在每个训练轮次中，客户端会执行以下步骤：\n本地模型训练和交换：客户端执行本地训练以获得中间模型，并将其发送给邻近的客户端。 本地模型聚合：客户端接收来自其邻居的中间模型，并根据预定义的条件（如模型的相似性）接受或拒绝这些模型。然后，客户端计算所有接受模型的平均值，并将其与自己的中间模型结合以更新其本地模型。 为了在理论上保证BALANCE算法在投毒攻击下的收敛性，文章提出了以下关键技术：\n模型相似性评估：客户端通过比较接收到的模型与自己的模型之间的相似性来评估模型的安全性。 动态阈值设置：客户端根据训练进度动态调整接受模型的阈值，以适应模型收敛过程中的变化。 鲁棒性聚合规则：客户端使用鲁棒性聚合规则来组合接收到的良性模型，以提高对恶意模型的抵抗力。 文章还提供了BALANCE算法在强凸和非凸设置下的收敛性分析，并证明了其收敛速度与无拜占庭环境中的最新方法相匹配。\n实验结果 实验部分，作者设计了一系列实验来评估BALANCE算法在不同设置下的性能。实验使用了多个数据集，包括合成数据集和四个真实世界数据集（MNIST、Fashion-MNIST、HAR和CelebA）。实验考虑了多种投毒攻击，包括数据投毒攻击和模型投毒攻击。此外，实验还考虑了不同的通信图结构、客户端数量、恶意客户端比例以及非独立同分布（Non-IID）数据设置。\nBaselines包括了多种现有的DFL方法，如FedAvg、Krum、Trimmed Mean、Median、FLTrust、UBAR、LEARN和SCCLIP。实验结果表明，BALANCE算法在各种攻击和设置下都表现出了优越的性能，能够有效地防御投毒攻击，并且与现有的最佳方法相比，在没有攻击的情况下也具有竞争力的性能。\n自己思考 优点：\nBALANCE算法提供了一种有效的防御机制，能够在完全去中心化的联邦学习环境中抵御复杂的投毒攻击。 算法的设计简单而高效，不需要额外的通信开销，易于在实际的DFL系统中实现。 理论分析充分，证明了算法在强凸和非凸设置下的收敛性，为算法的实际应用提供了坚实的理论基础。 缺点：\nBALANCE算法可能在某些极端的非IID设置下表现不佳，尤其是在客户端数据高度异质性的情况下。 算法的参数选择（如β和ε）对性能有较大影响，可能需要针对不同的攻击和数据分布进行调整。 未来改进的方向：\n研究自适应参数调整策略，以减少对预设参数的依赖，并提高算法在不同设置下的鲁棒性。 探索结合其他机器学习技术，如元学习或迁移学习，以进一步提高DFL系统对投毒攻击的抵抗力。 在更广泛的实际应用场景中测试BALANCE算法，以验证其在现实世界中的有效性和适用性。 S\u0026P'25 Towards Reliable Verification of Unauthorized Data Usage in Personalized Text-to-Image Diffusion Models 摘要 本文提出了一种名为Siren的新方法，用于在==黑盒个性化文本到图像扩散模型中追踪未经授权的数据使用==。Siren通过在数据中嵌入不可见的涂层，使得模型在生成图像时能够保留这些涂层，从而为数据所有者提供证据。与现有的水印和后门触发方法不同，Siren通过优化涂层使其与个性化任务相关，显著提高了涂层的可学习性。实验表明，Siren在多种数据集、模型和学习算法中表现出色，并且在真实场景中也能有效应对潜在的反制措施。\n研究背景 高质量的公开数据集（例如开源数据集或正在售卖的商业数据集）是深度学习繁荣的一个重要因素。然而，由于这些数据集的公开特性，恶意用户很有可能在未经授权的情况下用其训练第三方商用模型，进而破坏数据集所有者的版权，给数据集的所有者造成巨大的损失。\n特别的，在生成式人工智能，尤其是文生图场景中，恶意用户/开发者可能会在未经授权的情况下，利用艺术家等受害者的图像数据集对T2I扩散模型进行个性化调整（例如微调），从而侵犯受害者的版权。这个场景的具体过程如下图所示： ![[Pasted image 20250107111654.png]] 目前，==数据集所有权认证（Dataset Ownership Verification，DOV）==是保护这类开源数据集 (Public Dataset)最主流和有效的方法。简单来说，在该方法中，数据集的所有者会在发布数据集之前对其添加特殊的水印，使得所有在该数据集上训练/微调过的模型都会（在特定的样本上）有特殊的预测行为。如果可疑模型中存在这一特定预测行为，则该模型可以被认为是在受保护的数据集上训练过。\n目前针对T2I个性化数据集的所有权认证分为两大基础类型：基于图像水印的方法（Watermark-based Methods）和基于后门水印的方法（Backdoor-based Methods）。在这个部分中，我们分别讨论其内在缺陷。\n基于图像水印的方法 这类方法旨在在受保护的图像中嵌入预定义的隐写信息，希望同样的信息能从个性化 T2I 模型生成的图像中解码出来。 ![[Pasted image 20250107112038.png]] 然而，如上图所示，我们发现：在使用最先进的扩散模型进行个性化学习时，现有方法产生的水印很难被学习和保存。我们认为，其中一个根本原因是：==这些扩散模型已经在大型高质量文本-图像数据集上进行了预训练，从而在文本和图像概念之间建立了稳健的语义联系。==换句话说，这些模型已经熟悉了一般概念，在遇到新概念时可能知道 “要学什么”。例如，预训练的扩散模型已经熟悉了狗的一般外观。当适应一种特定类型的新狗时，模型可能会主要关注这种新狗的独特细节，如毛发、眼睛和耳朵。然而，==这些方法的图像水印与待学习概念的语义联系有限，因此，模型可能会将其视为与图像背景类似的无关特征，从而在训练过程中将其忽略不计。==\n基于后门的方法 目前，也有一个针对T2I模型的后门水印方案（即，DIAGNOSIS ）。具体的，==该方法在受保护的图像上添加隐蔽的后门触发器进行水印，并在相应的原始提示中附加触发文本。==因此，如果一个模型在这个数据集上进行训练，它就会学习一个 “后门”（即触发文本符合要求，就在生成的图像上添加相同的后门触发器）。数据集的所有者只需要在生成时使用触发器文本，判断该可疑模型生成的图片中是否含有触发器图案，即可进行所有权认证。\n然而，这个方法依赖了一个潜在的假设， 即：==侵犯方使用的训练提示必须是数据集所有者提供的提示==。然而，攻击者可以使用目前最先进的图像标注模型（如 BLIP）生成高质量的文本描述作为训练提示，轻松绕过这一假设。此时，如下表所示，该方法会完全失效，因为后门触发器的特征也和模型在个性化学习过程中想要学习的特征无关，从而在个性化学习过程中被模型忽略。 ![[Pasted image 20250107112915.png]]\n方案 现有方法失败源自于其可学性不足，因为它们的水印与个性化学习任务无关。因此，我们需要优化水印的生成过程，使其耦合于（Align with）个性化任务相关的特征（Personalization-related Features） Siren的核心思想是==通过优化涂层，使其与个性化任务相关==，从而在模型训练过程中更容易被学习和保留。具体方案如下：\n威胁模型 和现有的所有数据集所有权认证工作相同，我们假设数据集的所有者==只能通过API的形式黑盒的访问可疑模型，且不知道模型的任何训练信息和参数==。数据的所有者出于某些目的（如艺术品广告或促进学术研究）向公众发布其拥有的图像，即被保护的数据集具有公开特性（Public Characteristic）。然而，所有者不希望自己的数据在未经授权的情况下被用于商业目的，即我们所考虑的以盈利为目的的个性化扩散模型的训练和销售。\n方法概述 包含两个阶段: 水印的构建和提取 和 基于水印数据集所有权认证 这里为了区别将数据集水印称为图层coating 而不是 watermarking\n水印构建和提取 涂层生成与提取\n涂层生成器：生成与图像相关的涂层，确保涂层在视觉上不可见，但在模型训练中能够被学习。 涂层提取器：从生成的图像中提取涂层，用于验证数据是否被未经授权使用。 学习性损失\n通过优化涂层，使其在扩散模型的损失函数中减少损失，从而鼓励涂层与图像的语义对齐。如果水印与个性化相关的特征一致，则添加水印应能减少模型上文字-图像对的损失。本质就是两个loss相减 公式：$$\\mathcal{L}_{\\text{learn}} = \\frac{1}{N}\\sum_{(x_i,c_i)}(\\mathcal{L}_{\\text{DM}}(x_i,c_i) - \\mathcal{L}_{\\text{DM}}(x_i + \\mathcal{G}(x_i),c_i))$$ 其中，$\\mathcal{L}_{\\text{DM}}$是扩散模型的损失函数，$\\mathcal{G}$是涂层生成器。 感知约束\n为了确保水印的隐蔽性，我们需要让含有水印的图片看起来和以前的图片相似。使用CIEDE2000颜色差异公式来确保涂层在视觉上不可见。参考视觉感知系统 公式：$$\\Delta E = \\sqrt{\\left(\\frac{\\Delta C'}{k_C S_C}\\right)^2 + \\left(\\frac{\\Delta L'}{k_L S_L}\\right)^2 + \\left(\\frac{\\Delta H'}{k_H S_H}\\right)^2 + \\Delta R}$$ 通过最小化颜色差异，确保涂层不会对图像质量产生明显影响。 超球面分类损失\n至此，我们已经得到了使水印隐蔽且可学习的技术。我们的下一个目标是检测生成的个性化图片上是否存在水印。此时，一个最直接的解决方案是使用标准的交叉熵损失对水印后的和水印前的干净图像直接训练二元分类器，即在分类器的特征空间中学习一个==超平面==，以区分正样本（水印样本）和负样本（干净样本）。然而，这种方法效果非常有限，因为==在现实世界中我们无法收集所有可能的干净图像==。因此，学习到的超平面可能会偏向于训练数据集，并可能导致对未见过的负数据进行错误分类，如下图（左半部分）所示： ![[Pasted image 20250107114434.png]] 受之前相关工作的启发，我们拟学习一个超球面而非一个超平面，该方法可以学习一个最小超球，==它可以包含所有正样本，并将超球之外的所有其他样本视为负样本==。因此，学习到的边界将主要集中在正样本上（即，带有水印的图像），因此受负训练样本分布的影响较小，从而为未见过的负样本提供更好的泛化能力，如上图（右半部分）所示。此时，超球面分类损失的定义如下：\n公式：$$\\mathcal{L}_{\\text{hc}}^{+} = \\nu R^2 + \\frac{1}{N}\\sum_{i=1}^{N}\\max\\{0, \\|\\Phi(x_i + \\mathcal{G}(x_i)) - o\\|_2^2 - R^2\\}$$$$\\mathcal{L}_{\\mathrm{hc}}^{-}=-\\frac{1}{N} \\sum_{i=1}^{N} \\log \\left(1-\\exp \\left(-\\left\\|\\Phi\\left(x_{i}\\right)-o\\right\\|_{2}^{2}\\right)\\right)$$ 其中，$\\Phi$是提取器，$o$是超球的中心，$R$是半径。 最终损失函数如下: $$ \\min_{\\mathcal{G},\\Phi} \\mathcal{L}_{\\text{overall}} = \\mathcal{L}_{\\text{learn}} + \\lambda_{1} \\mathcal{L}_{\\text{percept}} + \\lambda_{2} (\\mathcal{L}^{+}_{\\text{hc}} + \\mathcal{L}^{-}_{\\text{hc}}) $$ 数据集所有权验证 给定一个由可疑模型生成的个性化图像 $x_{s}$ ，我们可以通过将其投影到 $\\Phi$ 对应的特征空间来确定它是否包含水印。具体的，我们会计算该图像到超球中心的距离 $s \\left(\\right. x_{s} \\left.\\right) = \\parallel \\Phi \\left(\\right. x_{s} \\left.\\right) - o \\parallel_{2}^{2}$ ，我们称之为涂层得分（Coating Score）。理想情况下，侵权模型生成的个性化图片对应的涂层分数较小，而良性模型对应的涂层分数较大。\n因此，我们可以通过 Kolmogorov-Smirnov 假设检验，验证可疑模型的涂层得分是否明显大于独立模型的涂层得分。如果原假设被拒绝，则认为该可疑模型利用过被保护的数据集进行个性化训练\n实验 实验部分验证了Siren在多种场景下的有效性：\n微调场景：Siren在多个数据集上达到了接近100%的检测率，显著优于现有的水印和后门方法。 高级个性化方法：Siren在DreamBooth、SVDiff和Custom Diffusion等方法中表现一致，检测率始终保持在较高水平。 鲁棒性测试：Siren在不同模型、提示词和训练集比例下表现出色，即使涂层数据仅占训练集的一小部分，仍能有效检测。 图像质量影响：Siren对图像质量的影响极小，生成的图像在视觉上与未涂层图像几乎无法区分。 真实世界案例：Siren在两个真实世界的个性化服务平台（Replicate和Scenario）上也表现出色，检测率达到100%。 ",
+    "wordCount" : "14901",
+    "inLanguage": "cn",
+    "datePublished": "2023-09-19T00:00:00Z",
+    "dateModified": "2023-09-19T00:00:00Z",
+    "author":{
+        "@type": "Person",
+        "name": "KC",},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http://localhost:1313/post/%E6%A8%A1%E5%9E%8B%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "悉达多",
+      "description": "成功只有一个:按照自己的方式，去度过人生\n",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "http://localhost:1313/favicon.ico"
+      }
+    }
+}
+</script><title>模型后门攻击论文阅读</title>
+<link rel="stylesheet dns-prefetch preconnect preload prefetch" as="style" media="screen" href="http://localhost:1313/css/style.min.65788784967ef394e528967eed8c63658368c6c4d417053ce77fd6c5ba25d364.css" integrity="sha256-ZXiHhJZ+85TlKJZ+7YxjZYNoxsTUFwU853/Wxbol02Q=" crossorigin="anonymous">
+	</head>
+<body id="page">
+	<header id="site-header">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="http://localhost:1313/">悉达多</a>
+				</div>
+				<nav class="site-nav hide-in-mobile"><a href="http://localhost:1313/post/">Posts</a><a href="http://localhost:1313/tags/">Tags</a><a href="http://localhost:1313/about/">About</a></nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<button id="toc-btn" class="hdr-btn desktop-only-ib" title=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3" y2="6"></line>
+      <line x1="3" y1="12" x2="3" y2="12"></line>
+      <line x1="3" y1="18" x2="3" y2="18"></line>
+   </svg></button><button id="menu-btn" class="hdr-btn" title=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+   </svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="http://localhost:1313/post/">Posts</a></li>
+			<li><a href="http://localhost:1313/tags/">Tags</a></li>
+			<li><a href="http://localhost:1313/about/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>模型后门攻击论文阅读</h1>
+		<div class="content">
+			<h1 id="prompt模板">prompt模板<a href="#prompt%e6%a8%a1%e6%9d%bf" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h1>
+<p>背景: 你是一个资深的AI研究员，善于阅读，通过自己的思考来总结论文内容。你的语言通俗易懂，能够让不了解这篇论文的人也能明白论文的方法。</p>
+<p>要求: 请使用markdown格式输出。重点文字要加粗或者高亮</p>
+<p>输出格式:</p>
+<pre><code># 论文名
+
+## 摘要（综合全文得出，不仅仅是原文摘要内）
+
+## 研究背景()
+
+## 方案（详细描述；结构化，分点分层次；通俗易懂；展示公式；）
+
+## 实验 (总结)
+
+## 思考（分点; 论文的不足；未来的方向；）
+</code></pre>
+<h1 id="ccs24-badmerging-backdoor-attacks-against-model-merging">CCS'24 BadMerging: Backdoor Attacks Against Model Merging<a href="#ccs24-badmerging-backdoor-attacks-against-model-merging" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h1>
+<h2 id="摘要">摘要<a href="#%e6%91%98%e8%a6%81" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>随着预训练模型在下游任务中的广泛应用，<strong>模型融合</strong>（Model Merging, MM）作为一种有效的知识转移方法应运而生。MM通过合并多个独立微调的任务特定模型来构建一个能够处理多种任务的增强型模型。然而，这种方法可能引入安全风险，尤其是后门攻击。后门攻击允许攻击者通过在训练数据中注入恶意触发器来破坏机器学习模型。在本文中，我们首次提出了BadMerging，这是一种专门针对模型融合的后门攻击方法。<strong>BadMerging通过两阶段攻击机制和一种新颖的特征插值损失函数，即使在合并参数变化时，也能增强嵌入后门的鲁棒性</strong>。我们的方法不仅能够对攻击者提供的任务（on-task attack）进行攻击，还能对其他贡献者提供的任务（off-task attack）进行攻击。广泛的实验表明，BadMerging对各种模型融合算法都具有显著的攻击效果，并且现有的防御机制无法有效防御我们的攻击，这突显了需要更高级防御机制的必要性。</p>
+<h2 id="背景">背景<a href="#%e8%83%8c%e6%99%af" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>模型融合（MM）是一种新兴的技术，它通过合并多个微调后的任务特定模型来提高模型在多个任务上的性能。这种方法的优势在于能够利用已有的模型和知识，减少存储成本和计算资源，同时提高模型的通用性和性能。 MM 不需要来自多个任务的训练数据，而是通过<strong>合并权重</strong>来组合多个经过微调的特定于任务的模型，这些模型共享相同的模型架构。
+![[Pasted image 20241020172630.png]]
+然而，这种合并过程也带来了安全隐患。如果合并的模型中包含了被恶意修改的模型，那么整个合并后的模型可能会继承这些安全漏洞，从而受到攻击者的控制。<strong>尽管模型融合的实用性已经得到了广泛认可，但其安全性问题却鲜有研究。</strong></p>
+<p>与经典后门攻击不同，MM中对手只能贡献合并模型的一部分（例如，一个特定于任务的模型），而且==不能完全访问合并过程==。现有的后门攻击尽管能够有效地对单个特定任务模型进行后门处理，但都无法对合并模型进行后门处理（攻击成功率&lt;20%）。我们发现这是<strong>因为每个模型在合并过程中都会通过其合并系数重新缩放，并且==当系数小时后门会消失</strong>==</p>
+<p>BadMerging的关键思想是<strong>设计一种与合并系数变化无关的后门机制</strong>。</p>
+<p>BadMerging 进一步引入了<strong>on-task和off-task</strong>后门攻击的概念。on-task攻击会给攻击者提供的任务加入后门，而off-task攻击则会给由其他（良性）模型提供者提供的任务加入后门。这些攻击涵盖了MM的所有应用场景。在off-task攻击中，由于对手可能不知道将合并哪些任务，BadMerging 旨在将触发图像分类为对手为包含此类的任何任务选择的类。</p>
+<h2 id="相关工作">相关工作<a href="#%e7%9b%b8%e5%85%b3%e5%b7%a5%e4%bd%9c" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<h3 id="预训练模型">预训练模型<a href="#%e9%a2%84%e8%ae%ad%e7%bb%83%e6%a8%a1%e5%9e%8b" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>所有现有的模型合并工作都是在类似 <strong>CLIP</strong> 的预训练模型上进行的
+<strong>CLIP</strong> 是一个联合的图像和文本嵌入模型，通过 4 亿个图像和文本对以自监督的方式进行训练。这意味着它将文本和图像映射到同一个嵌入空间中。例如，一张狗的图片和句子“一张狗的图片”将具有非常相似的嵌入，并在向量空间中彼此接近。
+<strong>CLIP</strong>模型通过计算文本和图像向量之间的余弦相似度来生成预测。这种模型特别适用于零样本学习任务，即模型不需要看到新的图像或文本的训练示例就能进行预测
+CLIP $\mathcal{M}$包括视觉编码器$\mathcal{V}$ 和文本编码器$T$,当计算一个输入$x$在目标类型空间$C$中的得分:
+</p>
+$$\mathcal{M}(x, C)=\left[\left\langle\mathcal{V}(x), \mathcal{T}\left(c_{1}\right)\right\rangle, \cdots,\left\langle\mathcal{V}(x), \mathcal{T}\left(c_{k}\right)\right\rangle\right]^{\top}$$<p>
+微调CLIP时，使用交叉熵函数来优化模型权重，其中$y$是真实标签:
+</p>
+$$Loss(\mathcal{M}(x,C),y)$$<h3 id="模型合并">模型合并<a href="#%e6%a8%a1%e5%9e%8b%e5%90%88%e5%b9%b6" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+$$\theta = \theta _{pre} + \lambda  {\textstyle \sum_{i=1}^{n}} \theta _{i}$$<h2 id="方案设计">方案设计<a href="#%e6%96%b9%e6%a1%88%e8%ae%be%e8%ae%a1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>![[Pasted image 20241018105016.png]]
+假设一个合并模型的结构如下:
+</p>
+$$\begin{aligned}\theta_{\text {merged }} & =\theta_{\text {pre }}+\sum_{i \neq \text { adv }} \lambda_{i} \cdot \Delta \theta_{i}+\lambda_{\mathrm{adv}} \cdot \Delta \theta_{\mathrm{adv}} \\& =\theta_{\text {pre }}+\Delta \theta_{\mathrm{benign}}+\lambda_{\mathrm{adv}} \cdot \Delta \theta_{\mathrm{adv}}\end{aligned}$$<p>
+BadMerging攻击框架包含两个主要部分：攻击机制设计和特征插值损失函数。</p>
+<ol>
+<li><strong>两阶段攻击机制</strong>：BadMerging首先在第一阶段生成一个通用触发器，该触发器能够在合并参数为0时激活后门。然后在第二阶段，攻击者使用这个触发器来微调其任务特定模型，确保在合并参数为1时攻击有效。这样，攻击在合并参数从0到1的任何值下都能保持有效。</li>
+<li><strong>特征插值损失函数</strong>：为了增强触发器在不同合并参数下的鲁棒性，提出了一种新颖的特征插值损失函数。该损失函数通过插值触发器图像的特征，强制模型在不同合并参数下都将触发器图像分类为目标类别。</li>
+</ol>
+<h3 id="on-task">on-task<a href="#on-task" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>目标任务与攻击者任务相同。比如说攻击者的模型任务是猫狗识别，后门就是将猫识别为🐖。BadMerging-On 目的是<strong>迫使最终的合并模型在执行攻击者任务时按照攻击者的意愿行事</strong>
+这里假设两个场景:（1） 多任务学习场景意味着合并来自不同领域的任务向量以进行多任务学习（2）单任务学习场景意味着合并来自同一领域的任务向量以提高效用</p>
+<ul>
+<li>Step1: 优化通用触发器，该触发器能够在合并参数为0时激活后门。$\lambda_{adv}=0$ 时损失函数如下:
+$$\underset{t}{\arg \min } \sum_{x \in \mathcal{D}_{\mathrm{tgt}}} \mathcal{L}_{C E}\left[\mathcal{M}_{\left(\theta_{\mathrm{pre}}+\Delta \theta_{\text {benign }}\right)}\left(x \oplus t, C_{\mathrm{tgt}}\right),c\right]$$
+作者观察到不同任务的任务向量是正交的。由于攻击者不知道$\Delta \theta_{benign }$ ，可以使用$\theta_{pre}$ 来代替。
+$$\underset{t}{\arg \min } \sum_{x \in \mathcal{D}_{\mathrm{tgt}}} \mathcal{L}_{C E}\left[\mathcal{M}_{\theta_{\mathrm{pre}}}\left(x \oplus t, C_{\mathrm{tgt}}\right), c\right]$$</li>
+<li>Step2: 微调其任务特定模型，确保在合并参数为1时攻击有效。$\lambda_{adv}=1$ 时损失函数如下：
+$$\frac{1}{\left|\mathcal{D}_{\mathrm{adv}}\right|} \sum_{(x, y) \in \mathcal{D}_{\mathrm{adv}}}\left[\mathcal{L}_{C E}\left(\mathcal{M}_{\theta_{\mathrm{adv}}}\left(x, C_{\mathrm{adv}}\right), y\right)+\alpha \cdot \mathcal{L}_{B D}(x, c, t)\right]$$
+现在模型在系数为0和1时可以触发后门，但是有的中间值不能触发后门。所以引入插值损失函数:
+$$\begin{array}{l}F=p \cdot \mathcal{V}_{\theta_{\text {adv }}}(x \oplus t)+(1-p) \cdot \mathcal{V}_{\theta_{\mathrm{pre}}}(x \oplus t), \\\mathcal{L}_{B D}(x, c, t)=\mathcal{L}_{C E}\left(\left[\left\langle F, \mathcal{T}\left(c_{1}\right)\right\rangle, \cdots,\left\langle F, \mathcal{T}\left(c_{k}\right)\right\rangle\right]^{\top}, c\right) .\end{array}$$
+对于 λadv = 1，我们使用 Mθadv 的视觉编码器提取的特征来近似合并模型的特征。对于 λadv = 0，由于对手不知道 Δθbenign，我们使用 Mθpre 的视觉编码器提取的特征来近似合并模型的特征。</li>
+</ul>
+<h3 id="off-task">off-task<a href="#off-task" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>目标任务与攻击者任务不同。假设攻击者任务是CIFAR100，目标任务是Cars196，其中包含一个目标类“Acura RL”。由于攻击者不知道目标任务，因此他们不知道其中的其他类别，例如“BMW X3”。他们只知道目标类别并拥有该类别的一些参考图像（例如“Acura RL”的一些图像）。</p>
+<ul>
+<li>影子类型。在无法访问目标任务 Ctgt 的类的情况下，在开放世界中随机采样可能与目标任务无关的类。</li>
+<li>数据增强处理。</li>
+</ul>
+<h2 id="实验结果">实验结果<a href="#%e5%ae%9e%e9%aa%8c%e7%bb%93%e6%9e%9c" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>我们的实验设计包括了多种模型融合算法，以及与现有后门攻击方法的比较。实验结果表明：</p>
+<ol>
+<li>
+<p><strong>攻击效果</strong>：BadMerging在多种模型融合算法下都能实现高达90%以上的攻击成功率，显著优于现有方法。</p>
+</li>
+<li>
+<p><strong>防御机制评估</strong>：我们评估了现有的检测和防御机制，包括Neural Cleanse和Fine-pruning，结果表明这些机制无法有效防御BadMerging攻击。</p>
+</li>
+</ol>
+<h2 id="自己思考">自己思考<a href="#%e8%87%aa%e5%b7%b1%e6%80%9d%e8%80%83" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>BadMerging是首个针对模型融合的后门攻击框架，填补了该领域的研究空白。</li>
+<li>通过两阶段攻击机制和特征插值损失函数，BadMerging展示了对不同合并参数的鲁棒性。</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>BadMerging需要对攻击者的任务特定模型进行微调，这可能需要较大的计算资源。</li>
+<li>论文中没有详细讨论攻击在不同规模和复杂度的模型上的效果。</li>
+</ul>
+<p><strong>未来改进的方向</strong>：</p>
+<ul>
+<li>探索在更大规模的数据集和模型上的攻击效果，以及如何优化攻击策略以减少资源消耗。</li>
+<li>研究如何结合多种防御机制来提高模型融合的安全性。</li>
+<li>考虑实际部署场景，研究如何在不牺牲太多性能的情况下提高模型的鲁棒性。</li>
+</ul>
+<h2 id="idea-多源模型版权保护">idea: 多源模型版权保护。<a href="#idea-%e5%a4%9a%e6%ba%90%e6%a8%a1%e5%9e%8b%e7%89%88%e6%9d%83%e4%bf%9d%e6%8a%a4" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>在模型融合过程中，关注每个融合模型的版权。比如a + b + c。每个模型所有者的版权都能查到。
+<strong>可能的挑战</strong>： 1. 版权冲突 a / b / c 后门水印冲突
+2. 水印容量
+3.</p>
+<h1 id="ccs24-neural-dehydration-effective-erasure-of-black-box-watermarks-from-dnns-with-limited-data">CCS'24 Neural Dehydration: Effective Erasure of Black-box Watermarks from DNNs with Limited Data<a href="#ccs24-neural-dehydration-effective-erasure-of-black-box-watermarks-from-dnns-with-limited-data" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h1>
+<h2 id="摘要-1">摘要<a href="#%e6%91%98%e8%a6%81-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>本文提出了一种名为“Neural Dehydration”（简称Dehydra）的新型攻击框架，旨在有效移除深度神经网络（DNN）中的黑盒水印。黑盒水印是一种保护DNN知识产权的技术，通过在特定样本集上嵌入水印信息，并在疑似模型中提取水印以验证所有权。现有的水印移除攻击通常需要大量数据或对水印结构有先验知识，但这些攻击往往只能破解一小部分主流黑盒水印，且可能损害模型效用或依赖于大量数据。Dehydra通过利用DNN的内部结构来恢复和忘却水印信息，有效移除了所有十种主流黑盒水印，且只需有限或甚至不需要数据。具体来说，Dehydra首先使用模型反演技术恢复接近真实水印数据的样本，然后在微调过程中故意忘却这些样本。此外，Dehydra还引入了目标类别检测和恢复样本分割算法，以减少效用损失并实现无数据水印移除。在三个基准数据集和DNN架构上的广泛评估表明，Dehydra在数据有限的设置下，至少保留了90%的模型效用，同时实现了对所有覆盖水印的强效移除效果。</p>
+<h2 id="背景-1">背景<a href="#%e8%83%8c%e6%99%af-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>随着深度学习技术的快速发展，训练一个高性能的DNN模型变得越来越重要。然而，模型训练需要大量的数据收集和计算资源。为了保护这些训练好的模型不被非法复制或滥用，模型水印技术应运而生。水印技术通过在模型训练过程中嵌入特定的信息，使得在模型被非法使用时能够追踪到原始所有者。黑盒水印因其验证过程只需API访问而受到广泛关注。然而，现有的水印技术面临着被攻击者移除的风险，攻击者可能会通过修改模型参数来使水印失效。尽管已有研究提出了多种水印移除攻击，但这些攻击往往需要大量数据或对水印结构有深入了解，这在实际场景中是不现实的。因此，本文提出了一种无需数据或只需有限数据的水印移除攻击方法，旨在提高攻击的实用性和有效性。</p>
+<h2 id="相关工作-1">相关工作<a href="#%e7%9b%b8%e5%85%b3%e5%b7%a5%e4%bd%9c-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>在DNN模型水印领域，已有多种水印嵌入和提取技术被提出。这些技术主要分为白盒水印和黑盒水印两大类。白盒水印需要对模型内部参数进行访问，而黑盒水印则只需通过模型的预测行为进行验证。此外，针对水印的安全性，研究者们还提出了多种攻击方法，包括基于剪枝、微调和反学习的攻击。这些攻击方法试图通过修改模型参数或训练数据来移除水印，但它们通常需要大量数据或对水印算法有先验知识。最近，一些研究开始关注在数据受限条件下的水印移除问题，提出了一些新的攻击策略。然而，这些方法在实际应用中仍存在局限性，如攻击效果不佳或对数据的依赖性仍然较高。本文提出的Dehydra方法正是为了解决这些问题，通过利用模型内部信息来实现有效的水印移除，同时减少对外部数据的依赖。</p>
+<h2 id="方案设计-1">方案设计<a href="#%e6%96%b9%e6%a1%88%e8%ae%be%e8%ae%a1-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>![[Pasted image 20241018115506.png]]
+Dehydra攻击框架主要包含两个阶段：<strong>水印恢复和水印忘却</strong>。在水印恢复阶段，Dehydra使用模型反演技术从目标水印模型中恢复出接近真实水印数据的样本。这一阶段利用了DNN的过参数化特性，通过优化技术重建与目标类别相关联的水印信息。在水印忘却阶段，Dehydra在微调过程中故意忘却这些恢复出的样本，以此来移除水印。为了提高攻击的有效性和减少对数据的依赖，Dehydra进一步引入了目标类别检测和恢复样本分割算法。目标类别检测算法通过分析模型的损失景观来识别固定类别的水印，并检测其目标类别。恢复样本分割算法则基于正常数据优势现象，将恢复样本分割为代理水印数据和代理正常数据，以确保在移除水印的同时保持模型的原始效用。Dehydra的这些设计使其能够在数据受限的条件下实现有效的水印移除。</p>
+<h2 id="实验结果-1">实验结果<a href="#%e5%ae%9e%e9%aa%8c%e7%bb%93%e6%9e%9c-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>实验部分首先介绍了实验的设计，包括使用的数据集、DNN架构、水印算法和攻击方法。作为基线的攻击方法包括剪枝、微调和反学习等。实验结果表明，Dehydra在数据有限的设置下，能够实现对所有十种主流黑盒水印的强效移除，同时至少保留了90%的模型效用。与现有攻击方法相比，Dehydra在移除水印方面表现出更高的有效性，且对模型效用的影响更小。</p>
+<h2 id="自己思考-1">自己思考<a href="#%e8%87%aa%e5%b7%b1%e6%80%9d%e8%80%83-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>本文提出的Dehydra方法在水印移除领域具有创新性，特别是在减少对数据依赖和提高攻击有效性方面。然而，该方法也有一些局限性。首先，Dehydra主要针对图像分类任务，对于其他类型的DNN模型，如自然语言处理模型，其有效性尚未得到验证。其次，Dehydra的攻击效果可能受到模型结构和水印算法设计的影响，对于某些特定的水印算法，可能需要进一步调整攻击策略。未来的工作可以探索Dehydra在其他任务和模型上的应用，并研究如何提高其对不同水印算法的适应性。此外，研究者们还可以探索如何结合Dehydra与其他攻击方法，以实现更全面的水印防御策略。</p>
+<h1 id="eccv24-ccf-b-revocable-backdoor-for-deep-model-trading">ECCV'24 (CCF B) Revocable Backdoor for Deep Model Trading<a href="#eccv24-ccf-b-revocable-backdoor-for-deep-model-trading" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h1>
+<h2 id="摘要-2">摘要<a href="#%e6%91%98%e8%a6%81-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>本文提出了一种新型的可撤销后门（revocable backdoor）概念，并将其应用于深度模型交易场景中。在深度模型交易中，卖家希望在不泄露模型核心价值的情况下，让买家评估模型性能；而买家则希望在不满意时能够退回模型并获得退款。为了解决这一矛盾，作者设计了一种特殊的后门，该后门在植入时不会降低模型性能，且卖家可以在任何时候通过特定的掩码矩阵（mask matrices）轻松撤销后门，而无需重新训练模型。 ==这种可撤销后门不仅能够保护卖家的利益，防止买家在未完成最终支付时滥用模型，同时也能保证买家在支付最终款项后获得一个干净的模型。== 通过在多个数据集和网络架构上的实验，作者证明了该可撤销后门的可行性和鲁棒性。</p>
+<h2 id="背景-2">背景<a href="#%e8%83%8c%e6%99%af-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>深度学习模型在多个领域取得了显著的成就，成为重要的数字产品。然而，这些模型容易受到后门攻击的威胁，攻击者通过在训练阶段植入后门，使得模型在特定触发器出现时返回攻击者期望的结果。这种攻击严重破坏了深度模型的可信度。尽管后门攻击通常被视为安全威胁，但也有研究者利用后门攻击进行正向目的，如模型版权保护、人工智能可解释性和对抗性示例防御等。本文首次提出可撤销后门的概念，将其应用于深度模型交易，旨在在不降低模型性能的前提下，实现对后门的控制，同时保护买卖双方的利益。</p>
+<h2 id="相关工作-2">相关工作<a href="#%e7%9b%b8%e5%85%b3%e5%b7%a5%e4%bd%9c-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>在机器学习安全领域，后门攻击和防御是两个重要的研究方向。后门攻击的目标是让深度模型在触发器出现时返回攻击者期望的结果。早期的后门攻击如BadNets通过在训练阶段的数据投毒实现攻击，而后续的研究则探索了更隐蔽的触发器模式。除了基于数据投毒的后门攻击，还有通过控制训练过程实现的后门攻击。这些攻击方法在隐蔽性和攻击效果上有所不同，但都需要在模型中留下痕迹。</p>
+<p>针对后门攻击的威胁，后门防御技术也迅速发展。后门检测技术旨在确定模型是否包含后门，而后门净化技术则旨在在不显著降低模型性能的前提下消除后门。例如，Neural Cleanse通过分析模型的异常行为来检测后门，而Fine-Pruning则通过网络剪枝来消除后门。这些防御技术在检测和清除后门方面取得了一定的效果，但也存在局限性。</p>
+<h2 id="方案设计-2">方案设计<a href="#%e6%96%b9%e6%a1%88%e8%ae%be%e8%ae%a1-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>![[Pasted image 20250106140543.png]]
+论文的方法框架分为两个主要部分：<strong>后门植入</strong>和<strong>后门撤销</strong>。</p>
+<h3 id="后门植入">后门植入<a href="#%e5%90%8e%e9%97%a8%e6%a4%8d%e5%85%a5" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<ol>
+<li><strong>训练数据集</strong>：假设有一个干净的训练数据集 $\mathcal{D} = {(x_i, y_i)}_{i=1}^N$，其中 $x_i$ 是图像，$y_i$ 是其标签。</li>
+<li><strong>触发模式</strong>：定义一个触发模式 $\delta$，它是一个与图像大小相同的矩阵，元素值在 $[-t, t]$ 之间。</li>
+<li><strong>毒化数据集</strong>：从干净数据集中选择一部分图像，将其与触发模式 $\delta$ 结合，生成毒化图像，并将这些图像的标签改为攻击者期望的目标标签。毒化数据集记为 $\mathcal{D}_p$，干净数据集记为 $\mathcal{D}_c$。</li>
+<li><strong>模型训练</strong>：使用干净数据集和毒化数据集共同训练模型。训练的目标是最小化以下损失函数：</li>
+</ol>
+$$
+L_{bd} = \frac{1}{|\mathcal{D}_c|} \sum_{(x,y) \in \mathcal{D}_c} \ell(f_\theta(x), y) - \frac{1}{|\mathcal{D}_p|} \sum_{(x,y) \in \mathcal{D}_p} \max(\ell(f_\theta(x + \delta), y), c)
+$$<p>其中，$\ell(\cdot)$ 是交叉熵损失函数，$c$ 是一个超参数，用于控制模型在毒化输入上的错误率。第一项确保模型在干净输入上的性能不下降，第二项确保模型在毒化输入上返回错误结果。</p>
+<h3 id="后门撤销">后门撤销<a href="#%e5%90%8e%e9%97%a8%e6%92%a4%e9%94%80" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<ol>
+<li><strong>掩码矩阵</strong>：在模型的内部层中引入可训练的掩码矩阵 $M_k$，用于控制特征图的输出。掩码矩阵的初始值为1，表示不改变特征图。</li>
+<li><strong>正则化</strong>：为了确保掩码矩阵不会对干净输入产生过大影响，引入正则化项：</li>
+</ol>
+$$
+L_R = \sum |M_{k_{ij}} - 1|
+$$<p>该正则化项使得掩码矩阵的元素尽可能接近1。
+3. 掩码矩阵作用:
+$f_{\theta_{\text {mask }}}(\cdot)=f_{\mathrm{n}}\left(\cdots M_{2} \cdot f_{2}\left(M_{1} \cdot f_{1}(x)\right)\right)$
+4. <strong>后门撤销</strong>：通过最小化以下损失函数来更新掩码矩阵：</p>
+$$
+L_{rev} = \frac{1}{|\mathcal{D}_c|} \sum_{(x,y) \in \mathcal{D}_c} \ell(f_{\theta_{mask}}(x), y) + \frac{1}{|\mathcal{D}_p|} \sum_{(x,y) \in \mathcal{D}_p} \ell(f_{\theta_{mask}}(x + \delta), y)
+$$<p>其中，$f_{\theta_{mask}}$ 是带有掩码矩阵的模型。通过最小化该损失函数，掩码矩阵可以有效地切断后门的推理路径，使得模型在触发条件出现时也能返回正确结果。</p>
+<h3 id="触发模式微调">触发模式微调<a href="#%e8%a7%a6%e5%8f%91%e6%a8%a1%e5%bc%8f%e5%be%ae%e8%b0%83" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>为了进一步提高触发模式的不可感知性和攻击的鲁棒性，论文还提出了触发模式微调的方法。在模型训练完成后，冻结模型参数和掩码矩阵，仅更新触发模式 $\delta$，通过最小化以下损失函数：</p>
+$$
+L = L_{bd} + L_{rev} + \beta \|\delta\|_2
+$$<p>其中，$\beta$ 是控制触发模式修改幅度的超参数。</p>
+<h2 id="实验结果-2">实验结果<a href="#%e5%ae%9e%e9%aa%8c%e7%bb%93%e6%9e%9c-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>实验设计包括三个数据集：CIFAR-10、GTSRB和Sub-ImageNet，以及两种网络架构：ResNet-18和VGG。实验中，作者将提出的可撤销后门方法与多种现有的后门攻击方法进行了比较，包括BadNets、Blend、SIG、LSB、WaNet和BppAttack。实验结果表明，提出的可撤销后门方法在攻击有效性、模型保真度和后门可撤销性方面均优于现有方法。在没有防御措施的情况下，可撤销后门能够显著降低模型在有毒输入下的准确性，同时保持在干净输入下的准确性不变。此外，通过引入掩码矩阵，模型能够恢复到干净模型的性能水平。</p>
+<h2 id="自己思考-2">自己思考<a href="#%e8%87%aa%e5%b7%b1%e6%80%9d%e8%80%83-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>本文的优点在于提出了一种创新的可撤销后门概念，并将其成功应用于深度模型交易场景。这种方法不仅能够保护卖家的利益，防止未授权使用，同时也能保证买家在支付最终款项后获得一个干净的模型。此外，实验结果表明，该方法在多个数据集和网络架构上都具有很好的可行性和鲁棒性。</p>
+<p>然而，该方法也存在一些局限性。例如，可撤销后门的实现依赖于掩码矩阵的设计，这可能需要对模型的内部结构有深入的了解。此外，该方法在面对更复杂的防御策略时，其有效性可能会受到影响。</p>
+<p>未来的改进方向可以包括：1) 探索更加隐蔽的触发器模式，以提高后门的隐蔽性；2) 研究更加高效的后门撤销方法，以减少对模型性能的影响；3) 考虑在更广泛的攻击和防御场景下，评估可撤销后门的适用性和有效性。</p>
+<h1 id="ccs24-tabularmark-watermarking-tabular-datasets-for-machine-learning">CCS'24 TabularMark: Watermarking Tabular Datasets for Machine Learning<a href="#ccs24-tabularmark-watermarking-tabular-datasets-for-machine-learning" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h1>
+<h2 id="摘要-3">摘要<a href="#%e6%91%98%e8%a6%81-3" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>本文提出了一种用于机器学习表格数据集的水印方案TabularMark，旨在保护共享数据的所有权，同时保留数据的实用性，且不影响下游机器学习模型的性能。现有的表格数据集水印方法在可检测性、非侵入性和鲁棒性方面存在不足，并且只从数据统计的角度保留数据的实用性，忽略了在数据集上训练的机器学习模型的性能。TabularMark通过数据噪声分区和假设检验的方法来嵌入和检测水印，能够适应数值和分类属性，同时保持数据的实用性。实验结果表明，TabularMark在可检测性、非侵入性和鲁棒性方面具有优越性。</p>
+<h2 id="背景-3">背景<a href="#%e8%83%8c%e6%99%af-3" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>随着机器学习的广泛应用，结构化表格数据集在多个行业中变得普遍，但这些数据集容易被未经授权的复制和使用。因此，需要一种机制来保护这些数据集的所有权。水印技术是一种广泛采用的技术，用于声明和防止共享数据的未经授权使用。然而，现有的水印方法主要针对多媒体数据，如图像和音频，这些方法难以直接应用于表格数据集，因为表格数据集的特性与多媒体数据不同，例如，表格数据通常由精确值组成，每个条目都携带重要和特定的信息，几乎没有感知冗余。此外，表格数据可能包含不同类型的数据，如数值和分类数据，可能需要更复杂的水印策略。TabularMark方案通过在嵌入阶段引入设计的扰动，并在检测阶段使用自定义阈值的单比例z检验来确定水印的存在，从而解决了这些问题。</p>
+<h2 id="相关工作-3">相关工作<a href="#%e7%9b%b8%e5%85%b3%e5%b7%a5%e4%bd%9c-3" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>现有的表格数据集水印方案主要分为两类：非可逆水印和可逆水印。非可逆水印方案通过修改数据的最小有效位（LSB）来嵌入水印，但这种方法不适用于分类属性，因为编码的分类属性通常是小范围整数，提供有限的水印容量，并可能造成不希望的失真。另一种方法是将水印位嵌入数据的统计信息中，但这种方法需要使用主键进行数据分区，而主键在表格数据集中并非必需，且替换原始主键会阻止正确提取水印信息，违反了鲁棒性。可逆水印方案允许从水印数据中提取水印并完全恢复原始数据，但这些方法通常限于整数属性，不适用于表格数据集中广泛存在的浮点属性。此外，现有的水印方案主要关注数据的基本统计量，如均值和方差，而没有考虑对下游机器学习模型性能的影响。</p>
+<h2 id="方案设计-3">方案设计<a href="#%e6%96%b9%e6%a1%88%e8%ae%be%e8%ae%a1-3" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>TabularMark方案包括以下关键模块：</p>
+<ol>
+<li>
+<p><strong>数据噪声分区</strong>：在嵌入阶段，通过将数据噪声分为两个部分，并在特定单元格中引入设计的扰动来嵌入水印。</p>
+</li>
+<li>
+<p><strong>假设检验检测</strong>：在检测阶段，使用单比例z检验来检测嵌入阶段引入的扰动，从而可靠地确定水印的存在。</p>
+</li>
+<li>
+<p><strong>关键单元格的选择与管理</strong>：通过控制扰动单元格的数量来管理机器学习模型的实用性，确保水印的非侵入性。</p>
+</li>
+<li>
+<p><strong>多属性匹配</strong>：为了在数据顺序被攻击破坏时检测水印，使用多个属性的最重要位（MSB）来匹配包含关键单元格的元组。</p>
+</li>
+<li>
+<p><strong>鲁棒性分析</strong>：通过模拟攻击者的潜在策略并数学证明攻击者需要改变的单元格数量的下限，来展示TabularMark的水印难以被移除。</p>
+</li>
+</ol>
+<h2 id="实验结果-3">实验结果<a href="#%e5%ae%9e%e9%aa%8c%e7%bb%93%e6%9e%9c-3" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>实验设计包括在真实世界和合成数据集上进行测试，以验证TabularMark在可检测性、非侵入性和鲁棒性方面的表现。实验使用了XGBoost、随机森林和线性回归等机器学习模型，并与现有的水印方案进行了比较。实验结果表明，TabularMark在保持数据实用性的同时，能够有效地检测水印，并且在面对插入、删除、改性等攻击时表现出鲁棒性。与现有方案相比，TabularMark在非侵入性和鲁棒性方面表现更好。</p>
+<h2 id="自己思考-3">自己思考<a href="#%e8%87%aa%e5%b7%b1%e6%80%9d%e8%80%83-3" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>TabularMark的优点在于它提供了一种既保护数据所有权又不影响数据实用性的水印方案，特别是在机器学习模型的性能方面。它通过精巧的设计，能够在不显著改变数据集统计特性的情况下嵌入和检测水印。然而，该方案可能在处理大规模数据集时面临性能挑战，因为需要对每个关键单元格进行详细的管理。此外，该方案可能需要进一步的优化，以适应更广泛的数据类型和更复杂的攻击场景。</p>
+<p>未来改进的方向可能包括提高处理大规模数据集的效率，扩展对不同数据类型和结构的支持，以及增强对复杂攻击场景的鲁棒性。此外，可以考虑将TabularMark与其他数据保护技术（如差分隐私）结合，以提供更全面的数据分析保护解决方案。</p>
+<h1 id="ccs24-byzantine-robust-averaging-through-local-similarity-in-decentralization">CCS'24 Byzantine-robust averaging through local similarity in decentralization<a href="#ccs24-byzantine-robust-averaging-through-local-similarity-in-decentralization" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h1>
+<h2 id="摘要-4">摘要<a href="#%e6%91%98%e8%a6%81-4" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>本文提出了一种名为BALANCE（Byzantine-robust averaging through local similarity in decentralization）的新型算法，旨在防御分布式联邦学习（DFL）中的投毒攻击。在传统的联邦学习中，多个客户端通过中心服务器的协助来协作训练机器学习模型，而不会泄露它们的私有训练数据。然而，这种服务器辅助的联邦学习（server-assisted FL）由于服务器的通信瓶颈和信任依赖问题，存在可扩展性差的问题。为了解决这些挑战，研究者们提出了去中心化的联邦学习（DFL）架构，允许客户端以无服务器和点对点的方式协作训练模型。但DFL由于其完全去中心化的特性，极易受到恶意客户端通过发送精心设计的本地模型来操纵系统的投毒攻击。本文提出的BALANCE算法通过利用客户端自己的本地模型作为相似性参考，来判断接收到的模型是否为恶意。我们为BALANCE在强凸和非凸设置下提供了理论收敛保证，并证明其在投毒攻击下的收敛速度与无拜占庭环境中的最新方法相匹配。广泛的实验也证明了BALANCE在防御投毒攻击方面的有效性，并优于现有的DFL方法。</p>
+<h2 id="背景-4">背景<a href="#%e8%83%8c%e6%99%af-4" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>联邦学习（FL）是一种分布式学习范式，它允许多个客户端协作训练机器学习模型，而无需共享它们的原始训练数据。这种范式在保护数据隐私的同时，还能利用分布式数据源的优势。然而，传统的服务器辅助型联邦学习（server-assisted FL）存在几个关键限制：首先，中心服务器成为单点故障的风险，容易受到网络攻击或系统故障的影响；其次，随着客户端数量的增加，服务器的通信瓶颈问题会显著降低大规模分布式训练的可扩展性；最后，所有参与的客户端都必须信任中心服务器，这可能导致服务器对客户端模型产生任意影响。为了克服这些限制，研究者们提出了完全去中心化的联邦学习设计，即去中心化联邦学习（DFL）。在DFL中，客户端以点对点的方式交换信息，无需服务器的协助。尽管DFL提供了许多优势，但其易受投毒攻击的脆弱性成为了其广泛应用的主要障碍。恶意客户端可以通过操纵本地训练数据或直接操纵发送给邻近客户端的本地模型来任意操纵系统。</p>
+<h2 id="相关工作-4">相关工作<a href="#%e7%9b%b8%e5%85%b3%e5%b7%a5%e4%bd%9c-4" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>在联邦学习的安全和隐私领域，研究者们已经提出了多种方法来防御拜占庭攻击，包括数据投毒攻击和模型投毒攻击。这些方法主要基于服务器辅助型联邦学习设计。例如，Krum算法通过选择与客户端本地模型距离最近的模型来防御攻击；而Median和Trimmed Mean算法则通过去除一定比例的极端值来减少恶意模型的影响。然而，这些方法在DFL环境中并不适用，因为DFL没有中心服务器来协调这些防御措施。最近，一些研究者提出了针对DFL环境的拜占庭鲁棒性方法，如LEARN和SCCLIP。LEARN算法要求客户端在每个训练轮次中多次交换本地模型更新和模型，然后使用修剪均值聚合规则来组合接收到的本地模型更新和模型。SCCLIP算法则通过基于客户端自己的本地模型来剪辑所有从邻近客户端接收到的本地模型。尽管这些方法在理论上提供了一定的防御能力，但它们要么缺乏通信效率，要么不能为所有良性客户端提供准确的最终模型的理论保证。</p>
+<h2 id="方案设计-4">方案设计<a href="#%e6%96%b9%e6%a1%88%e8%ae%be%e8%ae%a1-4" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>BALANCE算法的核心思想是每个客户端使用自己的本地模型作为相似性参考，以判断接收到的模型是否为恶意。具体来说，如果接收到的模型在方向和大小上与客户端自己的模型接近，则被认为是良性的；否则，该模型将被忽略。在每个训练轮次中，客户端会执行以下步骤：</p>
+<ol>
+<li><strong>本地模型训练和交换</strong>：客户端执行本地训练以获得中间模型，并将其发送给邻近的客户端。</li>
+<li><strong>本地模型聚合</strong>：客户端接收来自其邻居的中间模型，并根据预定义的条件（如模型的相似性）接受或拒绝这些模型。然后，客户端计算所有接受模型的平均值，并将其与自己的中间模型结合以更新其本地模型。</li>
+</ol>
+<p>为了在理论上保证BALANCE算法在投毒攻击下的收敛性，文章提出了以下关键技术：</p>
+<ul>
+<li><strong>模型相似性评估</strong>：客户端通过比较接收到的模型与自己的模型之间的相似性来评估模型的安全性。</li>
+<li><strong>动态阈值设置</strong>：客户端根据训练进度动态调整接受模型的阈值，以适应模型收敛过程中的变化。</li>
+<li><strong>鲁棒性聚合规则</strong>：客户端使用鲁棒性聚合规则来组合接收到的良性模型，以提高对恶意模型的抵抗力。</li>
+</ul>
+<p>文章还提供了BALANCE算法在强凸和非凸设置下的收敛性分析，并证明了其收敛速度与无拜占庭环境中的最新方法相匹配。</p>
+<h2 id="实验结果-4">实验结果<a href="#%e5%ae%9e%e9%aa%8c%e7%bb%93%e6%9e%9c-4" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>实验部分，作者设计了一系列实验来评估BALANCE算法在不同设置下的性能。实验使用了多个数据集，包括合成数据集和四个真实世界数据集（MNIST、Fashion-MNIST、HAR和CelebA）。实验考虑了多种投毒攻击，包括数据投毒攻击和模型投毒攻击。此外，实验还考虑了不同的通信图结构、客户端数量、恶意客户端比例以及非独立同分布（Non-IID）数据设置。</p>
+<p>Baselines包括了多种现有的DFL方法，如FedAvg、Krum、Trimmed Mean、Median、FLTrust、UBAR、LEARN和SCCLIP。实验结果表明，BALANCE算法在各种攻击和设置下都表现出了优越的性能，能够有效地防御投毒攻击，并且与现有的最佳方法相比，在没有攻击的情况下也具有竞争力的性能。</p>
+<h2 id="自己思考-4">自己思考<a href="#%e8%87%aa%e5%b7%b1%e6%80%9d%e8%80%83-4" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p><strong>优点</strong>：</p>
+<ol>
+<li>BALANCE算法提供了一种有效的防御机制，能够在完全去中心化的联邦学习环境中抵御复杂的投毒攻击。</li>
+<li>算法的设计简单而高效，不需要额外的通信开销，易于在实际的DFL系统中实现。</li>
+<li>理论分析充分，证明了算法在强凸和非凸设置下的收敛性，为算法的实际应用提供了坚实的理论基础。</li>
+</ol>
+<p><strong>缺点</strong>：</p>
+<ol>
+<li>BALANCE算法可能在某些极端的非IID设置下表现不佳，尤其是在客户端数据高度异质性的情况下。</li>
+<li>算法的参数选择（如β和ε）对性能有较大影响，可能需要针对不同的攻击和数据分布进行调整。</li>
+</ol>
+<p><strong>未来改进的方向</strong>：</p>
+<ol>
+<li>研究自适应参数调整策略，以减少对预设参数的依赖，并提高算法在不同设置下的鲁棒性。</li>
+<li>探索结合其他机器学习技术，如元学习或迁移学习，以进一步提高DFL系统对投毒攻击的抵抗力。</li>
+<li>在更广泛的实际应用场景中测试BALANCE算法，以验证其在现实世界中的有效性和适用性。</li>
+</ol>
+<h1 id="sp25-towards-reliable-verification-of-unauthorized-data-usage-in-personalized-text-to-image-diffusion-models">S&amp;P'25 Towards Reliable Verification of Unauthorized Data Usage in Personalized Text-to-Image Diffusion Models<a href="#sp25-towards-reliable-verification-of-unauthorized-data-usage-in-personalized-text-to-image-diffusion-models" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h1>
+<h2 id="摘要-5">摘要<a href="#%e6%91%98%e8%a6%81-5" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>本文提出了一种名为<strong>Siren</strong>的新方法，用于在==黑盒个性化文本到图像扩散模型中追踪未经授权的数据使用==。Siren通过在数据中嵌入不可见的涂层，使得模型在生成图像时能够保留这些涂层，从而为数据所有者提供证据。与现有的水印和后门触发方法不同，Siren通过优化涂层使其与个性化任务相关，显著提高了涂层的可学习性。实验表明，Siren在多种数据集、模型和学习算法中表现出色，并且在真实场景中也能有效应对潜在的反制措施。</p>
+<h2 id="研究背景">研究背景<a href="#%e7%a0%94%e7%a9%b6%e8%83%8c%e6%99%af" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>高质量的公开数据集（例如开源数据集或正在售卖的商业数据集）是深度学习繁荣的一个重要因素。然而，由于这些数据集的公开特性，<strong>恶意用户很有可能在未经授权的情况下用其训练第三方商用模型，进而破坏数据集所有者的版权</strong>，给数据集的所有者造成巨大的损失。</p>
+<p>特别的，在<a href="https://zhida.zhihu.com/search?content_id=251809056&amp;content_type=Article&amp;match_order=1&amp;q=%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&amp;zhida_source=entity">生成式人工智能</a>，尤其是文生图场景中，<strong>恶意用户/<a href="https://zhida.zhihu.com/search?content_id=251809056&amp;content_type=Article&amp;match_order=1&amp;q=%E5%BC%80%E5%8F%91%E8%80%85&amp;zhida_source=entity">开发者</a>可能会在未经授权的情况下，利用艺术家等受害者的图像数据集对T2I扩散模型进行个性化调整（例如微调），从而侵犯受害者的版权</strong>。这个场景的具体过程如下图所示：
+![[Pasted image 20250107111654.png]]
+目前，==<strong>数据集所有权认证（Dataset Ownership Verification，DOV）==是保护这类开源数据集 (Public Dataset)最主流和有效的方法</strong>。简单来说，在该方法中，<strong>数据集的所有者会在发布数据集之前对其添加特殊的水印，使得所有在该数据集上训练/微调过的模型都会（在特定的样本上）有特殊的预测行为</strong>。如果可疑模型中存在这一特定预测行为，则该模型可以被认为是在受保护的数据集上训练过。</p>
+<p>目前针对T2I个性化数据集的所有权认证分为两大基础类型：基于<a href="https://zhida.zhihu.com/search?content_id=251809056&amp;content_type=Article&amp;match_order=1&amp;q=%E5%9B%BE%E5%83%8F%E6%B0%B4%E5%8D%B0&amp;zhida_source=entity">图像水印</a>的方法（Watermark-based Methods）和基于后门水印的方法（Backdoor-based Methods）。在这个部分中，我们分别讨论其内在缺陷。</p>
+<h3 id="基于图像水印的方法">基于图像水印的方法<a href="#%e5%9f%ba%e4%ba%8e%e5%9b%be%e5%83%8f%e6%b0%b4%e5%8d%b0%e7%9a%84%e6%96%b9%e6%b3%95" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>这类方法<strong>旨在在受保护的图像中嵌入预定义的隐写信息，希望同样的信息能从个性化 T2I 模型生成的图像中解码出来</strong>。
+![[Pasted image 20250107112038.png]]
+然而，如上图所示，我们发现：在使用最先进的扩散模型进行个性化学习时，<strong>现有方法产生的水印很难被学习和保存</strong>。我们认为，其中一个根本原因是：==这些扩散模型已经在大型高质量文本-图像数据集上进行了预训练，从而在文本和图像概念之间建立了稳健的语义联系。==换句话说，这些模型已经熟悉了一般概念，在遇到新概念时可能知道 “要学什么”。例如，预训练的扩散模型已经熟悉了狗的一般外观。当适应一种特定类型的新狗时，模型可能会主要关注这种新狗的独特细节，如毛发、眼睛和耳朵。然而，==<strong>这些方法的图像水印与待学习概念的语义联系有限，因此，模型可能会将其视为与图像背景类似的无关特征，从而在训练过程中将其忽略不计</strong>。==</p>
+<h3 id="基于后门的方法">基于后门的方法<a href="#%e5%9f%ba%e4%ba%8e%e5%90%8e%e9%97%a8%e7%9a%84%e6%96%b9%e6%b3%95" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>目前，也有一个针对T2I模型的后门水印方案（即，DIAGNOSIS ）。具体的，==<strong>该方法在受保护的图像上添加隐蔽的后门触发器进行水印，并在相应的原始提示中附加触发文本</strong>。==因此，如果一个模型在这个数据集上进行训练，它就会学习一个 “后门”（即触发文本符合要求，就在生成的图像上添加相同的后门触发器）。<strong>数据集的所有者只需要在生成时使用触发器文本，判断该可疑模型生成的图片中是否含有触发器图案，即可进行所有权认证</strong>。</p>
+<p>然而，<strong>这个方法依赖了一个潜在的假设， 即：==侵犯方使用的训练提示必须是数据集所有者提供的提示</strong>==。然而，攻击者可以使用目前最先进的图像标注模型（如 BLIP）生成高质量的文本描述作为训练提示，轻松绕过这一假设。此时，如下表所示，该方法会完全失效，因为<strong>后门触发器的特征也和模型在个性化学习过程中想要学习的特征无关，从而在个性化学习过程中被模型忽略</strong>。
+![[Pasted image 20250107112915.png]]</p>
+<h2 id="方案">方案<a href="#%e6%96%b9%e6%a1%88" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p><strong>现有方法失败源自于其可学性不足，因为它们的水印与个性化学习任务无关</strong>。因此，我们需要优化水印的生成过程，使其耦合于（Align with）个性化任务相关的特征（Personalization-related Features）
+Siren的核心思想是==通过优化涂层，使其与个性化任务相关==，从而在模型训练过程中更容易被学习和保留。具体方案如下：</p>
+<h3 id="威胁模型">威胁模型<a href="#%e5%a8%81%e8%83%81%e6%a8%a1%e5%9e%8b" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>和现有的所有数据集所有权认证工作相同，我们假设<strong>数据集的所有者==只能通过API的形式黑盒的访问可疑模型，且不知道模型的任何训练信息和参数</strong>==。数据的所有者出于某些目的（如艺术品广告或促进学术研究）向公众发布其拥有的图像，即被保护的数据集具有公开特性（Public Characteristic）。然而，所有者不希望自己的数据在未经授权的情况下被用于商业目的，即我们所考虑的以盈利为目的的个性化扩散模型的训练和销售。</p>
+<h3 id="方法概述">方法概述<a href="#%e6%96%b9%e6%b3%95%e6%a6%82%e8%bf%b0" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>包含两个阶段: 水印的构建和提取  和 基于水印数据集所有权认证
+这里为了区别将数据集水印称为图层coating 而不是 watermarking</p>
+<h3 id="水印构建和提取">水印构建和提取<a href="#%e6%b0%b4%e5%8d%b0%e6%9e%84%e5%bb%ba%e5%92%8c%e6%8f%90%e5%8f%96" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<ol>
+<li>
+<p><strong>涂层生成与提取</strong></p>
+<ul>
+<li><strong>涂层生成器</strong>：生成与图像相关的涂层，确保涂层在视觉上不可见，但在模型训练中能够被学习。</li>
+<li><strong>涂层提取器</strong>：从生成的图像中提取涂层，用于验证数据是否被未经授权使用。</li>
+</ul>
+</li>
+<li>
+<p><strong>学习性损失</strong></p>
+<ul>
+<li>通过优化涂层，使其在扩散模型的损失函数中减少损失，从而鼓励涂层与图像的语义对齐。如果水印与个性化相关的特征一致，则添加水印应能减少模型上文字-图像对的损失。本质就是两个loss相减</li>
+<li>公式：$$\mathcal{L}_{\text{learn}} = \frac{1}{N}\sum_{(x_i,c_i)}(\mathcal{L}_{\text{DM}}(x_i,c_i) - \mathcal{L}_{\text{DM}}(x_i + \mathcal{G}(x_i),c_i))$$</li>
+<li>其中，$\mathcal{L}_{\text{DM}}$是扩散模型的损失函数，$\mathcal{G}$是涂层生成器。</li>
+</ul>
+</li>
+<li>
+<p><strong>感知约束</strong></p>
+<ul>
+<li>为了确保水印的隐蔽性，我们需要让含有水印的图片看起来和以前的图片相似。使用<strong>CIEDE2000</strong>颜色差异公式来确保涂层在视觉上不可见。参考<a href="https://zhida.zhihu.com/search?content_id=251809056&amp;content_type=Article&amp;match_order=1&amp;q=%E8%A7%86%E8%A7%89%E6%84%9F%E7%9F%A5%E7%B3%BB%E7%BB%9F&amp;zhida_source=entity">视觉感知系统</a></li>
+<li>公式：$$\Delta E = \sqrt{\left(\frac{\Delta C'}{k_C S_C}\right)^2 + \left(\frac{\Delta L'}{k_L S_L}\right)^2 + \left(\frac{\Delta H'}{k_H S_H}\right)^2 + \Delta R}$$</li>
+<li>通过最小化颜色差异，确保涂层不会对图像质量产生明显影响。</li>
+</ul>
+</li>
+<li>
+<p><strong>超球面分类损失</strong></p>
+<ul>
+<li>至此，我们已经得到了使水印隐蔽且可学习的技术。我们的下一个目标是检测生成的个性化图片上是否存在水印。此时，<strong>一个最直接的解决方案是使用标准的交叉熵损失对水印后的和水印前的干净图像直接训练<a href="https://zhida.zhihu.com/search?content_id=251809056&amp;content_type=Article&amp;match_order=1&amp;q=%E4%BA%8C%E5%85%83%E5%88%86%E7%B1%BB%E5%99%A8&amp;zhida_source=entity">二元分类器</a></strong>，即在分类器的特征空间中学习一个==超平面==，以区分正样本（水印样本）和负样本（干净样本）。然而，<strong>这种方法效果非常有限</strong>，因为==在现实世界中我们无法收集所有可能的干净图像==。因此，学习到的超平面可能会偏向于训练数据集，并可能导致对未见过的负数据进行错误分类，如下图（左半部分）所示：</li>
+</ul>
+<p>![[Pasted image 20250107114434.png]]
+受之前相关工作的启发，<strong>我们拟学习一个<a href="https://zhida.zhihu.com/search?content_id=251809056&amp;content_type=Article&amp;match_order=2&amp;q=%E8%B6%85%E7%90%83%E9%9D%A2&amp;zhida_source=entity">超球面</a>而非一个超平面</strong>，<strong>该方法可以学习一个最小超球，==它可以包含所有正样本，并将超球之外的所有其他样本视为负样本</strong>==。因此，学习到的边界将主要集中在正样本上（即，带有水印的图像），因此受负训练样本分布的影响较小，从而为未见过的负样本提供更好的泛化能力，如上图（右半部分）所示。此时，超球面分类损失的定义如下：</p>
+<ul>
+<li>公式：$$\mathcal{L}_{\text{hc}}^{+} = \nu R^2 + \frac{1}{N}\sum_{i=1}^{N}\max\{0, \|\Phi(x_i + \mathcal{G}(x_i)) - o\|_2^2 - R^2\}$$$$\mathcal{L}_{\mathrm{hc}}^{-}=-\frac{1}{N} \sum_{i=1}^{N} \log \left(1-\exp \left(-\left\|\Phi\left(x_{i}\right)-o\right\|_{2}^{2}\right)\right)$$</li>
+<li>其中，$\Phi$是提取器，$o$是超球的中心，$R$是半径。
+最终损失函数如下:
+$$
+\min_{\mathcal{G},\Phi} \mathcal{L}_{\text{overall}} = \mathcal{L}_{\text{learn}} + \lambda_{1} \mathcal{L}_{\text{percept}} + \lambda_{2} (\mathcal{L}^{+}_{\text{hc}} + \mathcal{L}^{-}_{\text{hc}})
+$$</li>
+</ul>
+</li>
+</ol>
+<h3 id="数据集所有权验证">数据集所有权验证<a href="#%e6%95%b0%e6%8d%ae%e9%9b%86%e6%89%80%e6%9c%89%e6%9d%83%e9%aa%8c%e8%af%81" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>给定一个由可疑模型生成的个性化图像 $x_{s}$ ，我们可以通过将其投影到 $\Phi$ 对应的特征空间来确定它是否包含水印。具体的，我们会计算该图像到超球中心的距离 $s \left(\right. x_{s} \left.\right) = \parallel \Phi \left(\right. x_{s} \left.\right) - o \parallel_{2}^{2}$ ，我们称之为涂层得分（Coating Score）。<strong>理想情况下，侵权模型生成的个性化图片对应的涂层分数较小，而良性模型对应的涂层分数较大</strong>。</p>
+<p>因此，我们可以通过 Kolmogorov-Smirnov 假设检验，验证可疑模型的涂层得分是否明显大于独立模型的涂层得分。<strong>如果原假设被拒绝，则认为该可疑模型利用过被保护的数据集进行个性化训练</strong></p>
+<h2 id="实验">实验<a href="#%e5%ae%9e%e9%aa%8c" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<p>实验部分验证了Siren在多种场景下的有效性：</p>
+<ol>
+<li><strong>微调场景</strong>：Siren在多个数据集上达到了接近100%的检测率，显著优于现有的水印和后门方法。</li>
+<li><strong>高级个性化方法</strong>：Siren在DreamBooth、SVDiff和Custom Diffusion等方法中表现一致，检测率始终保持在较高水平。</li>
+<li><strong>鲁棒性测试</strong>：Siren在不同模型、提示词和训练集比例下表现出色，即使涂层数据仅占训练集的一小部分，仍能有效检测。</li>
+<li><strong>图像质量影响</strong>：Siren对图像质量的影响极小，生成的图像在视觉上与未涂层图像几乎无法区分。</li>
+<li><strong>真实世界案例</strong>：Siren在两个真实世界的个性化服务平台（Replicate和Scenario）上也表现出色，检测率达到100%。</li>
+</ol>
+
+		</div>
+		
+	</main>
+<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+<p>
+	&copy; 2025 <a href="http://localhost:1313/">悉达多</a>
+	&#183; &#183; Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>
+	&#183; Theme <a href="https://github.com/1bl4z3r/hermit-V2" target="_blank" rel="noopener">Hermit-V2</a></p></footer>
+<script async src="http://localhost:1313/js/bundle.min.c7c384e4d29d192bbac6811ae4660bb01767194a5bea56baca77e8260f93ea16.js" integrity="sha256-x8OE5NKdGSu6xoEa5GYLsBdnGUpb6la6ynfoJg+T6hY=" crossorigin="anonymous"></script><script id="MathJax-script" type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" crossorigin="anonymous"></script>
+<script type="text/javascript" id="MathJax-script-helper" async src="http://localhost:1313/js/mathjax-assistant.min.ca29e9d446b2a6cb6c6e3eb0d47e9693f5c306c146eaccb43047afbf31b07a6f.js" integrity="sha256-yinp1Eaypstsbj6w1H6Wk/XDBsFG6sy0MEevvzGwem8=" crossorigin="anonymous"></script>
+
+</body>
+</html>

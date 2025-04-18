@@ -4,23 +4,31 @@ baseURL = "https://chi-kai.github.io"
 disqusShortname = "ck"
 hasCJKLanguage = true
 languageCode = "zh-cn"
-theme = "tokiwa"
+theme = "hermit-v2"
 title = "悉达多"
 googleAnalytics = "G-CWBXLVG90W"
 
 canonifyurls = false
-paginate = 10
 pygmentsCodefences = true
 pygmentsCodefencesGuessSyntax = true
 pygmentsStyle = 'manni'
 
+[pagination]
+pagerSize = 10
+
 [markup]
   [markup.goldmark.extensions]
     typographer = false
+    [markup.goldmark.extensions.passthrough]
+      enable = true
+      [markup.goldmark.extensions.passthrough.delimiters]
+        block = [['\[', '\]'], ['$$', '$$']]
+        inline = [['\(', '\)']]
   [markup.goldmark.renderer]
     unsafe= true
   [markup.highlight]
     style = "monokailight"
+# Enable to get proper Mathjax support
 
 [params]
 bannerFont = "fonts/exampleFont" 
@@ -33,6 +41,17 @@ fuse = true # for searchbox. "JSON" must added to output contents. See [outputs]
 math = true # for introducing $KaTEX$
 useChineseFonts = true 
 postDateFormat = "2006-1-2"
+global_mathjax = true
+# 添加hermit-v2主题所需的日期格式参数
+dateform        = "Jan 2, 2006"
+dateformShort   = "Jan 2"
+dateformNum     = "2006-01-02"
+dateformNumTime = "2006-01-02 15:04 -0700"
+
+[params.social]
+github = "https://github.com/Chi-Kai"
+mail = "chikai0307@gmail.com"
+# any icon in layouts/partials/svg can be used by the name without the "-line.svg"
 
 [menu]
 # Shown in the side menu.
@@ -56,11 +75,6 @@ weight = 3
 category = "categories"
 series = "series"
 tag = "tags"
-
-[social]
-github = "https://github.com/Chi-Kai"
-mail = "chikai0307@gmail.com"
-# any icon in layouts/partials/svg can be used by the name without the "-line.svg"
 
 [outputs]
 home = ["HTML", "RSS", "JSON"]

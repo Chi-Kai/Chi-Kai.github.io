@@ -1,36 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	
-	<title>悉达多  | 手写Redis</title>
-	<meta name="viewport" content="width=device-width,minimum-scale=1">
-	<meta name="generator" content="Hugo 0.128.2">
-	
-	
-	<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-	
-
-	
-	
-	<link href="/dist/app.css" rel="stylesheet">
-	
-
-	
-
-	
-	
-<link rel="shortcut icon" href="img/favicon-32x32.png" type="image/png" />
-
-	
-
-	
-	
-	
-  
-    
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-CWBXLVG90W"></script>
       <script>
         var doNotTrack = false;
@@ -44,319 +14,356 @@
           gtag('js', new Date());
           gtag('config', 'G-CWBXLVG90W');
         }
-      </script>
-    
-  
+      </script><meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="robots" content="index, follow"><meta name="author" content="KC">
+<meta name="description" content="源码学习">
+<link rel="author" type="text/plain" href="/humans.txt">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+<meta name="theme-color" content="#494f5c">
+<meta name="msapplication-TileColor" content="#494f5c">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#494f5c">
 
+  <meta itemprop="name" content="手写Redis">
+  <meta itemprop="description" content="源码学习">
+  <meta itemprop="datePublished" content="2023-07-20T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-07-20T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2003">
+  <meta itemprop="keywords" content="Redis"><meta property="og:url" content="http://localhost:1313/post/%E6%89%8B%E5%86%99redis/">
+  <meta property="og:site_name" content="悉达多">
+  <meta property="og:title" content="手写Redis">
+  <meta property="og:description" content="源码学习">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2023-07-20T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-07-20T00:00:00+00:00">
+    <meta property="article:tag" content="Redis">
 
-	
-	
-	
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="手写Redis">
+  <meta name="twitter:description" content="源码学习">
 
-
-
-<link rel="stylesheet" href='http://localhost:1313/lib/katex.min.css' crossorigin="anonymous">
-
-
-<script defer src='http://localhost:1313/lib/katex.min.js' crossorigin="anonymous"></script>
-
-
-<script defer src='http://localhost:1313/lib/contrib/auto-render.min.js'
-crossorigin="anonymous"
-onload='renderMathInElement(document.body);'></script>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false}
-            ]
-        });
-    });
-</script>
-
-	
-	
-	
-	<script>
-		(function (u, c) {
-			var d = document,
-				t = 'script',
-				o = d.createElement(t),
-				s = d.getElementsByTagName(t)[0];
-			o.src = u;
-			if (c) {
-				o.addEventListener('load', function (e) {
-					c(e);
-				});
-			}
-			s.parentNode.insertBefore(o, s);
-		})('http:\/\/localhost:1313\/lib\/pangu.min.js', function () {
-			pangu.spacingPage();
-		});
-	</script>
-	
-	
-	
-	<style type="text/css" media="screen, print">
-		@font-face {
-			font-family: "FancyTitleFont";
-			font-style: normal;
-			font-display: swap;
-			src: url('http://localhost:1313/fonts/exampleFont.woff2') format('woff2'),
-				url('http://localhost:1313/fonts/exampleFont.woff') format('woff');
-		}
-		 
-		  
-		 
-		@font-face {
-			font-family: 'Noto Serif CJK SC';
-			font-style: normal;
-			font-weight: 300;
-			font-display: swap;
-			src: local('Noto Serif CJK SC Light'), local('NotoSerifCJK-Light'),
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff2') format('woff2'),
-				 
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff') format('woff');
-			 
-		}
-
-		 
-		@font-face {
-			font-family: 'Noto Serif CJK SC';
-			font-style: normal;
-			font-weight: 400;
-			font-display: swap;
-			src: local('Noto Serif CJK SC'), local('NotoSerifCJK-Regular'),
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff2') format('woff2'),
-				 
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff') format('woff');
-			 
-		}
-
-		 
-		@font-face {
-			font-family: 'Noto Serif CJK SC';
-			font-style: normal;
-			font-weight: 500;
-			font-display: swap;
-			src: local('Noto Serif CJK SC Medium'), local('NotoSerifCJK-Medium'),
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff2') format('woff2'),
-				 
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff') format('woff');
-			 
-		}
-	</style>
-	
-</head>
-
-<body class="bg-gray-100 text-gray-700 font-sans">
-	<div class="p-6 sm:p-10 md:p-16 flex flex-wrap">
-		<header class="w-full md:w-2/5 xl:w-1/2 md:pr-12 lg:pr-20 xl:pr-24 order-1 md:order-1 max-w-2xl">
-			<div
-				class="z-50 bg-gray-100 bg-opacity-75 bg-opacity-custom lg:min-w-0.7 max-w-xl md:float-right md:text-right leading-loose tracking-tight md:sticky md:top-0 pt-2">
-				
-<div>
-	<h2>
-		<a href="http://localhost:1313/" title="悉达多" class="heading font-cursive icon">悉达多</a>
-	</h2>
-</div>
-<h1 class="pt-2">手写Redis</h1>
-
-<h3 class="text-java-700 font-normal leading-relaxed pt-2">源码学习</h3>
-
-<div class="flex flex-wrap justify-end pt-2 "><div class="md:flex-grow-0 font-light">
-	
-
-	
-
-	
-	
-	
-	
-	<a class="post-taxonomy-tag text-eucalyptus-500"
-		href='/tags/redis'>Redis</a>
-	
-	
-	
-</div><time class="text-eucalyptus-500 md:text-right md:flex-grow font-light pl-4"
-		datetime="2024-07-20T00:00:00Z">2024-7-20</time>
-</div>
-
-<details class="toc" open>
-<summary>
-    <hr />
-</summary>
-<div class="inline toc-content">
-    <nav id="TableOfContents"></nav>
-</div>
-</details>
-
-<hr />
-
-
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "手写Redis",
+    "name": "手写Redis",
+    "description": "源码学习",
+    "keywords": ["Redis"],
+    "articleBody": "Redis 架构解析 (Redis 1.0) 程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中，这就是redis中著名的ae库。下面我们先介绍一下ae库: ![[Pasted image 20240920194849.png]]\nae库 aeMain作用是持续处理aeloop中的事务: ![[Pasted image 20240920195230.png]] ae库主要关注的是三个结构体，定义了FileEvent和TimeEvent，以及事件循环\n/* File event structure */ typedef struct aeFileEvent { int fd; int mask; /* one of AE_(READABLE|WRITABLE|EXCEPTION) */ aeFileProc *fileProc; // 回调函数 aeEventFinalizerProc *finalizerProc; // 事件完成时回调 void *clientData; struct aeFileEvent *next; } aeFileEvent; /* Time event structure */ typedef struct aeTimeEvent { long long id; /* time event identifier. */ long when_sec; /* seconds */ long when_ms; /* milliseconds */ aeTimeProc *timeProc; aeEventFinalizerProc *finalizerProc; void *clientData; struct aeTimeEvent *next; } aeTimeEvent; /* State of an event based program */ typedef struct aeEventLoop { long long timeEventNextId; aeFileEvent *fileEventHead; aeTimeEvent *timeEventHead; int stop; } aeEventLoop; ae库最主要的函数就是aeProcessEvents , 它的主要功能是处理文件事件（如网络套接字读写事件）和时间事件（如定时器事件）。它会根据传入的标志位（flags）决定是否处理这两种事件，并返回处理的事件数量。 下面讲一下大概的流程:\n/* Check file events */ if (flags \u0026 AE_FILE_EVENTS) { while (fe != NULL) { if (fe-\u003emask \u0026 AE_READABLE) FD_SET(fe-\u003efd, \u0026rfds); if (fe-\u003emask \u0026 AE_WRITABLE) FD_SET(fe-\u003efd, \u0026wfds); if (fe-\u003emask \u0026 AE_EXCEPTION) FD_SET(fe-\u003efd, \u0026efds); if (maxfd \u003c fe-\u003efd) maxfd = fe-\u003efd; numfd++; fe = fe-\u003enext; } } 如果 flags 中设置了 AE_FILE_EVENTS，则遍历文件事件链表，将需要监听的文件描述符添加到 rfds, wfds, efds 中，并更新 maxfd 和 numfd。 rfds wfds efds 是类型为fd_set的描述符集合。 然后它做了哪些事情呢:\n获取当前到最新时间事件的差，作为select的超时时间。 处理 select 返回的事件。 如果 select 返回值大于0，表示有事件发生，遍历文件事件链表，检查哪些文件描述符上有事件发生，并调用相应的处理函数 fileProc。 处理完事件后，重新从链表头开始遍历，因为事件处理可能会修改链表结构。 处理时间事件： 如果 flags 中设置了 AE_TIME_EVENTS，则遍历时间事件链表，检查哪些时间事件已经到期，并调用相应的处理函数 timeProc。 如果时间事件需要重复触发，则更新其触发时间；否则，删除该时间事件。 返回处理的事件数量。 我们接着看回main函数,在事件循环中注册了一个server的acceptHandler函数，一旦有客户端链接可读，就触发。 ![[Pasted image 20240922161721.png]] ![[Pasted image 20240922164350.png]] 其中这个函数有两个操作 accept客户端请求和创建一个新的客户端。我们看这个createClient函数,除了设置一些客户端状态外，还为每个客户端注册了一个处理请求的函数readQueryFromClient。当客户端fd可读就触发 ![[Pasted image 20240922164641.png]] 一条命令的执行流程 readQueryFromClient 函数的主要作用是从客户端读取数据，解析查询请求，并将其传递给 Redis 服务器进行处理。\n读数据，将读到的数据写入缓冲区。这里可以看出，这个操作是持续进行的，也就是客户端可以保持这个链接，一旦客户端fd可读，就写入buffer。可以连续操作 ![[Pasted image 20240923094649.png]] 处理数据。首先将收到的字符串分离处理，把命令和参数分开。这里就不细看了。处理完之后，命令被放到argv中，参数放到argc中。可以看到这里有一个跳转语句goto。当buffer还有命令时会重复执行。这里还有一个bulklen参数，是判断处理批量读取操作。 again: if (c-\u003ebulklen == -1) { char *p = strchr(c-\u003equerybuf, '\\n'); if (p) { // 解析命令和参数 } else if (sdslen(c-\u003equerybuf) \u003e= REDIS_REQUEST_MAX_SIZE) { redisLog(REDIS_DEBUG, \"Client protocol error\"); freeClient(c); return; } } // 执行语句 if (c-\u003eargc \u0026\u0026 processCommand(c) \u0026\u0026 sdslen(c-\u003equerybuf)) goto again; 下面看一条命令是怎么执行的。 processCommand 函数是 Redis 服务器中用于处理客户端命令的核心函数。它负责解析、验证和执行客户端发送的命令，并根据命令的执行结果进行相应的处理。\n查找命令 cmd = lookupCommand(c-\u003eargv[0]-\u003eptr); // 遍历cmdTable。这个表很小遍历也无所谓 static struct redisCommand *lookupCommand(char *name) { int j = 0; while(cmdTable[j].name != NULL) { if (!strcasecmp(name,cmdTable[j].name)) return \u0026cmdTable[j]; j++; } return NULL; } // cmdTable static struct redisCommand cmdTable[] = { {\"get\",getCommand,2,REDIS_CMD_INLINE}, {\"set\",setCommand,3,REDIS_CMD_BULK|REDIS_CMD_DENYOOM},\\ //... {NULL,NULL,0,0} }; // redisComand typedef void redisCommandProc(redisClient *c); struct redisCommand { char *name; redisCommandProc *proc; // 执行的命令函数 int arity; // 对应参数数量 int flags; // 标志 }; 错误处理和内存管理。可以看出对一个命令有很多检查，对应的参数数量，内存等等 ![[Pasted image 20240923111602.png]] 执行命令并更新服务器状态。如果命令修改了数据（server.dirty 发生变化），并且有从服务器连接，则将命令传播给从服务器。如果有监控器连接，则也将命令传播给监控器。最后，增加服务器执行的命令计数。 dirty = server.dirty; cmd-\u003eproc(c); if (server.dirty-dirty != 0 \u0026\u0026 listLength(server.slaves)) replicationFeedSlaves(server.slaves,cmd,c-\u003edb-\u003eid,c-\u003eargv,c-\u003eargc); if (listLength(server.monitors)) replicationFeedSlaves(server.monitors,cmd,c-\u003edb-\u003eid,c-\u003eargv,c-\u003eargc); server.stat_numcommands++; 对客户端状态重置。 if (c-\u003eflags \u0026 REDIS_CLOSE) { freeClient(c); return 0; } resetClient(c); return 1; 解析get命令执行 可以看到comtable中 get命令对应的是 getCommand函数:\nstatic void getCommand(redisClient *c) { robj *o = lookupKeyRead(c-\u003edb,c-\u003eargv[1]); if (o == NULL) { addReply(c,shared.nullbulk); } else { if (o-\u003etype != REDIS_STRING) { addReply(c,shared.wrongtypeerr); } else { addReplySds(c,sdscatprintf(sdsempty(),\"$%d\\r\\n\",(int)sdslen(o-\u003eptr))); addReply(c,o); addReply(c,shared.crlf); } } } 使用lookupKeyRead 来在db中查找对应的值。\nstatic robj *lookupKeyRead(redisDb *db, robj *key) { expireIfNeeded(db,key); return lookupKey(db,key); } expireIfNeeded 函数通过检查键的过期时间，决定是否删除过期的键。当查询的key过期会被删除。而lookupKey则是调用dictFind来查询dict中对应的key。\ndictEntry *dictFind(dict *ht, const void *key) { dictEntry *he; unsigned int h; if (ht-\u003esize == 0) return NULL; h = dictHashKey(ht, key) \u0026 ht-\u003esizemask; he = ht-\u003etable[h]; while(he) { if (dictCompareHashKeys(ht, key, he-\u003ekey)) return he; he = he-\u003enext; } return NULL; } dict使用链表法处理哈希冲突。所以首先要将key转为hash后的h,然后查找。对于dict中结构的分析可以查看[[Redis源码剖析-一]]。 得到数据后，使用addReply来写入。它注册了一个sendReplyToClient事件（这个就不写了），将数据写入。\nstatic void addReply(redisClient *c, robj *obj) { if (listLength(c-\u003ereply) == 0 \u0026\u0026 (c-\u003ereplstate == REDIS_REPL_NONE || c-\u003ereplstate == REDIS_REPL_ONLINE) \u0026\u0026 aeCreateFileEvent(server.el, c-\u003efd, AE_WRITABLE, sendReplyToClient, c, NULL) == AE_ERR) return; if (!listAddNodeTail(c-\u003ereply,obj)) oom(\"listAddNodeTail\"); incrRefCount(obj); } ",
+    "wordCount" : "2003",
+    "inLanguage": "cn",
+    "datePublished": "2023-07-20T00:00:00Z",
+    "dateModified": "2023-07-20T00:00:00Z",
+    "author":{
+        "@type": "Person",
+        "name": "KC",},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http://localhost:1313/post/%E6%89%8B%E5%86%99redis/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "悉达多",
+      "description": "成功只有一个:按照自己的方式，去度过人生\n",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "http://localhost:1313/favicon.ico"
+      }
+    }
+}
+</script><title>手写Redis</title>
+<link rel="stylesheet dns-prefetch preconnect preload prefetch" as="style" media="screen" href="http://localhost:1313/css/style.min.65788784967ef394e528967eed8c63658368c6c4d417053ce77fd6c5ba25d364.css" integrity="sha256-ZXiHhJZ+85TlKJZ+7YxjZYNoxsTUFwU853/Wxbol02Q=" crossorigin="anonymous">
+	</head>
+<body id="page">
+	<header id="site-header">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="http://localhost:1313/">悉达多</a>
+				</div>
+				<nav class="site-nav hide-in-mobile"><a href="http://localhost:1313/post/">Posts</a><a href="http://localhost:1313/tags/">Tags</a><a href="http://localhost:1313/about/">About</a></nav>
 			</div>
-		</header>
-		<main role="main" class="w-full md:w-3/5 xl:w-1/2 max-w-3xl order-2 md:order-2 min-h-70vh pt-2 pb-4">
-			
-
-<article>
-	<section class="mx-auto content">
-		<div class="c-rich-text"></div>
-	</section>
-
-
-</article>
-
-		</main>
-		<div class="w-full h-0 flex-none order-3"></div>
-		<aside role="contentinfo"
-			class="w-full md:w-2/5 xl:w-1/2 md:pr-12 lg:pr-20 xl:pr-24 order-4 md:order-3 md:sticky md:bottom-0 self-end max-w-2xl">
-			<div class="md:float-right md:text-right leading-loose tracking-tight md:mb-2">
-				
-	<div class="md:max-w-xs  flex flex-col md:items-end">
-	<ul class="font-serif flex-grow-0 flex justify-between flex-wrap md:flex-col">
-	
-	
-	<li class="px-1 md:px-0">
-		<a href="/post/" title="Posts page" 
-			class="font-medium text-medium-red-violet-600 hover:text-medium-red-violet-400" >
-			Posts
-		</a>
-	</li>
-	
-	<li class="px-1 md:px-0">
-		<a href="/tags/" title="Tags page" >
-			Tags
-		</a>
-	</li>
-	
-	<li class="px-1 md:px-0">
-		<a href="/about/" title="About page" >
-			About
-		</a>
-	</li>
-	
-	
-	
-	
-	<div id="fastSearch" class="m-0">
-		<input id="searchInput" type="text" size=10 
-			class="bg-gray-100 focus:outline-none border-b border-gray-100 focus:border-eucalyptus-300 md:text-right
-			placeholder-java-500 min-w-0 max-w-xxxs"
-			placeholder="search" />
-		<ul id="searchResults" class="bg-gray-200 px-2 divide-y divide-gray-400">
+			<div class="hdr-right hdr-icons">
+				<button id="toc-btn" class="hdr-btn desktop-only-ib" title=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3" y2="6"></line>
+      <line x1="3" y1="12" x2="3" y2="12"></line>
+      <line x1="3" y1="18" x2="3" y2="18"></line>
+   </svg></button><button id="menu-btn" class="hdr-btn" title=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+   </svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="http://localhost:1313/post/">Posts</a></li>
+			<li><a href="http://localhost:1313/tags/">Tags</a></li>
+			<li><a href="http://localhost:1313/about/">About</a></li>
 		</ul>
 	</div>
-	
+
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>手写Redis</h1>
+		<div class="content">
+			<h1 id="redis-架构解析-redis-10">Redis 架构解析 (Redis 1.0)<a href="#redis-%e6%9e%b6%e6%9e%84%e8%a7%a3%e6%9e%90-redis-10" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h1>
+<p>程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中，这就是redis中著名的ae库。下面我们先介绍一下ae库:
+![[Pasted image 20240920194849.png]]</p>
+<h3 id="ae库">ae库<a href="#ae%e5%ba%93" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>aeMain作用是持续处理aeloop中的事务:
+![[Pasted image 20240920195230.png]]
+ae库主要关注的是三个结构体，定义了FileEvent和TimeEvent，以及事件循环</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* File event structure */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">typedef</span> <span style="color:#00a8c8">struct</span> <span style="color:#111">aeFileEvent</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">fd</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">mask</span><span style="color:#111">;</span> <span style="color:#75715e">/* one of AE_(READABLE|WRITABLE|EXCEPTION) */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">aeFileProc</span> <span style="color:#f92672">*</span><span style="color:#111">fileProc</span><span style="color:#111">;</span> <span style="color:#75715e">// 回调函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">aeEventFinalizerProc</span> <span style="color:#f92672">*</span><span style="color:#111">finalizerProc</span><span style="color:#111">;</span> <span style="color:#75715e">// 事件完成时回调
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">void</span> <span style="color:#f92672">*</span><span style="color:#111">clientData</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">struct</span> <span style="color:#111">aeFileEvent</span> <span style="color:#f92672">*</span><span style="color:#111">next</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span> <span style="color:#111">aeFileEvent</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Time event structure */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">typedef</span> <span style="color:#00a8c8">struct</span> <span style="color:#111">aeTimeEvent</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">long</span> <span style="color:#00a8c8">long</span> <span style="color:#111">id</span><span style="color:#111">;</span> <span style="color:#75715e">/* time event identifier. */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">long</span> <span style="color:#111">when_sec</span><span style="color:#111">;</span> <span style="color:#75715e">/* seconds */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">long</span> <span style="color:#111">when_ms</span><span style="color:#111">;</span> <span style="color:#75715e">/* milliseconds */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">aeTimeProc</span> <span style="color:#f92672">*</span><span style="color:#111">timeProc</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">aeEventFinalizerProc</span> <span style="color:#f92672">*</span><span style="color:#111">finalizerProc</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">void</span> <span style="color:#f92672">*</span><span style="color:#111">clientData</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">struct</span> <span style="color:#111">aeTimeEvent</span> <span style="color:#f92672">*</span><span style="color:#111">next</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span> <span style="color:#111">aeTimeEvent</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* State of an event based program */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">typedef</span> <span style="color:#00a8c8">struct</span> <span style="color:#111">aeEventLoop</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">long</span> <span style="color:#00a8c8">long</span> <span style="color:#111">timeEventNextId</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">aeFileEvent</span> <span style="color:#f92672">*</span><span style="color:#111">fileEventHead</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">aeTimeEvent</span> <span style="color:#f92672">*</span><span style="color:#111">timeEventHead</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">stop</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span> <span style="color:#111">aeEventLoop</span><span style="color:#111">;</span>
+</span></span></code></pre></div><p>ae库最主要的函数就是<code>aeProcessEvents</code> , 它的主要功能是处理文件事件（如网络套接字读写事件）和时间事件（如定时器事件）。它会根据传入的标志位（<code>flags</code>）决定是否处理这两种事件，并返回处理的事件数量。
+下面讲一下大概的流程:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#75715e">/* Check file events */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">flags</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">AE_FILE_EVENTS</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">fe</span> <span style="color:#f92672">!=</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fe</span><span style="color:#f92672">-&gt;</span><span style="color:#111">mask</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">AE_READABLE</span><span style="color:#111">)</span> <span style="color:#75af00">FD_SET</span><span style="color:#111">(</span><span style="color:#111">fe</span><span style="color:#f92672">-&gt;</span><span style="color:#111">fd</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">rfds</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fe</span><span style="color:#f92672">-&gt;</span><span style="color:#111">mask</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">AE_WRITABLE</span><span style="color:#111">)</span> <span style="color:#75af00">FD_SET</span><span style="color:#111">(</span><span style="color:#111">fe</span><span style="color:#f92672">-&gt;</span><span style="color:#111">fd</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">wfds</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fe</span><span style="color:#f92672">-&gt;</span><span style="color:#111">mask</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">AE_EXCEPTION</span><span style="color:#111">)</span> <span style="color:#75af00">FD_SET</span><span style="color:#111">(</span><span style="color:#111">fe</span><span style="color:#f92672">-&gt;</span><span style="color:#111">fd</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">efds</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">maxfd</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">fe</span><span style="color:#f92672">-&gt;</span><span style="color:#111">fd</span><span style="color:#111">)</span> <span style="color:#111">maxfd</span> <span style="color:#f92672">=</span> <span style="color:#111">fe</span><span style="color:#f92672">-&gt;</span><span style="color:#111">fd</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">numfd</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">fe</span> <span style="color:#f92672">=</span> <span style="color:#111">fe</span><span style="color:#f92672">-&gt;</span><span style="color:#111">next</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span></code></pre></div><p>如果 <code>flags</code> 中设置了 <code>AE_FILE_EVENTS</code>，则遍历文件事件链表，将需要监听的文件描述符添加到 <code>rfds</code>, <code>wfds</code>, <code>efds</code> 中，并更新 <code>maxfd</code> 和 <code>numfd</code>。
+<code>rfds wfds efds</code> 是类型为<code>fd_set</code>的描述符集合。
+然后它做了哪些事情呢:</p>
+<ol>
+<li>获取当前到最新时间事件的差，作为select的超时时间。</li>
+<li>处理 <code>select</code> 返回的事件。
+<ul>
+<li>如果 <code>select</code> 返回值大于0，表示有事件发生，遍历文件事件链表，检查哪些文件描述符上有事件发生，并调用相应的处理函数 <code>fileProc</code>。</li>
+<li>处理完事件后，重新从链表头开始遍历，因为事件处理可能会修改链表结构。</li>
 </ul>
-	
-
-<div class="flex flex-wrap-reverse md:justify-end content-end md:content-start justify-start items-start   max-h-16">
-	
-	<a href='https://github.com/Chi-Kai' target="_blank" class="github icon pl-1 text-eucalyptus-400 hover:text-java-400" title="github link" rel="noopener"
-		aria-label="follow on github——Opens in a new window">
-		
-		<div class="fill-current h-8 w-8">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <g>
-        <path fill="none" d="M0 0h24v24H0z"/>
-        <path fill-rule="nonzero" d="M5.883 18.653c-.3-.2-.558-.455-.86-.816a50.32 50.32 0 0 1-.466-.579c-.463-.575-.755-.84-1.057-.949a1 1 0 0 1 .676-1.883c.752.27 1.261.735 1.947 1.588-.094-.117.34.427.433.539.19.227.33.365.44.438.204.137.587.196 1.15.14.023-.382.094-.753.202-1.095C5.38 15.31 3.7 13.396 3.7 9.64c0-1.24.37-2.356 1.058-3.292-.218-.894-.185-1.975.302-3.192a1 1 0 0 1 .63-.582c.081-.024.127-.035.208-.047.803-.123 1.937.17 3.415 1.096A11.731 11.731 0 0 1 12 3.315c.912 0 1.818.104 2.684.308 1.477-.933 2.613-1.226 3.422-1.096.085.013.157.03.218.05a1 1 0 0 1 .616.58c.487 1.216.52 2.297.302 3.19.691.936 1.058 2.045 1.058 3.293 0 3.757-1.674 5.665-4.642 6.392.125.415.19.879.19 1.38a300.492 300.492 0 0 1-.012 2.716 1 1 0 0 1-.019 1.958c-1.139.228-1.983-.532-1.983-1.525l.002-.446.005-.705c.005-.708.007-1.338.007-1.998 0-.697-.183-1.152-.425-1.36-.661-.57-.326-1.655.54-1.752 2.967-.333 4.337-1.482 4.337-4.66 0-.955-.312-1.744-.913-2.404a1 1 0 0 1-.19-1.045c.166-.414.237-.957.096-1.614l-.01.003c-.491.139-1.11.44-1.858.949a1 1 0 0 1-.833.135A9.626 9.626 0 0 0 12 5.315c-.89 0-1.772.119-2.592.35a1 1 0 0 1-.83-.134c-.752-.507-1.374-.807-1.868-.947-.144.653-.073 1.194.092 1.607a1 1 0 0 1-.189 1.045C6.016 7.89 5.7 8.694 5.7 9.64c0 3.172 1.371 4.328 4.322 4.66.865.097 1.201 1.177.544 1.748-.192.168-.429.732-.429 1.364v3.15c0 .986-.835 1.725-1.96 1.528a1 1 0 0 1-.04-1.962v-.99c-.91.061-1.662-.088-2.254-.485z"/>
-    </g>
-</svg>
-
+</li>
+<li>处理时间事件：
+<ul>
+<li>如果 flags 中设置了 AE_TIME_EVENTS，则遍历时间事件链表，检查哪些时间事件已经到期，并调用相应的处理函数 timeProc。</li>
+<li>如果时间事件需要重复触发，则更新其触发时间；否则，删除该时间事件。</li>
+</ul>
+</li>
+<li>返回处理的事件数量。
+我们接着看回main函数,在事件循环中注册了一个server的acceptHandler函数，一旦有客户端链接可读，就触发。
+![[Pasted image 20240922161721.png]]
+![[Pasted image 20240922164350.png]]
+其中这个函数有两个操作 accept客户端请求和创建一个新的客户端。我们看这个createClient函数,除了设置一些客户端状态外，还为每个客户端注册了一个处理请求的函数readQueryFromClient。当客户端fd可读就触发
+![[Pasted image 20240922164641.png]]</li>
+</ol>
+<h3 id="一条命令的执行流程">一条命令的执行流程<a href="#%e4%b8%80%e6%9d%a1%e5%91%bd%e4%bb%a4%e7%9a%84%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p><code>readQueryFromClient</code> 函数的主要作用是从客户端读取数据，解析查询请求，并将其传递给 Redis 服务器进行处理。</p>
+<ol>
+<li>读数据，将读到的数据写入缓冲区。这里可以看出，这个操作是持续进行的，也就是客户端可以保持这个链接，一旦客户端fd可读，就写入buffer。可以连续操作
+![[Pasted image 20240923094649.png]]</li>
+<li>处理数据。首先将收到的字符串分离处理，把命令和参数分开。这里就不细看了。处理完之后，命令被放到argv中，参数放到argc中。可以看到这里有一个跳转语句goto。当buffer还有命令时会重复执行。这里还有一个bulklen参数，是判断处理批量读取操作。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#111">again</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">bulklen</span> <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">p</span> <span style="color:#f92672">=</span> <span style="color:#75af00">strchr</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">querybuf</span><span style="color:#111">,</span> <span style="color:#d88200">&#39;\n&#39;</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 解析命令和参数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#75af00">sdslen</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">querybuf</span><span style="color:#111">)</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">REDIS_REQUEST_MAX_SIZE</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">redisLog</span><span style="color:#111">(</span><span style="color:#111">REDIS_DEBUG</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;Client protocol error&#34;</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">freeClient</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 执行语句
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">argc</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#75af00">processCommand</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#75af00">sdslen</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">querybuf</span><span style="color:#111">))</span> <span style="color:#00a8c8">goto</span> <span style="color:#111">again</span><span style="color:#111">;</span>
+</span></span></code></pre></div><p>下面看一条命令是怎么执行的。
+<code>processCommand</code> 函数是 Redis 服务器中用于处理客户端命令的核心函数。它负责解析、验证和执行客户端发送的命令，并根据命令的执行结果进行相应的处理。</p>
+<ol>
+<li>查找命令</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#111">cmd</span> <span style="color:#f92672">=</span> <span style="color:#75af00">lookupCommand</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span><span style="color:#f92672">-&gt;</span><span style="color:#111">ptr</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 遍历cmdTable。这个表很小遍历也无所谓
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">static</span> <span style="color:#00a8c8">struct</span> <span style="color:#111">redisCommand</span> <span style="color:#f92672">*</span><span style="color:#75af00">lookupCommand</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">name</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">j</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">while</span><span style="color:#111">(</span><span style="color:#111">cmdTable</span><span style="color:#111">[</span><span style="color:#111">j</span><span style="color:#111">].</span><span style="color:#111">name</span> <span style="color:#f92672">!=</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#75af00">strcasecmp</span><span style="color:#111">(</span><span style="color:#111">name</span><span style="color:#111">,</span><span style="color:#111">cmdTable</span><span style="color:#111">[</span><span style="color:#111">j</span><span style="color:#111">].</span><span style="color:#111">name</span><span style="color:#111">))</span> <span style="color:#00a8c8">return</span> <span style="color:#f92672">&amp;</span><span style="color:#111">cmdTable</span><span style="color:#111">[</span><span style="color:#111">j</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">j</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// cmdTable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">static</span> <span style="color:#00a8c8">struct</span> <span style="color:#111">redisCommand</span> <span style="color:#111">cmdTable</span><span style="color:#111">[]</span> <span style="color:#f92672">=</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">{</span><span style="color:#d88200">&#34;get&#34;</span><span style="color:#111">,</span><span style="color:#111">getCommand</span><span style="color:#111">,</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span><span style="color:#111">REDIS_CMD_INLINE</span><span style="color:#111">},</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">{</span><span style="color:#d88200">&#34;set&#34;</span><span style="color:#111">,</span><span style="color:#111">setCommand</span><span style="color:#111">,</span><span style="color:#ae81ff">3</span><span style="color:#111">,</span><span style="color:#111">REDIS_CMD_BULK</span><span style="color:#f92672">|</span><span style="color:#111">REDIS_CMD_DENYOOM</span><span style="color:#111">},</span>\
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">{</span><span style="color:#111">NULL</span><span style="color:#111">,</span><span style="color:#111">NULL</span><span style="color:#111">,</span><span style="color:#ae81ff">0</span><span style="color:#111">,</span><span style="color:#ae81ff">0</span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">};</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// redisComand
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">typedef</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">redisCommandProc</span><span style="color:#111">(</span><span style="color:#111">redisClient</span> <span style="color:#f92672">*</span><span style="color:#111">c</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">struct</span> <span style="color:#111">redisCommand</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">name</span><span style="color:#111">;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#111">redisCommandProc</span> <span style="color:#f92672">*</span><span style="color:#111">proc</span><span style="color:#111">;</span> <span style="color:#75715e">// 执行的命令函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">int</span> <span style="color:#111">arity</span><span style="color:#111">;</span> <span style="color:#75715e">// 对应参数数量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">int</span> <span style="color:#111">flags</span><span style="color:#111">;</span> <span style="color:#75715e">// 标志
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#111">};</span>
+</span></span></code></pre></div><ol start="2">
+<li>错误处理和内存管理。可以看出对一个命令有很多检查，对应的参数数量，内存等等
+![[Pasted image 20240923111602.png]]</li>
+<li>执行命令并更新服务器状态。如果命令修改了数据（<code>server.dirty</code> 发生变化），并且有从服务器连接，则将命令传播给从服务器。如果有监控器连接，则也将命令传播给监控器。最后，增加服务器执行的命令计数。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#111">dirty</span> <span style="color:#f92672">=</span> <span style="color:#111">server</span><span style="color:#111">.</span><span style="color:#111">dirty</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">cmd</span><span style="color:#f92672">-&gt;</span><span style="color:#75af00">proc</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">server</span><span style="color:#111">.</span><span style="color:#111">dirty</span><span style="color:#f92672">-</span><span style="color:#111">dirty</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#75af00">listLength</span><span style="color:#111">(</span><span style="color:#111">server</span><span style="color:#111">.</span><span style="color:#111">slaves</span><span style="color:#111">))</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">replicationFeedSlaves</span><span style="color:#111">(</span><span style="color:#111">server</span><span style="color:#111">.</span><span style="color:#111">slaves</span><span style="color:#111">,</span><span style="color:#111">cmd</span><span style="color:#111">,</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">db</span><span style="color:#f92672">-&gt;</span><span style="color:#111">id</span><span style="color:#111">,</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">argv</span><span style="color:#111">,</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">argc</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#75af00">listLength</span><span style="color:#111">(</span><span style="color:#111">server</span><span style="color:#111">.</span><span style="color:#111">monitors</span><span style="color:#111">))</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">replicationFeedSlaves</span><span style="color:#111">(</span><span style="color:#111">server</span><span style="color:#111">.</span><span style="color:#111">monitors</span><span style="color:#111">,</span><span style="color:#111">cmd</span><span style="color:#111">,</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">db</span><span style="color:#f92672">-&gt;</span><span style="color:#111">id</span><span style="color:#111">,</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">argv</span><span style="color:#111">,</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">argc</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">server</span><span style="color:#111">.</span><span style="color:#111">stat_numcommands</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+</span></span></code></pre></div><ol start="4">
+<li>对客户端状态重置。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">flags</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">REDIS_CLOSE</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">freeClient</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75af00">resetClient</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">return</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span></code></pre></div><h3 id="解析get命令执行">解析get命令执行<a href="#%e8%a7%a3%e6%9e%90get%e5%91%bd%e4%bb%a4%e6%89%a7%e8%a1%8c" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<p>可以看到comtable中 get命令对应的是 getCommand函数:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">static</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">getCommand</span><span style="color:#111">(</span><span style="color:#111">redisClient</span> <span style="color:#f92672">*</span><span style="color:#111">c</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">robj</span> <span style="color:#f92672">*</span><span style="color:#111">o</span> <span style="color:#f92672">=</span> <span style="color:#75af00">lookupKeyRead</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">db</span><span style="color:#111">,</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">]);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">o</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">addReply</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#111">,</span><span style="color:#111">shared</span><span style="color:#111">.</span><span style="color:#111">nullbulk</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">o</span><span style="color:#f92672">-&gt;</span><span style="color:#111">type</span> <span style="color:#f92672">!=</span> <span style="color:#111">REDIS_STRING</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75af00">addReply</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#111">,</span><span style="color:#111">shared</span><span style="color:#111">.</span><span style="color:#111">wrongtypeerr</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75af00">addReplySds</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#111">,</span><span style="color:#75af00">sdscatprintf</span><span style="color:#111">(</span><span style="color:#75af00">sdsempty</span><span style="color:#111">(),</span><span style="color:#d88200">&#34;$%d</span><span style="color:#8045ff">\r\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,(</span><span style="color:#00a8c8">int</span><span style="color:#111">)</span><span style="color:#75af00">sdslen</span><span style="color:#111">(</span><span style="color:#111">o</span><span style="color:#f92672">-&gt;</span><span style="color:#111">ptr</span><span style="color:#111">)));</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75af00">addReply</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#111">,</span><span style="color:#111">o</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75af00">addReply</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#111">,</span><span style="color:#111">shared</span><span style="color:#111">.</span><span style="color:#111">crlf</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>使用<code>lookupKeyRead</code> 来在db中查找对应的值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">static</span> <span style="color:#111">robj</span> <span style="color:#f92672">*</span><span style="color:#75af00">lookupKeyRead</span><span style="color:#111">(</span><span style="color:#111">redisDb</span> <span style="color:#f92672">*</span><span style="color:#111">db</span><span style="color:#111">,</span> <span style="color:#111">robj</span> <span style="color:#f92672">*</span><span style="color:#111">key</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">expireIfNeeded</span><span style="color:#111">(</span><span style="color:#111">db</span><span style="color:#111">,</span><span style="color:#111">key</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#75af00">lookupKey</span><span style="color:#111">(</span><span style="color:#111">db</span><span style="color:#111">,</span><span style="color:#111">key</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>expireIfNeeded 函数通过检查键的过期时间，决定是否删除过期的键。当查询的key过期会被删除。而lookupKey则是调用dictFind来查询dict中对应的key。</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#111">dictEntry</span> <span style="color:#f92672">*</span><span style="color:#75af00">dictFind</span><span style="color:#111">(</span><span style="color:#111">dict</span> <span style="color:#f92672">*</span><span style="color:#111">ht</span><span style="color:#111">,</span> <span style="color:#00a8c8">const</span> <span style="color:#00a8c8">void</span> <span style="color:#f92672">*</span><span style="color:#111">key</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">dictEntry</span> <span style="color:#f92672">*</span><span style="color:#111">he</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">unsigned</span> <span style="color:#00a8c8">int</span> <span style="color:#111">h</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">ht</span><span style="color:#f92672">-&gt;</span><span style="color:#111">size</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">h</span> <span style="color:#f92672">=</span> <span style="color:#75af00">dictHashKey</span><span style="color:#111">(</span><span style="color:#111">ht</span><span style="color:#111">,</span> <span style="color:#111">key</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">ht</span><span style="color:#f92672">-&gt;</span><span style="color:#111">sizemask</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">he</span> <span style="color:#f92672">=</span> <span style="color:#111">ht</span><span style="color:#f92672">-&gt;</span><span style="color:#111">table</span><span style="color:#111">[</span><span style="color:#111">h</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">while</span><span style="color:#111">(</span><span style="color:#111">he</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#75af00">dictCompareHashKeys</span><span style="color:#111">(</span><span style="color:#111">ht</span><span style="color:#111">,</span> <span style="color:#111">key</span><span style="color:#111">,</span> <span style="color:#111">he</span><span style="color:#f92672">-&gt;</span><span style="color:#111">key</span><span style="color:#111">))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00a8c8">return</span> <span style="color:#111">he</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">he</span> <span style="color:#f92672">=</span> <span style="color:#111">he</span><span style="color:#f92672">-&gt;</span><span style="color:#111">next</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>dict使用链表法处理哈希冲突。所以首先要将key转为hash后的h,然后查找。对于dict中结构的分析可以查看[[Redis源码剖析-一]]。
+得到数据后，使用addReply来写入。它注册了一个sendReplyToClient事件（这个就不写了），将数据写入。</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#00a8c8">static</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">addReply</span><span style="color:#111">(</span><span style="color:#111">redisClient</span> <span style="color:#f92672">*</span><span style="color:#111">c</span><span style="color:#111">,</span> <span style="color:#111">robj</span> <span style="color:#f92672">*</span><span style="color:#111">obj</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#75af00">listLength</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">reply</span><span style="color:#111">)</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">replstate</span> <span style="color:#f92672">==</span> <span style="color:#111">REDIS_REPL_NONE</span> <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">replstate</span> <span style="color:#f92672">==</span> <span style="color:#111">REDIS_REPL_ONLINE</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75af00">aeCreateFileEvent</span><span style="color:#111">(</span><span style="color:#111">server</span><span style="color:#111">.</span><span style="color:#111">el</span><span style="color:#111">,</span> <span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">fd</span><span style="color:#111">,</span> <span style="color:#111">AE_WRITABLE</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">sendReplyToClient</span><span style="color:#111">,</span> <span style="color:#111">c</span><span style="color:#111">,</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#f92672">==</span> <span style="color:#111">AE_ERR</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#75af00">listAddNodeTail</span><span style="color:#111">(</span><span style="color:#111">c</span><span style="color:#f92672">-&gt;</span><span style="color:#111">reply</span><span style="color:#111">,</span><span style="color:#111">obj</span><span style="color:#111">))</span> <span style="color:#75af00">oom</span><span style="color:#111">(</span><span style="color:#d88200">&#34;listAddNodeTail&#34;</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">incrRefCount</span><span style="color:#111">(</span><span style="color:#111">obj</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div>
 		</div>
-	</a>
-	
-	<a href='chikai0307@gmail.com' target="_blank" class="mail icon pl-1 text-eucalyptus-400 hover:text-java-400" title="mail link" rel="noopener"
-		aria-label="follow on mail——Opens in a new window">
 		
-		<div class="fill-current h-8 w-8">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <g>
-        <path fill="none" d="M0 0h24v24H0z"/>
-        <path d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm17 4.238l-7.928 7.1L4 7.216V19h16V7.238zM4.511 5l7.55 6.662L19.502 5H4.511z"/>
-    </g>
-</svg>
-		</div>
-	</a>
-	
-</div>
-	<div class="text-sm text-gray-500 leading-tight a-gray">
-		
-		<br />
-		Built with Hugo and theme <a href="https://github.com/heyeshuang/hugo-theme-tokiwa">Tokiwa</a>. 0 words in this page.
-	</div>
-</div>
+	</main>
+<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+<p>
+	&copy; 2025 <a href="http://localhost:1313/">悉达多</a>
+	&#183; &#183; Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>
+	&#183; Theme <a href="https://github.com/1bl4z3r/hermit-V2" target="_blank" rel="noopener">Hermit-V2</a></p></footer>
+<script async src="http://localhost:1313/js/bundle.min.c7c384e4d29d192bbac6811ae4660bb01767194a5bea56baca77e8260f93ea16.js" integrity="sha256-x8OE5NKdGSu6xoEa5GYLsBdnGUpb6la6ynfoJg+T6hY=" crossorigin="anonymous"></script><script id="MathJax-script" type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" crossorigin="anonymous"></script>
+<script type="text/javascript" id="MathJax-script-helper" async src="http://localhost:1313/js/mathjax-assistant.min.ca29e9d446b2a6cb6c6e3eb0d47e9693f5c306c146eaccb43047afbf31b07a6f.js" integrity="sha256-yinp1Eaypstsbj6w1H6Wk/XDBsFG6sy0MEevvzGwem8=" crossorigin="anonymous"></script>
 
-			</div>
-		</aside>
-		<footer class="w-full md:w-3/5 xl:w-1/2 order-3 max-w-3xl md:order-4 pt-2">
-			
-<hr class="double-line" />
-<div class="flex flex-wrap justify-between pb-2 leading-loose font-serif">
-    
-    <a class="flex-grow-0" href="/post/k8s%E5%AE%9E%E8%B7%B5/">
-        <svg class="fill-current inline-block h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-            height="24">
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path d="M7.828 11H20v2H7.828l5.364 5.364-1.414 1.414L4 12l7.778-7.778 1.414 1.414z" /></svg>
-        K8s实践
-    </a>
-    
-    
-</div>
-<div >
-
-
-
-<div class="font-serif pb-2 flex align-start leading-loose">
-	<span class="heading pr-6 leading-loose">Related</span>
-	<span >
-		
-			<a href="/post/redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90-%E4%B8%80/">Redis源码剖析(一)</a>
-		
-</span>
-</div>
-
-</div>
-<hr />
-<div class="pb-2">
-    <div id="disqus_thread"></div>
-<script>
-    window.disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "ck" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
-<hr />
-
-		</footer>
-		
-
-<script src="/dist/app.js"></script>
-
-
-<script src="/lib/fuse.min.js"></script> 
-<script src="/lib/fastsearch.js"></script>
-
-	</div>
 </body>
-
 </html>

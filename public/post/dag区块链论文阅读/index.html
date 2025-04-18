@@ -1,36 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	
-	<title>悉达多  | DAG区块链论文阅读</title>
-	<meta name="viewport" content="width=device-width,minimum-scale=1">
-	<meta name="generator" content="Hugo 0.128.2">
-	
-	
-	<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-	
-
-	
-	
-	<link href="/dist/app.css" rel="stylesheet">
-	
-
-	
-
-	
-	
-<link rel="shortcut icon" href="img/favicon-32x32.png" type="image/png" />
-
-	
-
-	
-	
-	
-  
-    
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-CWBXLVG90W"></script>
       <script>
         var doNotTrack = false;
@@ -44,194 +14,137 @@
           gtag('js', new Date());
           gtag('config', 'G-CWBXLVG90W');
         }
-      </script>
-    
-  
+      </script><meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="robots" content="index, follow"><meta name="author" content="KC">
+<meta name="description" content="时不时补充">
+<link rel="author" type="text/plain" href="/humans.txt">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+<meta name="theme-color" content="#494f5c">
+<meta name="msapplication-TileColor" content="#494f5c">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#494f5c">
 
+  <meta itemprop="name" content="DAG区块链论文阅读">
+  <meta itemprop="description" content="时不时补充">
+  <meta itemprop="datePublished" content="2022-11-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-11-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1340">
+  <meta itemprop="keywords" content="区块链,论文阅读"><meta property="og:url" content="http://localhost:1313/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
+  <meta property="og:site_name" content="悉达多">
+  <meta property="og:title" content="DAG区块链论文阅读">
+  <meta property="og:description" content="时不时补充">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2022-11-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-11-10T00:00:00+00:00">
+    <meta property="article:tag" content="区块链">
+    <meta property="article:tag" content="论文阅读">
 
-	
-	
-	
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DAG区块链论文阅读">
+  <meta name="twitter:description" content="时不时补充">
 
-
-
-<link rel="stylesheet" href='http://localhost:1313/lib/katex.min.css' crossorigin="anonymous">
-
-
-<script defer src='http://localhost:1313/lib/katex.min.js' crossorigin="anonymous"></script>
-
-
-<script defer src='http://localhost:1313/lib/contrib/auto-render.min.js'
-crossorigin="anonymous"
-onload='renderMathInElement(document.body);'></script>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false}
-            ]
-        });
-    });
-</script>
-
-	
-	
-	
-	<script>
-		(function (u, c) {
-			var d = document,
-				t = 'script',
-				o = d.createElement(t),
-				s = d.getElementsByTagName(t)[0];
-			o.src = u;
-			if (c) {
-				o.addEventListener('load', function (e) {
-					c(e);
-				});
-			}
-			s.parentNode.insertBefore(o, s);
-		})('http:\/\/localhost:1313\/lib\/pangu.min.js', function () {
-			pangu.spacingPage();
-		});
-	</script>
-	
-	
-	
-	<style type="text/css" media="screen, print">
-		@font-face {
-			font-family: "FancyTitleFont";
-			font-style: normal;
-			font-display: swap;
-			src: url('http://localhost:1313/fonts/exampleFont.woff2') format('woff2'),
-				url('http://localhost:1313/fonts/exampleFont.woff') format('woff');
-		}
-		 
-		  
-		 
-		@font-face {
-			font-family: 'Noto Serif CJK SC';
-			font-style: normal;
-			font-weight: 300;
-			font-display: swap;
-			src: local('Noto Serif CJK SC Light'), local('NotoSerifCJK-Light'),
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff2') format('woff2'),
-				 
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-300.woff') format('woff');
-			 
-		}
-
-		 
-		@font-face {
-			font-family: 'Noto Serif CJK SC';
-			font-style: normal;
-			font-weight: 400;
-			font-display: swap;
-			src: local('Noto Serif CJK SC'), local('NotoSerifCJK-Regular'),
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff2') format('woff2'),
-				 
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-regular.woff') format('woff');
-			 
-		}
-
-		 
-		@font-face {
-			font-family: 'Noto Serif CJK SC';
-			font-style: normal;
-			font-weight: 500;
-			font-display: swap;
-			src: local('Noto Serif CJK SC Medium'), local('NotoSerifCJK-Medium'),
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff2') format('woff2'),
-				 
-				url('http://localhost:1313/fonts/noto-serif-sc-v7-latin_chinese-simplified-500.woff') format('woff');
-			 
-		}
-	</style>
-	
-</head>
-
-<body class="bg-gray-100 text-gray-700 font-sans">
-	<div class="p-6 sm:p-10 md:p-16 flex flex-wrap">
-		<header class="w-full md:w-2/5 xl:w-1/2 md:pr-12 lg:pr-20 xl:pr-24 order-1 md:order-1 max-w-2xl">
-			<div
-				class="z-50 bg-gray-100 bg-opacity-75 bg-opacity-custom lg:min-w-0.7 max-w-xl md:float-right md:text-right leading-loose tracking-tight md:sticky md:top-0 pt-2">
-				
-<div>
-	<h2>
-		<a href="http://localhost:1313/" title="悉达多" class="heading font-cursive icon">悉达多</a>
-	</h2>
-</div>
-<h1 class="pt-2">DAG区块链论文阅读</h1>
-
-<h3 class="text-java-700 font-normal leading-relaxed pt-2">时不时补充</h3>
-
-<div class="flex flex-wrap justify-end pt-2 "><div class="md:flex-grow-0 font-light">
-	
-
-	
-
-	
-	
-	
-	
-	<a class="post-taxonomy-tag text-eucalyptus-500"
-		href='/tags/%E5%8C%BA%E5%9D%97%E9%93%BE'>区块链</a>&nbsp;&#47;
-	
-	<a class="post-taxonomy-tag text-eucalyptus-500"
-		href='/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB'>论文阅读</a>
-	
-	
-	
-</div><time class="text-eucalyptus-500 md:text-right md:flex-grow font-light pl-4"
-		datetime="2022-11-10T00:00:00Z">2022-11-10</time>
-</div>
-
-<details class="toc" open>
-<summary>
-    <hr />
-</summary>
-<div class="inline toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#direct-acyclic-graph-based-ledger-for-internet-of-things-performance-and-security-analysis">《Direct Acyclic Graph-Based Ledger for Internet of Things: Performance and Security Analysis》</a>
-      <ul>
-        <li><a href="#问题背景">问题背景</a></li>
-        <li><a href="#dag概述">DAG概述</a></li>
-        <li><a href="#heading"></a></li>
-      </ul>
-    </li>
-    <li><a href="#tips-transaction-inclusion-protocol-with-signaling-in-dag-based-blockchain">《TIPS: Transaction Inclusion Protocol with Signaling in DAG-based Blockchain》</a>
-      <ul>
-        <li><a href="#问题背景-1">问题背景</a></li>
-        <li><a href="#算法设计">算法设计</a></li>
-      </ul>
-    </li>
-    <li><a href="#silentdelivery-practical-timed-delivery-of-private-information-using-smart-contracts">《SilentDelivery: Practical Timed-delivery of Private Information using Smart Contracts》</a></li>
-  </ul>
-</nav>
-</div>
-</details>
-
-<hr />
-
-
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "DAG区块链论文阅读",
+    "name": "DAG区块链论文阅读",
+    "description": "时不时补充",
+    "keywords": ["区块链", "论文阅读"],
+    "articleBody": "《Direct Acyclic Graph-Based Ledger for Internet of Things: Performance and Security Analysis》 问题背景 由于区块链的安全性，去中心化，可信性，在IoT系统上有可观的应用前景（如智能车，能源交易）。IoT系统具有规模大，资源受限的特性。所以其上的共识算法必须满足资源需求小,低消耗，和高的交易吞吐量。\n现在主要的两种共识算法:PoW需要高的资源消耗，PoS的币龄证明可能造成垄断和中心化。\n典型的区块链是一种单链结构，为了避免非法的fork，应用的共识算法必须降低新的block生成速率。这导致了吞吐量瓶颈和区块认证延迟的问题，在IoT系统上又有交易花费高和资源消耗大的问题。\nDAG共识算法可以允许任何节点可以立即向ledger插入一个新的block，前提是它能先处理更早的交易。这种方式会造成很多fork，DAG有很多算法来避免在传统区块链上面临的double-spending问题(Markov Chain Monte Carlo algorithm and virtual voting algorithm)。DAG共识算法的交易吞吐是不受限制的，而且资源消耗很低，这符合IoT的应用场景。\nDAG概述 名词定义 这里使用典型的Tangle算法来进行解释。\nBlock: 所有块是记录信息的存储单元(包括交易，数字签名，哈希值)，在Tangle里一个块记录一个交易\nTip: 还没有被验证的块(交易)\nDirect approval：直接验证，两个块直接由一条边来链接，称为直接验证。\nindirect approval：间接验证，两个块有通过一个块和\nOwn weight: 与它的提出者的工作量有关\nCumulative weight: 代表一个交易的认证级别。是一个交易自身own weight以及它直接证明和间接证明的交易的交易own weight总和。\n共识过程 节点创造一个块来储存交易 节点通过MCMC tips 选择算法来选择两个没有冲突的tips，然后添加它们的hash到块中 节点解决一个低难度的pow问题，来避免垃圾信息 使用私钥给交易签名并广播，当其他节点收到时会检查是否合法 成功添加的交易成为tip,等待被验证。直到它的cumulative weight 达到定义的标准。 分叉问题 在分布式账本中，构建分叉以重做工作是篡改存储数据的唯一方法。基于此，double-spending的主要思想是将两笔相互冲突的交易并行放置在两条链上。在第一笔交易花费在服务上之后，攻击者扩展包含冲突交易的链并让它超过第一条链。当此操作成功时，第一笔交易将被孤立，攻击者可以多次使用token。\n单链模型: 以最长的一个链为标准，正常的矿工会在最长的链上工作 DAG模型: 以累计权重最大的子图为标准，正常的节点会通过MCMC tips 选择算法扩展权重最大的链。 《TIPS: Transaction Inclusion Protocol with Signaling in DAG-based Blockchain》 问题背景 由于DAG区块链的高并发场景和网络延迟，矿工通常不能及时获取整个网络的更新信息，导致重复在一个并行区块包括相同的交易，在区块链中生成冗余的记录。这个交易包含冲突会浪费区块容量和降低系统性能。尽管DAG区块链已经限制交易的高并发，但是交易冲突的风险实际还会诱发矿工收益和系统吞吐的困境。\n问题分析 三种交易包含策略:\n随机包含($P^{rand}$): $p_{1}=p_{2}=\\cdots=p_{m}=\\frac{n}{m}$ 有优先级的随机包含($P^{priority}$): $p_{1} \\geq p_{2} \\geq \\cdots \\geq p_{m} \\text { and } \\frac{p_{1}}{f_{1}}=\\frac{p_{2}}{f_{2}}=\\cdots=\\frac{p_{m}}{f_{m}}$ Top n ($P^{top}$): $p_{1}=p_{2}=\\cdots=p_{n}=1 \\text { and } p_{n+1}=p_{n+2}=\\cdots=p_{m}=0$ 这里仅考虑矿工收益中的交易费用奖励。\n收入困境 算法设计 《SilentDelivery: Practical Timed-delivery of Private Information using Smart Contracts》 ",
+    "wordCount" : "1340",
+    "inLanguage": "cn",
+    "datePublished": "2022-11-10T00:00:00Z",
+    "dateModified": "2022-11-10T00:00:00Z",
+    "author":{
+        "@type": "Person",
+        "name": "KC",},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http://localhost:1313/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "悉达多",
+      "description": "成功只有一个:按照自己的方式，去度过人生\n",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "http://localhost:1313/favicon.ico"
+      }
+    }
+}
+</script><title>DAG区块链论文阅读</title>
+<link rel="stylesheet dns-prefetch preconnect preload prefetch" as="style" media="screen" href="http://localhost:1313/css/style.min.65788784967ef394e528967eed8c63658368c6c4d417053ce77fd6c5ba25d364.css" integrity="sha256-ZXiHhJZ+85TlKJZ+7YxjZYNoxsTUFwU853/Wxbol02Q=" crossorigin="anonymous">
+	</head>
+<body id="page">
+	<header id="site-header">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="http://localhost:1313/">悉达多</a>
+				</div>
+				<nav class="site-nav hide-in-mobile"><a href="http://localhost:1313/post/">Posts</a><a href="http://localhost:1313/tags/">Tags</a><a href="http://localhost:1313/about/">About</a></nav>
 			</div>
-		</header>
-		<main role="main" class="w-full md:w-3/5 xl:w-1/2 max-w-3xl order-2 md:order-2 min-h-70vh pt-2 pb-4">
-			
+			<div class="hdr-right hdr-icons">
+				<button id="toc-btn" class="hdr-btn desktop-only-ib" title=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3" y2="6"></line>
+      <line x1="3" y1="12" x2="3" y2="12"></line>
+      <line x1="3" y1="18" x2="3" y2="18"></line>
+   </svg></button><button id="menu-btn" class="hdr-btn" title=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+   </svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="http://localhost:1313/post/">Posts</a></li>
+			<li><a href="http://localhost:1313/tags/">Tags</a></li>
+			<li><a href="http://localhost:1313/about/">About</a></li>
+		</ul>
+	</div>
 
-<article>
-	<section class="mx-auto content">
-		<div class="c-rich-text"><h2 id="direct-acyclic-graph-based-ledger-for-internet-of-things-performance-and-security-analysis">《Direct Acyclic Graph-Based Ledger for Internet of Things: Performance and Security Analysis》</h2>
-<h3 id="问题背景">问题背景</h3>
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>DAG区块链论文阅读</h1>
+		<div class="content">
+			<h2 id="direct-acyclic-graph-based-ledger-for-internet-of-things-performance-and-security-analysis">《Direct Acyclic Graph-Based Ledger for Internet of Things: Performance and Security Analysis》<a href="#direct-acyclic-graph-based-ledger-for-internet-of-things-performance-and-security-analysis" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<h3 id="问题背景">问题背景<a href="#%e9%97%ae%e9%a2%98%e8%83%8c%e6%99%af" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
 <p>由于区块链的安全性，去中心化，可信性，在IoT系统上有可观的应用前景（如智能车，能源交易）。IoT系统具有规模大，资源受限的特性。所以其上的共识算法必须满足资源需求小,低消耗，和高的交易吞吐量。</p>
 <p>现在主要的两种共识算法:PoW需要高的资源消耗，PoS的币龄证明可能造成垄断和中心化。</p>
 <p>典型的区块链是一种单链结构，为了避免非法的fork，应用的共识算法必须降低新的block生成速率。这导致了吞吐量瓶颈和区块认证延迟的问题，在IoT系统上又有交易花费高和资源消耗大的问题。</p>
 <p>DAG共识算法可以允许任何节点可以立即向ledger插入一个新的block，前提是它能先处理更早的交易。这种方式会造成很多fork，DAG有很多算法来避免在传统区块链上面临的double-spending问题(Markov Chain Monte Carlo algorithm and virtual voting algorithm)。DAG共识算法的交易吞吐是不受限制的，而且资源消耗很低，这符合IoT的应用场景。</p>
-<h3 id="dag概述">DAG概述</h3>
-<h4 id="名词定义">名词定义</h4>
+<h3 id="dag概述">DAG概述<a href="#dag%e6%a6%82%e8%bf%b0" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<h4 id="名词定义">名词定义<a href="#%e5%90%8d%e8%af%8d%e5%ae%9a%e4%b9%89" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h4>
 <p><img src="https://s2.loli.net/2022/11/19/auRt2FzeCjwgsGM.png" alt=""></p>
 <p>这里使用典型的Tangle算法来进行解释。</p>
 <ul>
@@ -254,7 +167,11 @@ onload='renderMathInElement(document.body);'></script>
 <p>Cumulative weight: 代表一个交易的认证级别。是一个交易自身own weight以及它直接证明和间接证明的交易的交易own weight总和。</p>
 </li>
 </ul>
-<h4 id="共识过程">共识过程</h4>
+<h4 id="共识过程">共识过程<a href="#%e5%85%b1%e8%af%86%e8%bf%87%e7%a8%8b" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h4>
 <ol>
 <li>节点创造一个块来储存交易</li>
 <li>节点通过MCMC tips 选择算法来选择两个没有冲突的tips，然后添加它们的hash到块中</li>
@@ -262,18 +179,38 @@ onload='renderMathInElement(document.body);'></script>
 <li>使用私钥给交易签名并广播，当其他节点收到时会检查是否合法</li>
 <li>成功添加的交易成为tip,等待被验证。直到它的cumulative weight 达到定义的标准。</li>
 </ol>
-<h4 id="分叉问题">分叉问题</h4>
+<h4 id="分叉问题">分叉问题<a href="#%e5%88%86%e5%8f%89%e9%97%ae%e9%a2%98" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h4>
 <p><img src="https://s2.loli.net/2022/11/19/VnrEiPCoslHG9KY.png" alt=""></p>
 <p>在分布式账本中，构建分叉以重做工作是篡改存储数据的唯一方法。基于此，double-spending的主要思想是将两笔相互冲突的交易并行放置在两条链上。在第一笔交易花费在服务上之后，攻击者扩展包含冲突交易的链并让它超过第一条链。当此操作成功时，第一笔交易将被孤立，攻击者可以多次使用token。</p>
 <ul>
 <li>单链模型: 以最长的一个链为标准，正常的矿工会在最长的链上工作</li>
 <li>DAG模型: 以累计权重最大的子图为标准，正常的节点会通过MCMC tips 选择算法扩展权重最大的链。</li>
 </ul>
-<h3 id="heading"></h3>
-<h2 id="tips-transaction-inclusion-protocol-with-signaling-in-dag-based-blockchain">《TIPS: Transaction Inclusion Protocol with Signaling in DAG-based Blockchain》</h2>
-<h3 id="问题背景-1">问题背景</h3>
+<h3 id=""><a href="#" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<h2 id="tips-transaction-inclusion-protocol-with-signaling-in-dag-based-blockchain">《TIPS: Transaction Inclusion Protocol with Signaling in DAG-based Blockchain》<a href="#tips-transaction-inclusion-protocol-with-signaling-in-dag-based-blockchain" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
+<h3 id="问题背景-1">问题背景<a href="#%e9%97%ae%e9%a2%98%e8%83%8c%e6%99%af-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
 <p>由于DAG区块链的高并发场景和网络延迟，矿工通常不能及时获取整个网络的更新信息，导致重复在一个并行区块包括相同的交易，在区块链中生成冗余的记录。这个交易包含冲突会浪费区块容量和降低系统性能。尽管DAG区块链已经限制交易的高并发，但是交易冲突的风险实际还会诱发<strong>矿工收益</strong>和<strong>系统吞吐</strong>的困境。</p>
-<h4 id="问题分析">问题分析</h4>
+<h4 id="问题分析">问题分析<a href="#%e9%97%ae%e9%a2%98%e5%88%86%e6%9e%90" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h4>
 <p><img src="http://tva1.sinaimg.cn/large/008upJWily1h804wzs4nsj30rk0jtgqa.jpg" alt="符号.png"></p>
 <p>三种交易包含策略:</p>
 <ol>
@@ -282,175 +219,32 @@ onload='renderMathInElement(document.body);'></script>
 <li>Top n ($P^{top}$): $p_{1}=p_{2}=\cdots=p_{n}=1 \text { and } p_{n+1}=p_{n+2}=\cdots=p_{m}=0$</li>
 </ol>
 <p>这里仅考虑矿工收益中的交易费用奖励。</p>
-<h5 id="收入困境">收入困境</h5>
-<h3 id="算法设计">算法设计</h3>
-<h2 id="silentdelivery-practical-timed-delivery-of-private-information-using-smart-contracts">《SilentDelivery: Practical Timed-delivery of Private Information using Smart Contracts》</h2>
-</div>
-	</section>
-
-
-</article>
-
-		</main>
-		<div class="w-full h-0 flex-none order-3"></div>
-		<aside role="contentinfo"
-			class="w-full md:w-2/5 xl:w-1/2 md:pr-12 lg:pr-20 xl:pr-24 order-4 md:order-3 md:sticky md:bottom-0 self-end max-w-2xl">
-			<div class="md:float-right md:text-right leading-loose tracking-tight md:mb-2">
-				
-	<div class="md:max-w-xs  flex flex-col md:items-end">
-	<ul class="font-serif flex-grow-0 flex justify-between flex-wrap md:flex-col">
-	
-	
-	<li class="px-1 md:px-0">
-		<a href="/post/" title="Posts page" 
-			class="font-medium text-medium-red-violet-600 hover:text-medium-red-violet-400" >
-			Posts
-		</a>
-	</li>
-	
-	<li class="px-1 md:px-0">
-		<a href="/tags/" title="Tags page" >
-			Tags
-		</a>
-	</li>
-	
-	<li class="px-1 md:px-0">
-		<a href="/about/" title="About page" >
-			About
-		</a>
-	</li>
-	
-	
-	
-	
-	<div id="fastSearch" class="m-0">
-		<input id="searchInput" type="text" size=10 
-			class="bg-gray-100 focus:outline-none border-b border-gray-100 focus:border-eucalyptus-300 md:text-right
-			placeholder-java-500 min-w-0 max-w-xxxs"
-			placeholder="search" />
-		<ul id="searchResults" class="bg-gray-200 px-2 divide-y divide-gray-400">
-		</ul>
-	</div>
-	
-</ul>
-	
-
-<div class="flex flex-wrap-reverse md:justify-end content-end md:content-start justify-start items-start   max-h-16">
-	
-	<a href='https://github.com/Chi-Kai' target="_blank" class="github icon pl-1 text-eucalyptus-400 hover:text-java-400" title="github link" rel="noopener"
-		aria-label="follow on github——Opens in a new window">
-		
-		<div class="fill-current h-8 w-8">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <g>
-        <path fill="none" d="M0 0h24v24H0z"/>
-        <path fill-rule="nonzero" d="M5.883 18.653c-.3-.2-.558-.455-.86-.816a50.32 50.32 0 0 1-.466-.579c-.463-.575-.755-.84-1.057-.949a1 1 0 0 1 .676-1.883c.752.27 1.261.735 1.947 1.588-.094-.117.34.427.433.539.19.227.33.365.44.438.204.137.587.196 1.15.14.023-.382.094-.753.202-1.095C5.38 15.31 3.7 13.396 3.7 9.64c0-1.24.37-2.356 1.058-3.292-.218-.894-.185-1.975.302-3.192a1 1 0 0 1 .63-.582c.081-.024.127-.035.208-.047.803-.123 1.937.17 3.415 1.096A11.731 11.731 0 0 1 12 3.315c.912 0 1.818.104 2.684.308 1.477-.933 2.613-1.226 3.422-1.096.085.013.157.03.218.05a1 1 0 0 1 .616.58c.487 1.216.52 2.297.302 3.19.691.936 1.058 2.045 1.058 3.293 0 3.757-1.674 5.665-4.642 6.392.125.415.19.879.19 1.38a300.492 300.492 0 0 1-.012 2.716 1 1 0 0 1-.019 1.958c-1.139.228-1.983-.532-1.983-1.525l.002-.446.005-.705c.005-.708.007-1.338.007-1.998 0-.697-.183-1.152-.425-1.36-.661-.57-.326-1.655.54-1.752 2.967-.333 4.337-1.482 4.337-4.66 0-.955-.312-1.744-.913-2.404a1 1 0 0 1-.19-1.045c.166-.414.237-.957.096-1.614l-.01.003c-.491.139-1.11.44-1.858.949a1 1 0 0 1-.833.135A9.626 9.626 0 0 0 12 5.315c-.89 0-1.772.119-2.592.35a1 1 0 0 1-.83-.134c-.752-.507-1.374-.807-1.868-.947-.144.653-.073 1.194.092 1.607a1 1 0 0 1-.189 1.045C6.016 7.89 5.7 8.694 5.7 9.64c0 3.172 1.371 4.328 4.322 4.66.865.097 1.201 1.177.544 1.748-.192.168-.429.732-.429 1.364v3.15c0 .986-.835 1.725-1.96 1.528a1 1 0 0 1-.04-1.962v-.99c-.91.061-1.662-.088-2.254-.485z"/>
-    </g>
-</svg>
+<h5 id="收入困境">收入困境<a href="#%e6%94%b6%e5%85%a5%e5%9b%b0%e5%a2%83" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h5>
+<h3 id="算法设计">算法设计<a href="#%e7%ae%97%e6%b3%95%e8%ae%be%e8%ae%a1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h3>
+<h2 id="silentdelivery-practical-timed-delivery-of-private-information-using-smart-contracts">《SilentDelivery: Practical Timed-delivery of Private Information using Smart Contracts》<a href="#silentdelivery-practical-timed-delivery-of-private-information-using-smart-contracts" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+   </svg></a></h2>
 
 		</div>
-	</a>
-	
-	<a href='chikai0307@gmail.com' target="_blank" class="mail icon pl-1 text-eucalyptus-400 hover:text-java-400" title="mail link" rel="noopener"
-		aria-label="follow on mail——Opens in a new window">
 		
-		<div class="fill-current h-8 w-8">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <g>
-        <path fill="none" d="M0 0h24v24H0z"/>
-        <path d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm17 4.238l-7.928 7.1L4 7.216V19h16V7.238zM4.511 5l7.55 6.662L19.502 5H4.511z"/>
-    </g>
-</svg>
-		</div>
-	</a>
-	
-</div>
-	<div class="text-sm text-gray-500 leading-tight a-gray">
-		
-		<br />
-		Built with Hugo and theme <a href="https://github.com/heyeshuang/hugo-theme-tokiwa">Tokiwa</a>. 1340 words in this page.
-	</div>
-</div>
+	</main>
+<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+<p>
+	&copy; 2025 <a href="http://localhost:1313/">悉达多</a>
+	&#183; &#183; Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>
+	&#183; Theme <a href="https://github.com/1bl4z3r/hermit-V2" target="_blank" rel="noopener">Hermit-V2</a></p></footer>
+<script async src="http://localhost:1313/js/bundle.min.c7c384e4d29d192bbac6811ae4660bb01767194a5bea56baca77e8260f93ea16.js" integrity="sha256-x8OE5NKdGSu6xoEa5GYLsBdnGUpb6la6ynfoJg+T6hY=" crossorigin="anonymous"></script><script id="MathJax-script" type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" crossorigin="anonymous"></script>
+<script type="text/javascript" id="MathJax-script-helper" async src="http://localhost:1313/js/mathjax-assistant.min.ca29e9d446b2a6cb6c6e3eb0d47e9693f5c306c146eaccb43047afbf31b07a6f.js" integrity="sha256-yinp1Eaypstsbj6w1H6Wk/XDBsFG6sy0MEevvzGwem8=" crossorigin="anonymous"></script>
 
-			</div>
-		</aside>
-		<footer class="w-full md:w-3/5 xl:w-1/2 order-3 max-w-3xl md:order-4 pt-2">
-			
-<hr class="double-line" />
-<div class="flex flex-wrap justify-between pb-2 leading-loose font-serif">
-    
-    <a class="flex-grow-0" href="/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/">
-        <svg class="fill-current inline-block h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-            height="24">
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path d="M7.828 11H20v2H7.828l5.364 5.364-1.414 1.414L4 12l7.778-7.778 1.414 1.414z" /></svg>
-        DAG区块链综述
-    </a>
-    
-    
-    <a class="flex-grow-0" href="/post/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%99%BD%E7%9A%AE%E4%B9%A6%E8%A7%A3%E8%AF%BB/">
-        区块链白皮书解读
-        <svg class="fill-current inline-block h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-            height="24">
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" /></svg></a>
-    
-</div>
-<div >
-
-
-
-<div class="font-serif pb-2 flex align-start leading-loose">
-	<span class="heading pr-6 leading-loose">Related</span>
-	<span >
-		
-			<a href="/post/dag%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BB%BC%E8%BF%B0/">DAG区块链综述</a>&nbsp;&nbsp;&#47;&nbsp;
-		
-			<a href="/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">联邦学习论文阅读</a>&nbsp;&nbsp;&#47;&nbsp;
-		
-			<a href="/post/raft%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">Raft论文阅读</a>&nbsp;&nbsp;&#47;&nbsp;
-		
-			<a href="/post/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/">联邦学习综述</a>
-		
-</span>
-</div>
-
-</div>
-<hr />
-<div class="pb-2">
-    <div id="disqus_thread"></div>
-<script>
-    window.disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "ck" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
-<hr />
-
-		</footer>
-		
-
-<script src="/dist/app.js"></script>
-
-
-<script src="/lib/fuse.min.js"></script> 
-<script src="/lib/fastsearch.js"></script>
-
-	</div>
 </body>
-
 </html>
