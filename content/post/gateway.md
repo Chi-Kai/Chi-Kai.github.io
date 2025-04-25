@@ -4,7 +4,7 @@ date: 2024-04-18T18:12:04+08:00
 tags:
   - 网关
   - 系统设计
-draft: true
+draft: false
 ---
 
 最近在做一个基于 Pingora 的 AI 网关，限流是其中一个重要问题。在这里做一下记录
@@ -346,7 +346,7 @@ pub fn check_and_increment(
 
 ### API 密钥限流
 
-API 密钥限流是用户侧限流的第一道防线，针对已认证用户进行资源分配和使用控制。
+API 密钥限流是用户侧限流的基础，针对已认证用户进行资源分配和使用控制。
 
 #### 多级限流策略
 
@@ -426,43 +426,83 @@ pub fn check_daily_quota(&self, api_key: &str, request_size: usize) -> Result<bo
 
 ### IP 地址限流
 
-IP 限流主要用于防止恶意攻击和保护未认证请求路径，是系统安全的重要保障。
+IP 限流是用户侧限流的第一道防线，主要用于防止恶意攻击和保护未认证请求路径，是系统安全的重要保障。比如一个IP拿到多个密钥进行恶意请求, 可能挤占其他正常用户的请求。
 
-#### 自适应阈值
-
-我们实现了基于历史流量模式的自适应阈值：
-
-1. **基础限制**：所有 IP 都有默认的基础请求限制
-2. **信誉系统**：根据 IP 的历史行为动态调整限制
-3. **异常检测**：识别异常流量模式，对可疑 IP 实施更严格限制
-
-#### 代码实现
-
+这里对IP也做滑动窗口的限流，不过相比于api key来说单个IP的qps要高得多。
 ```rust
 pub struct IpRateLimiter {
     redis_client: Arc<RedisClient>,
-    suspicious_ip_bloom: BloomFilter<String>,
-    ip_reputation: HashMap<String, f32>,
+    // 滑动窗口大小（秒）
+    window_sizes: Vec<u64>,
+    // 对应窗口的限制次数
+    limits: Vec<u64>,
+    // 本地缓存，减少Redis访问
+    local_cache: Mutex<LruCache<String, bool>>,
 }
 
 impl IpRateLimiter {
-    pub fn check_limit(&self, ip_address: &str, limit: u32) -> Result<bool, Error> {
-        // 预筛选：检查是否为可疑 IP（根据历史数据）
-        if self.suspicious_ip_bloom.might_contain(ip_address) {
-            // 对可疑 IP 使用更严格的限制
-            let strict_limit = limit / 2;
-            return self.check_rate(ip_address, strict_limit);
+    pub fn new(redis_client: Arc<RedisClient>) -> Self {
+        IpRateLimiter {
+            redis_client,
+            // 配置多个时间窗口：10秒、1分钟、10分钟
+            window_sizes: vec![10, 60, 600],
+            // 对应限制：20次/10秒，100次/分钟，500次/10分钟
+            limits: vec![20, 100, 500],
+            local_cache: Mutex::new(LruCache::new(1000)),
         }
-
-        // 根据 IP 信誉调整限制
-        let reputation_factor = self.ip_reputation.get(ip_address).unwrap_or(&1.0);
-        let adjusted_limit = (limit as f32 * reputation_factor) as u32;
-
-        self.check_rate(ip_address, adjusted_limit)
+    }
+    
+    pub fn check_ip(&self, ip: &str) -> Result<LimitResult, Error> {
+        // 检查本地缓存中是否已标记为受限IP
+        if let Some(&limited) = self.local_cache.lock().unwrap().get(ip) {
+            if limited {
+                return Ok(LimitResult::IpLimited(30)); // 建议30秒后重试
+            }
+        }
+        
+        // 对每个时间窗口进行检查
+        for (i, &window_size) in self.window_sizes.iter().enumerate() {
+            let limit = self.limits[i];
+            
+            // 使用滑动窗口检查IP请求频率
+            if !self.check_window(ip, window_size, limit)? {
+                // 限流触发，记录到本地缓存
+                self.local_cache.lock().unwrap().put(ip.to_string(), true, Duration::from_secs(30));
+                return Ok(LimitResult::IpLimited(window_size / 10)); // 建议等待时间
+            }
+        }
+        
+        Ok(LimitResult::Allowed)
+    }
+    
+    fn check_window(&self, ip: &str, window_size: u64, limit: u64) -> Result<bool, Error> {
+        let now = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+            
+        // 构造Redis键
+        let key = format!("ip:{}:{}:{}", ip, window_size, now / window_size);
+        
+        let mut conn = self.redis_client.get_connection()?;
+        let count: u64 = conn.get(&key).unwrap_or(0);
+        
+        if count >= limit {
+            return Ok(false); // 已达到限制
+        }
+        
+        // 原子递增并设置过期时间
+        let _: () = redis::pipe()
+            .atomic()
+            .incr(&key, 1)
+            .expire(&key, (window_size * 2) as usize) // 窗口大小的2倍作为过期时间
+            .query(&mut conn)?;
+            
+        Ok(true) // 未达到限制
     }
 }
 ```
-
+另外还可以根据IP行为来做具体的限制，比如说IP的key有多个，认证多次错误，同一个时间并发请求更多.... 可以根据这些行为来做具体的评分进行限制。
 ## 服务侧限流
 
 服务侧限流是AI网关架构中的另一个关键环节，专注于管理发往后端AI服务提供商的请求频率。与用户侧限流不同，服务侧限流需要考虑不同AI服务提供商的特性、限制和成本模型。在Charon AI网关中，我们主要采用令牌桶算法来实现服务侧的精细化流量控制。
@@ -765,11 +805,85 @@ pub fn process_request(&mut self, request: Request) -> Response {
 ## 多实例协同
 
 在分布式部署环境中，多个网关实例需要协同工作，确保限流的一致性和准确性。
+我们采用了云原生的部署模式，主要包括以下几个层次：
 
-#### 协同机制
+1. **负载均衡层**：通常使用云服务商提供的负载均衡器（如 AWS ALB/NLB）或 Kubernetes Ingress Controller 作为入口点
+    
+2. **网关集群**：多个无状态的 Charon 网关实例，水平部署在 Kubernetes 集群中
+    - 每个实例完全相同，可独立处理请求
+    - 使用 StatefulSet 或 Deployment 进行管理
+    - 实例数量可以根据负载自动伸缩
+3. **共享状态层**：
+    - Redis 集群用于限流计数、缓存等共享状态
+    - 配置中心（使用 ConfigMap 或专用配置服务）保存路由规则和限流策略
+4. **监控与可观测性**：
+    - Prometheus 指标收集
+    - 分布式追踪（使用 OpenTelemetry）
+    - 集中式日志收集
 
-1. **计数同步**：使用 Redis 作为中央存储，确保计数一致性
-2. **配置共享**：限流配置统一存储，所有实例实时获取最新配置
-3. **状态广播**：关键状态变更（如紧急限流）通过发布订阅机制广播
+**典型部署案例**
 
-通过以上机制，我们实现了高性能、高可靠的用户侧限流系统，既保障了系统的稳定性，又提供了良好的用户体验。
+一个中等规模的部署通常包括：
+
+- 3-5 个 Charon 网关实例，每个实例配置 4 核 8GB 内存
+- 3 节点 Redis 集群（主从架构）
+- Kubernetes 作为编排平台，配置 HPA（Horizontal Pod Autoscaler）
+
+这种架构能够处理每秒数千次 API 调用，同时保持高可用性和容错能力。
+
+**请求调度流程**
+
+当一个请求进入系统时，调度过程如下：
+
+1. **入口路由**：
+    - 请求首先到达负载均衡器
+    - 负载均衡器根据简单的轮询或最少连接算法将请求分发到某个网关实例
+2. **请求处理**：选中的网关实例接收请求后开始处理流程：
+    - 解析请求，提取 API 密钥、目标模型等信息
+    - 进行认证验证
+    - 执行多层次限流检查（与 Redis 通信）
+    - 根据路由规则确定目标 LLM 提供商
+3. **智能路由决策**：
+    - 检查目标服务的健康状态和历史延迟数据
+    - 考虑当前负载和配额使用情况
+    - 选择最优的目标端点（可能在多个提供商中选择）
+4. **请求转发**：
+    - 转换请求格式（如需）以适配目标 API
+    - 添加必要的请求头和认证信息
+    - 发送请求到目标 LLM 服务
+5. **响应处理**：
+    - 接收 LLM 服务响应
+    - 格式转换（如需）
+    - 记录使用量统计
+    - 返回响应给客户端
+
+**高可用性保障**
+
+为确保系统高可用，我们实现了以下机制：
+
+1. **实例冗余**：任何实例故障时，负载均衡器会自动将流量转移到健康实例
+    
+2. **健康检查**：
+    - Kubernetes 的 liveness 和 readiness 探针监控实例健康
+    - 实例内部自检机制，定期检查关键依赖（如 Redis 连接）
+3. **熔断机制**：
+    - 当检测到某个 LLM 提供商异常时自动熔断
+    - 实现退避策略，避免雪崩效应
+4. **降级策略**：
+    - 当系统负载过高时，可以选择性地拒绝低优先级请求
+    - 保障核心业务流程的稳定性
+
+**实例间协调**
+
+虽然每个实例独立工作，但它们通过共享状态实现协调：
+
+1. **共享限流计数**：使用 Redis 存储限流计数器，确保全局一致性
+    
+2. **健康状态同步**：
+    
+    - 各实例将服务发现的结果写入共享存储
+    - 通过记录目标服务的响应时间和成功率，帮助其他实例做出更好的路由决策
+3. **配置动态更新**：
+    
+    - 配置变更通过配置中心下发
+    - 实例定期拉取或通过 webhook 接收配置更新
