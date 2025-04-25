@@ -560,11 +560,321 @@ pub fn handle_request_burst(&self, user_id: &str, request: Request) -> Response 
 
 ## 服务侧限流
 
-服务侧限流是管理发往后端 AI 服务提供商的请求频率，不同服务提供商的资源消耗和响应时间不同，需要不同的限流策略。
+服务侧限流是AI网关架构中的另一个关键环节，专注于管理发往后端AI服务提供商的请求频率。与用户侧限流不同，服务侧限流需要考虑不同AI服务提供商的特性、限制和成本模型。在Charon AI网关中，我们主要采用令牌桶算法来实现服务侧的精细化流量控制。
 
-这里我们主要使用自适应令牌桶算法进行管理。
+### 令牌桶算法的应用
 
+选择令牌桶算法作为服务侧限流的核心机制，主要基于以下几个考虑：
 
+1. **突发流量处理能力**：令牌桶允许短期内的请求突发，这对于AI服务的不均匀负载分布尤为重要
+2. **精确的速率控制**：可以通过调整令牌生成速率，精确控制对各个AI服务提供商的请求速率
+3. **差异化资源分配**：支持基于请求特征（如模型类型、参数大小）进行差异化的令牌消耗策略
+
+### 服务提供商特性适配
+
+针对不同的AI服务提供商，我们的令牌桶配置有所不同：
+
+#### 多层级令牌桶设计
+
+```rust
+pub struct ServiceRateLimiter {
+    provider_buckets: HashMap<String, TokenBucket>,         // 服务提供商级别的令牌桶
+    model_buckets: HashMap<String, HashMap<String, TokenBucket>>,  // 模型级别的令牌桶
+    endpoint_buckets: HashMap<String, TokenBucket>,         // API端点级别的令牌桶
+}
+
+impl ServiceRateLimiter {
+    pub fn new() -> Self {
+        let mut limiter = ServiceRateLimiter {
+            provider_buckets: HashMap::new(),
+            model_buckets: HashMap::new(),
+            endpoint_buckets: HashMap::new(),
+        };
+        
+        // 配置不同服务提供商的令牌桶
+        limiter.provider_buckets.insert(
+            "openai".to_string(), 
+            TokenBucket::new(100, 10.0)  // 容量100，每秒生成10个令牌
+        );
+        
+        limiter.provider_buckets.insert(
+            "anthropic".to_string(), 
+            TokenBucket::new(80, 8.0)    // 容量80，每秒生成8个令牌
+        );
+        
+        // 针对特定模型配置令牌桶
+        let mut openai_models = HashMap::new();
+        openai_models.insert(
+            "gpt-4".to_string(),
+            TokenBucket::new(50, 5.0)    // GPT-4限制更严格
+        );
+        
+        openai_models.insert(
+            "gpt-3.5-turbo".to_string(),
+            TokenBucket::new(200, 20.0)  // GPT-3.5限制较宽松
+        );
+        
+        limiter.model_buckets.insert("openai".to_string(), openai_models);
+        
+        // 配置特定端点的令牌桶
+        limiter.endpoint_buckets.insert(
+            "chat/completions".to_string(),
+            TokenBucket::new(150, 15.0)
+        );
+        
+        limiter
+    }
+}
+```
+
+### 动态令牌消耗策略
+
+不同于传统API网关，AI请求的资源消耗差异非常大。我们根据请求特征动态计算令牌消耗量：
+
+```rust
+fn calculate_token_cost(&self, request: &Request) -> u32 {
+    let base_cost = 1;  // 基础消耗1个令牌
+    
+    // 根据模型类型调整消耗
+    let model_factor = match request.model.as_str() {
+        "gpt-4" | "claude-3-opus" => 2.5,        // 大模型消耗更多
+        "gpt-3.5-turbo" | "claude-instant" => 1.0,
+        _ => 1.5,                                 // 默认消耗
+    };
+    
+    // 根据输入token数量调整消耗
+    let token_count = request.get_input_token_count();
+    let token_factor = if token_count > 4000 {
+        2.0  // 长文本消耗更多令牌
+    } else if token_count > 2000 {
+        1.5
+    } else {
+        1.0
+    };
+    
+    // 根据请求类型调整消耗
+    let request_factor = match request.endpoint.as_str() {
+        "chat/completions" => 1.0,
+        "embeddings" => 0.5,      // 嵌入请求消耗较少
+        _ => 1.0,
+    };
+    
+    // 计算最终令牌消耗
+    (base_cost as f32 * model_factor * token_factor * request_factor) as u32
+}
+```
+
+### 限流决策流程
+
+当请求需要转发到后端服务时，限流器会执行一系列检查：
+
+```rust
+pub fn check_and_consume(&mut self, request: &Request) -> LimitResult {
+    let provider = request.get_provider();
+    let model = request.get_model();
+    let endpoint = request.get_endpoint();
+    
+    // 计算此请求需要消耗的令牌数
+    let token_cost = self.calculate_token_cost(request);
+    let current_time_ms = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    
+    // 1. 检查服务提供商级别限制
+    let provider_allowed = self.provider_buckets
+        .get_mut(&provider)
+        .map(|bucket| bucket.allow_request(current_time_ms, token_cost))
+        .unwrap_or(true);  // 如果未配置，默认允许
+    
+    if !provider_allowed {
+        return LimitResult::ProviderLimited(5);  // 建议5秒后重试
+    }
+    
+    // 2. 检查模型级别限制
+    let model_allowed = self.model_buckets
+        .get_mut(&provider)
+        .and_then(|models| models.get_mut(&model))
+        .map(|bucket| bucket.allow_request(current_time_ms, token_cost))
+        .unwrap_or(true);  // 如果未配置，默认允许
+    
+    if !model_allowed {
+        return LimitResult::ModelLimited(3);  // 建议3秒后重试
+    }
+    
+    // 3. 检查端点级别限制
+    let endpoint_allowed = self.endpoint_buckets
+        .get_mut(&endpoint)
+        .map(|bucket| bucket.allow_request(current_time_ms, token_cost))
+        .unwrap_or(true);  // 如果未配置，默认允许
+    
+    if !endpoint_allowed {
+        return LimitResult::EndpointLimited(2);  // 建议2秒后重试
+    }
+    
+    // 通过所有限制检查
+    LimitResult::Allowed
+}
+```
+
+### 自适应调整机制
+
+为了应对AI服务提供商的动态变化（如错误率上升、响应时间延长），我们实现了令牌桶参数的自适应调整机制：
+
+```rust
+pub fn adjust_rate_based_on_metrics(&mut self, provider: &str, metrics: &ProviderMetrics) {
+    if let Some(bucket) = self.provider_buckets.get_mut(provider) {
+        // 根据错误率调整令牌生成速率
+        if metrics.error_rate > 0.05 {  // 错误率超过5%
+            let current_rate = bucket.get_rate_per_ms();
+            let new_rate = current_rate * 0.8;  // 降低20%的速率
+            bucket.set_rate_per_ms(new_rate);
+            log::info!("Reducing rate for provider {} due to high error rate: {}", 
+                       provider, metrics.error_rate);
+        }
+        
+        // 根据响应时间调整令牌生成速率
+        if metrics.avg_response_time_ms > metrics.baseline_response_time_ms * 1.5 {
+            let current_rate = bucket.get_rate_per_ms();
+            let new_rate = current_rate * 0.9;  // 降低10%的速率
+            bucket.set_rate_per_ms(new_rate);
+            log::info!("Reducing rate for provider {} due to increased latency: {}ms", 
+                       provider, metrics.avg_response_time_ms);
+        }
+        
+        // 如果指标恢复正常，逐步恢复速率
+        if metrics.error_rate < 0.01 && 
+           metrics.avg_response_time_ms < metrics.baseline_response_time_ms * 1.2 {
+            let current_rate = bucket.get_rate_per_ms();
+            let default_rate = self.get_default_rate(provider);
+            if current_rate < default_rate {
+                let new_rate = (current_rate * 1.1).min(default_rate);  // 增加10%但不超过默认值
+                bucket.set_rate_per_ms(new_rate);
+                log::info!("Restoring rate for provider {} as metrics improved", provider);
+            }
+        }
+    }
+}
+```
+
+### 指标收集与反馈
+
+为了支持自适应调整，我们需要持续收集后端服务的性能指标：
+
+```rust
+pub struct ProviderMetrics {
+    error_rate: f64,
+    avg_response_time_ms: u64,
+    baseline_response_time_ms: u64,
+    request_success_count: u64,
+    request_error_count: u64,
+}
+
+impl ServiceRateLimiter {
+    pub fn update_metrics(&mut self, provider: &str, response: &Response, latency_ms: u64) {
+        let metrics = self.metrics.entry(provider.to_string())
+            .or_insert_with(|| ProviderMetrics {
+                error_rate: 0.0,
+                avg_response_time_ms: 0,
+                baseline_response_time_ms: 200,  // 初始基准响应时间
+                request_success_count: 0,
+                request_error_count: 0,
+            });
+        
+        // 更新请求计数
+        if response.status_code >= 200 && response.status_code < 300 {
+            metrics.request_success_count += 1;
+        } else {
+            metrics.request_error_count += 1;
+        }
+        
+        // 更新错误率
+        let total_requests = metrics.request_success_count + metrics.request_error_count;
+        metrics.error_rate = metrics.request_error_count as f64 / total_requests as f64;
+        
+        // 更新平均响应时间（简单移动平均）
+        metrics.avg_response_time_ms = (metrics.avg_response_time_ms * 9 + latency_ms) / 10;
+        
+        // 根据收集的指标调整令牌桶参数
+        self.adjust_rate_based_on_metrics(provider, metrics);
+    }
+}
+```
+
+### 成本与公平性平衡
+
+令牌桶算法还能够帮助我们平衡AI服务的成本与用户体验：
+
+```rust
+pub fn optimize_for_cost_and_fairness(&mut self) {
+    // 根据当前时间段调整令牌生成速率
+    let hour = Local::now().hour();
+    
+    for (provider, bucket) in &mut self.provider_buckets {
+        let default_rate = self.get_default_rate(provider);
+        
+        // 高峰时段（工作时间）降低限制以控制成本
+        if hour >= 9 && hour <= 17 {
+            bucket.set_rate_per_ms(default_rate * 0.8);
+        } 
+        // 夜间时段放宽限制
+        else if hour >= 22 || hour <= 6 {
+            bucket.set_rate_per_ms(default_rate * 1.2);
+        }
+        // 其他时段使用默认限制
+        else {
+            bucket.set_rate_per_ms(default_rate);
+        }
+    }
+}
+```
+
+### 集成与部署
+
+在实际部署中，服务侧限流器与用户侧限流器相互配合，形成完整的流量控制系统：
+
+```rust
+pub fn process_request(&mut self, request: Request) -> Response {
+    // 1. 用户侧限流检查
+    let user_limit_result = self.user_limiter.check_limit(&request);
+    if !user_limit_result.is_allowed() {
+        return self.create_error_response(user_limit_result);
+    }
+    
+    // 2. 服务侧限流检查
+    let service_limit_result = self.service_limiter.check_and_consume(&request);
+    if !service_limit_result.is_allowed() {
+        return self.create_error_response(service_limit_result);
+    }
+    
+    // 3. 转发请求到后端服务
+    let start_time = Instant::now();
+    let response = self.backend_client.send_request(request);
+    let latency = start_time.elapsed().as_millis() as u64;
+    
+    // 4. 更新指标
+    self.service_limiter.update_metrics(&request.get_provider(), &response, latency);
+    
+    response
+}
+```
+
+## 总结
+
+通过令牌桶算法实现的服务侧限流，我们成功地实现了对后端AI服务的精确流量控制。相比于其他限流算法，令牌桶在处理AI服务的突发流量、差异化资源消耗和成本控制方面表现出明显优势。
+
+关键优势包括：
+
+1. **弹性处理能力**：能够应对短期突发流量，提高资源利用率
+2. **精确控制**：基于多维度（提供商、模型、端点）的细粒度限流
+3. **自适应调整**：根据实时性能指标动态调整限流参数
+4. **公平分配**：考虑请求特征的差异化令牌消耗策略
+
+在实际运行中，这套服务侧限流机制不仅有效保护了后端服务，还优化了成本结构，为AI网关的稳定运行提供了坚实保障。
+
+---
+
+结合之前的用户侧限流策略，Charon AI网关形成了全面的双向限流防护体系，既保障了用户体验，又确保了系统稳定性，为AI服务的可靠交付奠定了基础。
 
 ## 多实例协同
 
