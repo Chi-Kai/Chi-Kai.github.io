@@ -562,7 +562,8 @@ pub fn handle_request_burst(&self, user_id: &str, request: Request) -> Response 
 
 服务侧限流是管理发往后端 AI 服务提供商的请求频率，不同服务提供商的资源消耗和响应时间不同，需要不同的限流策略。
 
-这里我们主要使用令牌桶算法进行
+这里我们主要使用自适应令牌桶算法进行管理。
+
 
 
 ## 多实例协同
