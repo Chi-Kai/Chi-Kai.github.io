@@ -9,6 +9,9 @@ description: 时不时补充
 date: 2022-11-07
 draft: false
 toc: true
+categories:
+    - "杂记"
+
 ---
 
 ## 问题现状

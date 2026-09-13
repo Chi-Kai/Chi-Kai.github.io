@@ -9,6 +9,9 @@ description: 更新中
 date: 2022-05-22
 draft: false
 toc: true
+categories:
+    - "杂记"
+
 ---
 # 基础数据结构部分
 ## 动态字符串 SDS 

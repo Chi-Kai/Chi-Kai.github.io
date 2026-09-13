@@ -5,6 +5,9 @@ tags:
   - 网关
   - 系统设计
 draft: false
+categories:
+    - "AI Infra"
+
 ---
 
 最近在做一个基于 Pingora 的 AI 网关，限流是其中一个重要问题。在这里做一下记录

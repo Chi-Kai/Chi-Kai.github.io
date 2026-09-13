@@ -1,1 +1,4 @@
 .obsidian/
+public/
+resources/
+.hugo_build.lock

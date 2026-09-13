@@ -8,13 +8,16 @@ description: 源码学习
 title: "手写Redis"
 toc: true
 draft: false
+categories:
+    - "杂记"
+
 ---
 # Redis 架构解析 (Redis 1.0)
 程序入口在redis.c中，从main函数可以看出,主要的操作在aeMain中，这就是redis中著名的ae库。下面我们先介绍一下ae库:
-![[Pasted image 20240920194849.png]]
+![](/images/Pasted%20image%2020240920194849.png)
 ### ae库
 aeMain作用是持续处理aeloop中的事务:
-![[Pasted image 20240920195230.png]]
+![](/images/Pasted%20image%2020240920195230.png)
 ae库主要关注的是三个结构体，定义了FileEvent和TimeEvent，以及事件循环
 ```c
 /* File event structure */
@@ -100,14 +103,14 @@ ae库最主要的函数就是`aeProcessEvents` , 它的主要功能是处理文
 	- 如果时间事件需要重复触发，则更新其触发时间；否则，删除该时间事件。
 4. 返回处理的事件数量。
 我们接着看回main函数,在事件循环中注册了一个server的acceptHandler函数，一旦有客户端链接可读，就触发。
-![[Pasted image 20240922161721.png]]
-![[Pasted image 20240922164350.png]]
+![](/images/Pasted%20image%2020240922161721.png)
+![](/images/Pasted%20image%2020240922164350.png)
 其中这个函数有两个操作 accept客户端请求和创建一个新的客户端。我们看这个createClient函数,除了设置一些客户端状态外，还为每个客户端注册了一个处理请求的函数readQueryFromClient。当客户端fd可读就触发
-![[Pasted image 20240922164641.png]]
+![](/images/Pasted%20image%2020240922164641.png)
 ### 一条命令的执行流程
 `readQueryFromClient` 函数的主要作用是从客户端读取数据，解析查询请求，并将其传递给 Redis 服务器进行处理。
 1. 读数据，将读到的数据写入缓冲区。这里可以看出，这个操作是持续进行的，也就是客户端可以保持这个链接，一旦客户端fd可读，就写入buffer。可以连续操作
-![[Pasted image 20240923094649.png]]
+![](/images/Pasted%20image%2020240923094649.png)
 2. 处理数据。首先将收到的字符串分离处理，把命令和参数分开。这里就不细看了。处理完之后，命令被放到argv中，参数放到argc中。可以看到这里有一个跳转语句goto。当buffer还有命令时会重复执行。这里还有一个bulklen参数，是判断处理批量读取操作。
 ```c
 again:
@@ -155,7 +158,7 @@ struct redisCommand {
 };
 ```
 2. 错误处理和内存管理。可以看出对一个命令有很多检查，对应的参数数量，内存等等
-![[Pasted image 20240923111602.png]]
+![](/images/Pasted%20image%2020240923111602.png)
 3. 执行命令并更新服务器状态。如果命令修改了数据（`server.dirty` 发生变化），并且有从服务器连接，则将命令传播给从服务器。如果有监控器连接，则也将命令传播给监控器。最后，增加服务器执行的命令计数。
 ```c
 dirty = server.dirty;

@@ -10,6 +10,9 @@ title: "Raft论文阅读"
 date: 2022-10-30
 draft: false
 toc: true
+categories:
+    - "云原生"
+
 ---
 
 

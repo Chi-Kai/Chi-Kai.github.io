@@ -2,6 +2,9 @@
 title: "区块链学习--Eth"
 date: 2022-12-11T10:45:48+08:00
 draft: true
+categories:
+    - "杂记"
+
 ---
 
 ## 账户模型

@@ -1,80 +1,131 @@
-DefaultContentLanguage = "cn"
-author = "K-C"
 baseURL = "https://chi-kai.github.io"
-disqusShortname = "ck"
-hasCJKLanguage = true
 languageCode = "zh-cn"
-theme = "hermit-v2"
+DefaultContentLanguage = "zh-cn"
+hasCJKLanguage = true
 title = "悉达多"
+theme = "PaperMod"
 googleAnalytics = "G-CWBXLVG90W"
 
-canonifyurls = false
-pygmentsCodefences = true
-pygmentsCodefencesGuessSyntax = true
-pygmentsStyle = 'manni'
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
 
 [pagination]
 pagerSize = 10
 
-[markup]
-  [markup.goldmark.extensions]
-    typographer = false
-    [markup.goldmark.extensions.passthrough]
-      enable = true
-      [markup.goldmark.extensions.passthrough.delimiters]
-        block = [['\[', '\]'], ['$$', '$$']]
-        inline = [['\(', '\)']]
-  [markup.goldmark.renderer]
-    unsafe= true
-  [markup.highlight]
-    style = "monokailight"
-# Enable to get proper Mathjax support
+[minify]
+disableXML = true
 
-[params]
-bannerFont = "fonts/exampleFont" 
-description = """
-成功只有一个:按照自己的方式，去度过人生
-""" 
-env = "production" # for Google Analytics and DISQUS.
-favicon = "img/favicon-32x32.png" 
-fuse = true # for searchbox. "JSON" must added to output contents. See [outputs].
-math = true # for introducing $KaTEX$
-useChineseFonts = true 
-postDateFormat = "2006-1-2"
-global_mathjax = true
-# 添加hermit-v2主题所需的日期格式参数
-dateform        = "Jan 2, 2006"
-dateformShort   = "Jan 2"
-dateformNum     = "2006-01-02"
-dateformNumTime = "2006-01-02 15:04 -0700"
-
-[params.social]
-github = "https://github.com/Chi-Kai"
-mail = "chikai0307@gmail.com"
-# any icon in layouts/partials/svg can be used by the name without the "-line.svg"
-
-[menu]
-# Shown in the side menu.
-[[menu.main]]
-identifier = "post"
-name = "Posts"
-url = "/post/"
-weight = 1
-[[menu.main]]
-name = "Tags"
-url = "/tags/"
-weight = 2
-
-[[menu.main]]
-identifier = "about"
-name = "About"
-url = "/about/"
-weight = 3
+[outputs]
+home = ["HTML", "RSS", "JSON"]
 
 [taxonomies]
 category = "categories"
 series = "series"
 tag = "tags"
 
-[outputs]
-home = ["HTML", "RSS", "JSON"]
+[params]
+env = "production"
+title = "悉达多"
+description = "记录 AI Infra 与云原生（Kubernetes / Cloud Native）方向的技术总结与思考。"
+keywords = ["AI Infra", "Kubernetes", "Cloud Native", "云原生", "Blog"]
+author = "K-C"
+DateFormat = "2006-01-02"
+defaultTheme = "auto"
+disableThemeToggle = false
+ShowReadingTime = true
+ShowShareButtons = false
+ShowPostNavLinks = true
+ShowBreadCrumbs = true
+ShowCodeCopyButtons = true
+ShowWordCount = true
+ShowRssButtonInSectionTermList = true
+UseHugoToc = true
+disableSpecial1stPost = false
+disableScrollToTop = false
+comments = false
+hidemeta = false
+hideSummary = false
+showtoc = true
+tocopen = false
+
+[params.homeInfoParams]
+Title = "悉达多"
+Content = """
+你好，我是 K-C。这里主要记录 **AI Infra** 与 **云原生（K8s / Cloud Native）** 方向的技术总结与思考，也归档了一些早期的学习笔记。
+"""
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/Chi-Kai"
+
+[[params.socialIcons]]
+name = "email"
+url = "mailto:chikai0307@gmail.com"
+
+[[params.socialIcons]]
+name = "rss"
+url = "index.xml"
+
+[params.assets]
+disableFingerprinting = true
+
+[params.fuseOpts]
+isCaseSensitive = false
+shouldSort = true
+location = 0
+distance = 1000
+threshold = 0.4
+minMatchCharLength = 0
+keys = ["title", "permalink", "summary", "content"]
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+    codeFences = true
+    guessSyntax = true
+    style = "monokailight"
+  [markup.goldmark.extensions.passthrough]
+    enable = true
+    [markup.goldmark.extensions.passthrough.delimiters]
+      block = [['\[', '\]'], ['$$', '$$']]
+      inline = [['\(', '\)']]
+
+[[menu.main]]
+identifier = "posts"
+name = "文章"
+url = "/post/"
+weight = 1
+
+[[menu.main]]
+identifier = "categories"
+name = "分类"
+url = "/categories/"
+weight = 2
+
+[[menu.main]]
+identifier = "tags"
+name = "标签"
+url = "/tags/"
+weight = 3
+
+[[menu.main]]
+identifier = "archives"
+name = "归档"
+url = "/archives/"
+weight = 4
+
+[[menu.main]]
+identifier = "search"
+name = "搜索"
+url = "/search/"
+weight = 5
+
+[[menu.main]]
+identifier = "about"
+name = "关于"
+url = "/about/"
+weight = 6
