@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>AI Infra on 悉达多</title>
+    <link>https://chi-kai.github.io/categories/ai-infra/</link>
+    <description>Recent content in AI Infra on 悉达多</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 18 Apr 2024 18:12:04 +0800</lastBuildDate>
+    <atom:link href="https://chi-kai.github.io/categories/ai-infra/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>网关限流的策略</title>
+      <link>https://chi-kai.github.io/post/gateway/</link>
+      <pubDate>Thu, 18 Apr 2024 18:12:04 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/gateway/</guid>
+      <description>&lt;p&gt;最近在做一个基于 Pingora 的 AI 网关，限流是其中一个重要问题。在这里做一下记录&lt;/p&gt;
+&lt;h2 id=&#34;为什么网关需要限流&#34;&gt;为什么网关需要限流&lt;/h2&gt;
+&lt;p&gt;网关作为系统的入口，承担着连接客户端和后端服务的重要角色。限流机制在网关层面实现有以下几个关键原因：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
