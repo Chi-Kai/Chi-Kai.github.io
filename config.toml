@@ -28,8 +28,8 @@ tag = "tags"
 [params]
 env = "production"
 title = "悉达多"
-description = "记录 AI Infra 与云原生（Kubernetes / Cloud Native）方向的技术总结与思考。"
-keywords = ["AI Infra", "Kubernetes", "Cloud Native", "云原生", "Blog"]
+description = "记录 Kubernetes、云原生与 Agent Infra（sandbox 隔离、microVM）方向的实践、源码阅读和踩坑笔记。"
+keywords = ["Kubernetes", "云原生", "Agent Infra", "Sandbox", "microVM"]
 author = "K-C"
 DateFormat = "2006-01-02"
 defaultTheme = "auto"
@@ -51,9 +51,9 @@ showtoc = true
 tocopen = false
 
 [params.homeInfoParams]
-Title = "悉达多"
+Title = "K-C"
 Content = """
-你好，我是 K-C。这里主要记录 **AI Infra** 与 **云原生（K8s / Cloud Native）** 方向的技术总结与思考，也归档了一些早期的学习笔记。
+你好，我是 K-C。关注 Kubernetes 与云原生，以及 Agent Infra：sandbox 隔离、microVM（Firecracker / Kata）、agent 运行时与存储。这里记录我在这些方向上的实践、源码阅读和踩坑笔记。
 """
 
 [[params.socialIcons]]
