@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Firecracker on 悉达多</title>
+    <link>https://chi-kai.github.io/tags/firecracker/</link>
+    <description>Recent content in Firecracker on 悉达多</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 31 Oct 2026 20:00:00 +0800</lastBuildDate>
+    <atom:link href="https://chi-kai.github.io/tags/firecracker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Agent 计算机要可休眠、可分支：Sprites、Firecracker 与 Dogwood</title>
+      <link>https://chi-kai.github.io/post/agent-infra-2026-10-31/</link>
+      <pubDate>Sat, 31 Oct 2026 20:00:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/agent-infra-2026-10-31/</guid>
+      <description>Fly Sprites 用秒级创建、持久根盘和空闲廉价休眠重做编排；Plori 在嵌套 KVM 上冷启动 305 个 Firecracker，create→健康 agent p50 1.38s；Unikraft 把外部 CoW 拷贝叫 branch、guest 发起才叫 fork；Strands Box 用内核收束出口、Dogwood 写语义策略。一条线：agent 要可休眠可分支的计算机，隔离边界不能只挡 syscall。</description>
+    </item>
+  </channel>
+</rss>
