@@ -1,6 +1,6 @@
 ---
 title: "Agent 崩溃后从哪一步续跑：durable harness 与 runtime 分层"
-date: 2026-11-01T20:00:00+08:00
+date: 2026-11-01T15:39:00+08:00
 draft: false
 series: ["Agent Infra 随笔"]
 tags: ["durable-harness", "Workflow SDK", "Cloudflare Agents", "Durable Object", "Pi", "PVM", "Agent Loop"]
