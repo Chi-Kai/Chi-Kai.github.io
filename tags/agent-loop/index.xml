@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Agent Loop on 悉达多</title>
+    <link>https://chi-kai.github.io/tags/agent-loop/</link>
+    <description>Recent content in Agent Loop on 悉达多</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 01 Nov 2026 15:39:00 +0800</lastBuildDate>
+    <atom:link href="https://chi-kai.github.io/tags/agent-loop/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Agent 崩溃后从哪一步续跑：durable harness 与 runtime 分层</title>
+      <link>https://chi-kai.github.io/post/agent-infra-2026-11-01/</link>
+      <pubDate>Sun, 01 Nov 2026 15:39:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-01/</guid>
+      <description>Vercel 的 durable-harness 在每次模型/工具调用前后写意图和结果，崩溃后新函数读日志续跑；Cloudflare 把 runtime 和 harness 拆成两层，Pi 1.4 会 park 反复崩溃的任务；Armin Ronacher 提醒外层循环会放大模型的坏习惯；Karinja 的 PVM 基准给出暂停/恢复的毫秒数，但快照不保留进程。</description>
+    </item>
+  </channel>
+</rss>
