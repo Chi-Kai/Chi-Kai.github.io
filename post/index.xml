@@ -6,8 +6,15 @@
     <description>Recent content in Posts on 悉达多</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 01 Nov 2026 15:39:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 02 Nov 2026 09:18:00 +0800</lastBuildDate>
     <atom:link href="https://chi-kai.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>快照带走了什么：分层状态、memfile 里的 token、以及根本不进 guest 的密钥</title>
+      <link>https://chi-kai.github.io/post/agent-infra-2026-11-02/</link>
+      <pubDate>Mon, 02 Nov 2026 09:18:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-02/</guid>
+      <description>Modal 把沙箱状态拆成可单独挂载的目录快照；Timbre 用 strings 在 Firecracker memfile 里数出明文 token；Tracekit Box 让密钥只在 host 按绑定 host/header 注入，guest 只见占位符。</description>
+    </item>
     <item>
       <title>Agent 崩溃后从哪一步续跑：durable harness 与 runtime 分层</title>
       <link>https://chi-kai.github.io/post/agent-infra-2026-11-01/</link>
