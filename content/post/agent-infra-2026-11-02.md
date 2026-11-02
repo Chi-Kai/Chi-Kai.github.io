@@ -1,6 +1,6 @@
 ---
 title: "快照带走了什么：分层状态、memfile 里的 token、以及根本不进 guest 的密钥"
-date: 2026-11-02T20:00:00+08:00
+date: 2026-11-02T09:18:00+08:00
 draft: false
 series: ["Agent Infra 随笔"]
 tags: ["Directory Snapshots", "Firecracker", "memfile", "凭证", "Tracekit Box", "Modal", "Timbre"]
