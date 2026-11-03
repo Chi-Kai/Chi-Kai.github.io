@@ -6,8 +6,50 @@
     <description>Recent content in Tags on 悉达多</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 02 Nov 2026 09:18:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 10:30:00 +0800</lastBuildDate>
     <atom:link href="https://chi-kai.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Agent Eval</title>
+      <link>https://chi-kai.github.io/tags/agent-eval/</link>
+      <pubDate>Tue, 03 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/agent-eval/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Canary</title>
+      <link>https://chi-kai.github.io/tags/canary/</link>
+      <pubDate>Tue, 03 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/canary/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Egress</title>
+      <link>https://chi-kai.github.io/tags/egress/</link>
+      <pubDate>Tue, 03 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/egress/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Obot</title>
+      <link>https://chi-kai.github.io/tags/obot/</link>
+      <pubDate>Tue, 03 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/obot/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sandbox</title>
+      <link>https://chi-kai.github.io/tags/sandbox/</link>
+      <pubDate>Tue, 03 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/sandbox/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>隔离边界</title>
+      <link>https://chi-kai.github.io/tags/%E9%9A%94%E7%A6%BB%E8%BE%B9%E7%95%8C/</link>
+      <pubDate>Tue, 03 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/%E9%9A%94%E7%A6%BB%E8%BE%B9%E7%95%8C/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Directory Snapshots</title>
       <link>https://chi-kai.github.io/tags/directory-snapshots/</link>
@@ -111,13 +153,6 @@
       <link>https://chi-kai.github.io/tags/dogwood/</link>
       <pubDate>Sat, 31 Oct 2026 20:00:00 +0800</pubDate>
       <guid>https://chi-kai.github.io/tags/dogwood/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Sandbox</title>
-      <link>https://chi-kai.github.io/tags/sandbox/</link>
-      <pubDate>Sat, 31 Oct 2026 20:00:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/tags/sandbox/</guid>
       <description></description>
     </item>
     <item>

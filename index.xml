@@ -6,8 +6,15 @@
     <description>Recent content on 悉达多</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 02 Nov 2026 09:18:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 10:30:00 +0800</lastBuildDate>
     <atom:link href="https://chi-kai.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>沙箱边界画在哪：包住整个 agent loop，以及隔离永远挡不住的那一块</title>
+      <link>https://chi-kai.github.io/post/agent-infra-2026-11-03/</link>
+      <pubDate>Tue, 03 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-03/</guid>
+      <description>Darren Shepherd 主张把 agent loop 和工具放进同一个沙箱、同一套出口与密钥策略；Coder Eval 的三档隔离实验则说明，档位再高也挡不住「评分材料就在任务旁边」，只能靠 canary 检测。</description>
+    </item>
     <item>
       <title>快照带走了什么：分层状态、memfile 里的 token、以及根本不进 guest 的密钥</title>
       <link>https://chi-kai.github.io/post/agent-infra-2026-11-02/</link>
