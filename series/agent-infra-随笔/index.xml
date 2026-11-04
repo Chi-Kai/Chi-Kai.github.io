@@ -6,8 +6,15 @@
     <description>Recent content in Agent Infra 随笔 on 悉达多</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 03 Nov 2026 10:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 04 Nov 2026 10:35:00 +0800</lastBuildDate>
     <atom:link href="https://chi-kai.github.io/series/agent-infra-%E9%9A%8F%E7%AC%94/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MCP 工具元数据成了攻击面：无访问审计与 tool poisoning</title>
+      <link>https://chi-kai.github.io/post/agent-infra-2026-11-04/</link>
+      <pubDate>Wed, 04 Nov 2026 10:35:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-04/</guid>
+      <description>MCPSEC 只凭工具注册元数据在 177 个工具上召回 98.9% 的间接提示注入；另一篇用 STRIDE/DREAD 指出 tool poisoning 是客户端侧最普遍的洞；Claude Platform 的 OTel MCP/工具 trace 把运行时可见性接上。</description>
+    </item>
     <item>
       <title>沙箱边界画在哪：包住整个 agent loop，以及隔离永远挡不住的那一块</title>
       <link>https://chi-kai.github.io/post/agent-infra-2026-11-03/</link>
