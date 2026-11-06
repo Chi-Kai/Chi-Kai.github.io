@@ -6,8 +6,22 @@
     <description>Recent content on 悉达多</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 04 Nov 2026 10:35:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 10:30:00 +0800</lastBuildDate>
     <atom:link href="https://chi-kai.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>沙箱规模化：不养热池的控制面，与亚秒级状态搬迁</title>
+      <link>https://chi-kai.github.io/post/agent-infra-2026-11-06/</link>
+      <pubDate>Fri, 06 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-06/</guid>
+      <description>Google 把 Agent Substrate 与 gVisor 捐入 CNCF Sandbox，用 actor/worker 解耦空闲占位；Adapt 的 orc 用 Firecracker 按需冷启、不养热池；DeltaBox 用 DeltaFS+DeltaCR 把 checkpoint/rollback 压到约 10.8/1.9 ms。</description>
+    </item>
+    <item>
+      <title>Durable 不只是意图日志：event history、语义感知 C/R 与 resume 时钟</title>
+      <link>https://chi-kai.github.io/post/agent-infra-2026-11-05/</link>
+      <pubDate>Thu, 05 Nov 2026 10:45:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-05/</guid>
+      <description>Google Agent Executor 用 event log + snapshot 给任意 actor 做 durable execution；Temporal Agent Harness 把内层 harness 包成 Workflow，轨迹落成 AgentEvent；Crab 用 eBPF 看 turn 级 OS 副作用决定 checkpoint 粒度，恢复正确率约 8%→100%；Beyond 49ms 提醒测的是 TTUW，不是节点本地 resume。</description>
+    </item>
     <item>
       <title>MCP 工具元数据成了攻击面：无访问审计与 tool poisoning</title>
       <link>https://chi-kai.github.io/post/agent-infra-2026-11-04/</link>

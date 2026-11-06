@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>GVisor on 悉达多</title>
+    <link>https://chi-kai.github.io/tags/gvisor/</link>
+    <description>Recent content in GVisor on 悉达多</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 06 Nov 2026 10:30:00 +0800</lastBuildDate>
+    <atom:link href="https://chi-kai.github.io/tags/gvisor/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>沙箱规模化：不养热池的控制面，与亚秒级状态搬迁</title>
+      <link>https://chi-kai.github.io/post/agent-infra-2026-11-06/</link>
+      <pubDate>Fri, 06 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-06/</guid>
+      <description>Google 把 Agent Substrate 与 gVisor 捐入 CNCF Sandbox，用 actor/worker 解耦空闲占位；Adapt 的 orc 用 Firecracker 按需冷启、不养热池；DeltaBox 用 DeltaFS+DeltaCR 把 checkpoint/rollback 压到约 10.8/1.9 ms。</description>
+    </item>
+  </channel>
+</rss>

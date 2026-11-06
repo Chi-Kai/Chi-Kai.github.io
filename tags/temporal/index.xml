@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Temporal on 悉达多</title>
+    <link>https://chi-kai.github.io/tags/temporal/</link>
+    <description>Recent content in Temporal on 悉达多</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 05 Nov 2026 10:45:00 +0800</lastBuildDate>
+    <atom:link href="https://chi-kai.github.io/tags/temporal/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Durable 不只是意图日志：event history、语义感知 C/R 与 resume 时钟</title>
+      <link>https://chi-kai.github.io/post/agent-infra-2026-11-05/</link>
+      <pubDate>Thu, 05 Nov 2026 10:45:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-05/</guid>
+      <description>Google Agent Executor 用 event log + snapshot 给任意 actor 做 durable execution；Temporal Agent Harness 把内层 harness 包成 Workflow，轨迹落成 AgentEvent；Crab 用 eBPF 看 turn 级 OS 副作用决定 checkpoint 粒度，恢复正确率约 8%→100%；Beyond 49ms 提醒测的是 TTUW，不是节点本地 resume。</description>
+    </item>
+  </channel>
+</rss>

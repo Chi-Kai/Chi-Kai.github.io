@@ -6,8 +6,78 @@
     <description>Recent content in Tags on 悉达多</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 04 Nov 2026 10:35:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 10:30:00 +0800</lastBuildDate>
     <atom:link href="https://chi-kai.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Agent Substrate</title>
+      <link>https://chi-kai.github.io/tags/agent-substrate/</link>
+      <pubDate>Fri, 06 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/agent-substrate/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Checkpoint</title>
+      <link>https://chi-kai.github.io/tags/checkpoint/</link>
+      <pubDate>Fri, 06 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/checkpoint/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>DeltaBox</title>
+      <link>https://chi-kai.github.io/tags/deltabox/</link>
+      <pubDate>Fri, 06 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/deltabox/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Firecracker</title>
+      <link>https://chi-kai.github.io/tags/firecracker/</link>
+      <pubDate>Fri, 06 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/firecracker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>GVisor</title>
+      <link>https://chi-kai.github.io/tags/gvisor/</link>
+      <pubDate>Fri, 06 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/gvisor/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sandbox</title>
+      <link>https://chi-kai.github.io/tags/sandbox/</link>
+      <pubDate>Fri, 06 Nov 2026 10:30:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/sandbox/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Agent Executor</title>
+      <link>https://chi-kai.github.io/tags/agent-executor/</link>
+      <pubDate>Thu, 05 Nov 2026 10:45:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/agent-executor/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Crab</title>
+      <link>https://chi-kai.github.io/tags/crab/</link>
+      <pubDate>Thu, 05 Nov 2026 10:45:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/crab/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Durable Execution</title>
+      <link>https://chi-kai.github.io/tags/durable-execution/</link>
+      <pubDate>Thu, 05 Nov 2026 10:45:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/durable-execution/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Temporal</title>
+      <link>https://chi-kai.github.io/tags/temporal/</link>
+      <pubDate>Thu, 05 Nov 2026 10:45:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/temporal/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Agent Observability</title>
       <link>https://chi-kai.github.io/tags/agent-observability/</link>
@@ -79,13 +149,6 @@
       <description></description>
     </item>
     <item>
-      <title>Sandbox</title>
-      <link>https://chi-kai.github.io/tags/sandbox/</link>
-      <pubDate>Tue, 03 Nov 2026 10:30:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/tags/sandbox/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>隔离边界</title>
       <link>https://chi-kai.github.io/tags/%E9%9A%94%E7%A6%BB%E8%BE%B9%E7%95%8C/</link>
       <pubDate>Tue, 03 Nov 2026 10:30:00 +0800</pubDate>
@@ -97,13 +160,6 @@
       <link>https://chi-kai.github.io/tags/directory-snapshots/</link>
       <pubDate>Mon, 02 Nov 2026 09:18:00 +0800</pubDate>
       <guid>https://chi-kai.github.io/tags/directory-snapshots/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Firecracker</title>
-      <link>https://chi-kai.github.io/tags/firecracker/</link>
-      <pubDate>Mon, 02 Nov 2026 09:18:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/tags/firecracker/</guid>
       <description></description>
     </item>
     <item>
