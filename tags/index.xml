@@ -6,8 +6,50 @@
     <description>Recent content in Tags on 悉达多</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 06 Nov 2026 10:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 10:35:00 +0800</lastBuildDate>
     <atom:link href="https://chi-kai.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker Sandboxes</title>
+      <link>https://chi-kai.github.io/tags/docker-sandboxes/</link>
+      <pubDate>Sat, 07 Nov 2026 10:35:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/docker-sandboxes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Harbor</title>
+      <link>https://chi-kai.github.io/tags/harbor/</link>
+      <pubDate>Sat, 07 Nov 2026 10:35:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/harbor/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MicroVM</title>
+      <link>https://chi-kai.github.io/tags/microvm/</link>
+      <pubDate>Sat, 07 Nov 2026 10:35:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/microvm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SideKernel</title>
+      <link>https://chi-kai.github.io/tags/sidekernel/</link>
+      <pubDate>Sat, 07 Nov 2026 10:35:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/sidekernel/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Smolvm</title>
+      <link>https://chi-kai.github.io/tags/smolvm/</link>
+      <pubDate>Sat, 07 Nov 2026 10:35:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/smolvm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tarit</title>
+      <link>https://chi-kai.github.io/tags/tarit/</link>
+      <pubDate>Sat, 07 Nov 2026 10:35:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/tarit/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Agent Substrate</title>
       <link>https://chi-kai.github.io/tags/agent-substrate/</link>
