@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>MicroVM on 悉达多</title>
+    <link>https://chi-kai.github.io/tags/microvm/</link>
+    <description>Recent content in MicroVM on 悉达多</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 08 Nov 2026 13:00:00 +0800</lastBuildDate>
+    <atom:link href="https://chi-kai.github.io/tags/microvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从一次依赖安装看 Agent 的隔离边界</title>
+      <link>https://chi-kai.github.io/post/isolation-and-virtualization-for-agents/</link>
+      <pubDate>Sun, 08 Nov 2026 13:00:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/post/isolation-and-virtualization-for-agents/</guid>
+      <description>pip install 在业务脚本前就拿到文件、进程与网络能力。从 syscall 进哪个内核、connect 批准哪份参数，到 guest 失陷后的 VMM 约束、产物发布与取消协议，隔离边界要从准备环境时就生效。</description>
+    </item>
+  </channel>
+</rss>

@@ -6,8 +6,57 @@
     <description>Recent content in Tags on 悉达多</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 18 Apr 2024 18:12:04 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 08 Nov 2026 13:00:00 +0800</lastBuildDate>
     <atom:link href="https://chi-kai.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Firecracker</title>
+      <link>https://chi-kai.github.io/tags/firecracker/</link>
+      <pubDate>Sun, 08 Nov 2026 13:00:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/firecracker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>GVisor</title>
+      <link>https://chi-kai.github.io/tags/gvisor/</link>
+      <pubDate>Sun, 08 Nov 2026 13:00:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/gvisor/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kata</title>
+      <link>https://chi-kai.github.io/tags/kata/</link>
+      <pubDate>Sun, 08 Nov 2026 13:00:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/kata/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Landlock</title>
+      <link>https://chi-kai.github.io/tags/landlock/</link>
+      <pubDate>Sun, 08 Nov 2026 13:00:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/landlock/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MicroVM</title>
+      <link>https://chi-kai.github.io/tags/microvm/</link>
+      <pubDate>Sun, 08 Nov 2026 13:00:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/microvm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sandbox</title>
+      <link>https://chi-kai.github.io/tags/sandbox/</link>
+      <pubDate>Sun, 08 Nov 2026 13:00:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/sandbox/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Seccomp</title>
+      <link>https://chi-kai.github.io/tags/seccomp/</link>
+      <pubDate>Sun, 08 Nov 2026 13:00:00 +0800</pubDate>
+      <guid>https://chi-kai.github.io/tags/seccomp/</guid>
+      <description></description>
+    </item>
     <item>
       <title>网关</title>
       <link>https://chi-kai.github.io/tags/%E7%BD%91%E5%85%B3/</link>
