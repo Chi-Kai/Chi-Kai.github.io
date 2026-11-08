@@ -6,64 +6,8 @@
     <description>Recent content in Posts on 悉达多</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 07 Nov 2026 10:35:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 18 Apr 2024 18:12:04 +0800</lastBuildDate>
     <atom:link href="https://chi-kai.github.io/post/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>本地 coding agent 沙箱：能用才算安全</title>
-      <link>https://chi-kai.github.io/post/agent-infra-2026-11-07/</link>
-      <pubDate>Sat, 07 Nov 2026 10:35:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-07/</guid>
-      <description>SideKernel 的调研里 38.2% 受访者在沙箱里跑 coding agent，23 项能力测试把可用性写成硬指标；Simon 实测 smolvm 1.8.3 冷启 0.6–1.5s；Harbor 给每个评测任务一台 Docker Sandbox microVM 并按阶段切网络；Tarit 把 live snapshot 与有界冷启池放进同一套 KVM 栈。</description>
-    </item>
-    <item>
-      <title>沙箱规模化：不养热池的控制面，与亚秒级状态搬迁</title>
-      <link>https://chi-kai.github.io/post/agent-infra-2026-11-06/</link>
-      <pubDate>Fri, 06 Nov 2026 10:30:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-06/</guid>
-      <description>Google 把 Agent Substrate 与 gVisor 捐入 CNCF Sandbox，用 actor/worker 解耦空闲占位；Adapt 的 orc 用 Firecracker 按需冷启、不养热池；DeltaBox 用 DeltaFS+DeltaCR 把 checkpoint/rollback 压到约 10.8/1.9 ms。</description>
-    </item>
-    <item>
-      <title>Durable 不只是意图日志：event history、语义感知 C/R 与 resume 时钟</title>
-      <link>https://chi-kai.github.io/post/agent-infra-2026-11-05/</link>
-      <pubDate>Thu, 05 Nov 2026 10:45:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-05/</guid>
-      <description>Google Agent Executor 用 event log + snapshot 给任意 actor 做 durable execution；Temporal Agent Harness 把内层 harness 包成 Workflow，轨迹落成 AgentEvent；Crab 用 eBPF 看 turn 级 OS 副作用决定 checkpoint 粒度，恢复正确率约 8%→100%；Beyond 49ms 提醒测的是 TTUW，不是节点本地 resume。</description>
-    </item>
-    <item>
-      <title>MCP 工具元数据成了攻击面：无访问审计与 tool poisoning</title>
-      <link>https://chi-kai.github.io/post/agent-infra-2026-11-04/</link>
-      <pubDate>Wed, 04 Nov 2026 10:35:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-04/</guid>
-      <description>MCPSEC 只凭工具注册元数据在 177 个工具上召回 98.9% 的间接提示注入；另一篇用 STRIDE/DREAD 指出 tool poisoning 是客户端侧最普遍的洞；Claude Platform 的 OTel MCP/工具 trace 把运行时可见性接上。</description>
-    </item>
-    <item>
-      <title>沙箱边界画在哪：包住整个 agent loop，以及隔离永远挡不住的那一块</title>
-      <link>https://chi-kai.github.io/post/agent-infra-2026-11-03/</link>
-      <pubDate>Tue, 03 Nov 2026 10:30:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-03/</guid>
-      <description>Darren Shepherd 主张把 agent loop 和工具放进同一个沙箱、同一套出口与密钥策略；Coder Eval 的三档隔离实验则说明，档位再高也挡不住「评分材料就在任务旁边」，只能靠 canary 检测。</description>
-    </item>
-    <item>
-      <title>快照带走了什么：分层状态、memfile 里的 token、以及根本不进 guest 的密钥</title>
-      <link>https://chi-kai.github.io/post/agent-infra-2026-11-02/</link>
-      <pubDate>Mon, 02 Nov 2026 09:18:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-02/</guid>
-      <description>Modal 把沙箱状态拆成可单独挂载的目录快照；Timbre 用 strings 在 Firecracker memfile 里数出明文 token；Tracekit Box 让密钥只在 host 按绑定 host/header 注入，guest 只见占位符。</description>
-    </item>
-    <item>
-      <title>Agent 崩溃后从哪一步续跑：durable harness 与 runtime 分层</title>
-      <link>https://chi-kai.github.io/post/agent-infra-2026-11-01/</link>
-      <pubDate>Sun, 01 Nov 2026 15:39:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/post/agent-infra-2026-11-01/</guid>
-      <description>Vercel 的 durable-harness 在每次模型/工具调用前后写意图和结果，崩溃后新函数读日志续跑；Cloudflare 把 runtime 和 harness 拆成两层，Pi 1.4 会 park 反复崩溃的任务；Armin Ronacher 提醒外层循环会放大模型的坏习惯；Karinja 的 PVM 基准给出暂停/恢复的毫秒数，但快照不保留进程。</description>
-    </item>
-    <item>
-      <title>Agent 计算机要可休眠、可分支：Sprites、Firecracker 与 Dogwood</title>
-      <link>https://chi-kai.github.io/post/agent-infra-2026-10-31/</link>
-      <pubDate>Sat, 31 Oct 2026 20:00:00 +0800</pubDate>
-      <guid>https://chi-kai.github.io/post/agent-infra-2026-10-31/</guid>
-      <description>Fly Sprites 用秒级创建、持久根盘和空闲廉价休眠重做编排；Plori 在嵌套 KVM 上冷启动 305 个 Firecracker，create→健康 agent p50 1.38s；Unikraft 把外部 CoW 拷贝叫 branch、guest 发起才叫 fork；Strands Box 用内核收束出口、Dogwood 写语义策略。一条线：agent 要可休眠可分支的计算机，隔离边界不能只挡 syscall。</description>
-    </item>
     <item>
       <title>网关限流的策略</title>
       <link>https://chi-kai.github.io/post/gateway/</link>
