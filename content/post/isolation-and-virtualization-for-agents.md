@@ -1,6 +1,6 @@
 ---
 title: "从一次依赖安装看 Agent 的隔离边界"
-date: 2026-11-08T13:30:00+08:00
+date: 2026-11-08T13:00:00+08:00
 draft: false
 author: "KC"
 series: ["Agent Infra 随笔"]
